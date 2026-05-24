@@ -1,0 +1,67 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: capcutai-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-capcutai}
+      POSTGRES_USER: ${POSTGRES_USER:-capcutai}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-capcutai}
+    ports:
+      - "${POSTGRES_PORT:-55432}:5432"
+    volumes:
+      - capcutai-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-capcutai} -d ${POSTGRES_DB:-capcutai}"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: capcutai-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      BACKEND_PORT: 8080
+      DB_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-capcutai}
+      DB_USERNAME: ${POSTGRES_USER:-capcutai}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-capcutai}
+      AI_SERVICE_BASE_URL: http://ai-service:8000
+    ports:
+      - "${BACKEND_HOST_PORT:-38080}:8080"
+
+  ai-service:
+    build:
+      context: ./ai-service
+      dockerfile: Dockerfile
+    container_name: capcutai-ai-service
+    restart: unless-stopped
+    environment:
+      LLM_PROVIDER: ${LLM_PROVIDER:-ollama}
+      LLM_MODEL: ${LLM_MODEL:-}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.0-flash}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      OPENROUTER_MODEL: ${OPENROUTER_MODEL:-openrouter/auto}
+      OPENROUTER_BASE_URL: ${OPENROUTER_BASE_URL:-https://openrouter.ai/api/v1}
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      GROQ_MODEL: ${GROQ_MODEL:-llama-3.1-8b-instant}
+      GROQ_BASE_URL: ${GROQ_BASE_URL:-https://api.groq.com/openai/v1}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen2.5:7b}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434/v1}
+    ports:
+      - "${AI_SERVICE_HOST_PORT:-38000}:8000"
+
+volumes:
+  capcutai-postgres-data:

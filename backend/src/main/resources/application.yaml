@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: capcutai-backend
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/capcutai}
+    username: ${DB_USERNAME:capcutai}
+    password: ${DB_PASSWORD:capcutai}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  sql:
+    init:
+      mode: never
+
+server:
+  port: ${BACKEND_PORT:8080}
+
+app:
+  ai-service:
+    base-url: ${AI_SERVICE_BASE_URL:http://localhost:8000}

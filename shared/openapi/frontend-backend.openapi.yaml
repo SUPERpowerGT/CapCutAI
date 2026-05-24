@@ -1,0 +1,290 @@
+openapi: 3.1.0
+info:
+  title: CapCutAI Frontend-Backend API
+  version: 0.1.0
+  description: Minimal IM + agent scaffold API between frontend and backend.
+
+paths:
+  /api/health:
+    get:
+      summary: Backend health check
+      responses:
+        "200":
+          description: Backend is healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponseHealth"
+
+  /api/conversations:
+    get:
+      summary: List conversations
+      responses:
+        "200":
+          description: Conversation list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponseConversationList"
+    post:
+      summary: Create a conversation
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                sessionId:
+                  type: string
+                title:
+                  type: string
+      responses:
+        "200":
+          description: Conversation created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponseConversation"
+
+  /api/conversations/{conversationId}:
+    delete:
+      summary: Delete a conversation and all of its messages
+      parameters:
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Conversation deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponseVoid"
+
+  /api/conversations/{conversationId}/messages:
+    get:
+      summary: List messages for a conversation
+      parameters:
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Message list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponseMessageList"
+    post:
+      summary: Send a user message and trigger agent reply
+      parameters:
+        - name: conversationId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - content
+              properties:
+                content:
+                  type: string
+      responses:
+        "200":
+          description: User message and assistant reply created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponseSendMessage"
+
+components:
+  schemas:
+    ApiResponseHealth:
+      type: object
+      required: [code, message, data]
+      properties:
+        code:
+          type: integer
+          example: 0
+        message:
+          type: string
+          example: success
+        data:
+          $ref: "#/components/schemas/HealthPayload"
+    ApiResponseConversation:
+      type: object
+      required: [code, message, data]
+      properties:
+        code:
+          type: integer
+          example: 0
+        message:
+          type: string
+          example: success
+        data:
+          $ref: "#/components/schemas/Conversation"
+    ApiResponseConversationList:
+      type: object
+      required: [code, message, data]
+      properties:
+        code:
+          type: integer
+          example: 0
+        message:
+          type: string
+          example: success
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Conversation"
+    ApiResponseMessageList:
+      type: object
+      required: [code, message, data]
+      properties:
+        code:
+          type: integer
+          example: 0
+        message:
+          type: string
+          example: success
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Message"
+    ApiResponseSendMessage:
+      type: object
+      required: [code, message, data]
+      properties:
+        code:
+          type: integer
+          example: 0
+        message:
+          type: string
+          example: success
+        data:
+          $ref: "#/components/schemas/SendMessageResult"
+    ApiResponseVoid:
+      type: object
+      required: [code, message, data]
+      properties:
+        code:
+          type: integer
+          example: 0
+        message:
+          type: string
+          example: success
+        data:
+          nullable: true
+          example: null
+
+    HealthPayload:
+      type: object
+      required: [status, service, timestamp]
+      properties:
+        status:
+          type: string
+          example: UP
+        service:
+          type: string
+          example: capcutai-backend
+        timestamp:
+          type: string
+          format: date-time
+
+    Conversation:
+      type: object
+      required:
+        - conversationId
+        - userId
+        - sessionId
+        - title
+        - status
+        - createdAt
+        - updatedAt
+      properties:
+        conversationId:
+          type: string
+          example: conv_demo_001
+        userId:
+          type: string
+          example: user_anon_demo
+        sessionId:
+          type: string
+          example: sess_demo_001
+        title:
+          type: string
+          example: New Conversation
+        status:
+          type: string
+          example: ACTIVE
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    Message:
+      type: object
+      required:
+        - messageId
+        - conversationId
+        - role
+        - content
+        - status
+        - trace
+        - createdAt
+      properties:
+        messageId:
+          type: string
+          example: msg_demo_001
+        conversationId:
+          type: string
+          example: conv_demo_001
+        role:
+          type: string
+          enum: [SYSTEM, USER, ASSISTANT]
+        content:
+          type: string
+          example: hi agent
+        status:
+          type: string
+          example: COMPLETED
+        trace:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    SendMessageResult:
+      type: object
+      required:
+        - conversationId
+        - userMessage
+        - assistantMessage
+        - agentStatus
+      properties:
+        conversationId:
+          type: string
+          example: conv_demo_001
+        userMessage:
+          $ref: "#/components/schemas/Message"
+        assistantMessage:
+          $ref: "#/components/schemas/Message"
+        agentStatus:
+          type: string
+          example: COMPLETED

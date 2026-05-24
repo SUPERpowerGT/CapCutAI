@@ -1,0 +1,41 @@
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.iml
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+.python-version
+
+# Node / frontend
+node_modules/
+.next/
+dist/
+coverage/
+
+# Java / Gradle
+.gradle/
+build/
+out/
+
+# Local runtime / storage
+storage/
+tmp/
