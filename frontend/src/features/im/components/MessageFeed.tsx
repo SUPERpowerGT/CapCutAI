@@ -1,14 +1,17 @@
 import type {RefObject} from "react";
-import {formatTimestamp} from "../lib/formatters";
-import type {Message} from "../types/contracts";
+import type {AgentActivityItem, Message} from "../types/contracts";
 import {mutedTextStyle, roleStyleMap} from "./styles";
+import {ActivityFeedItem} from "./ActivityFeedItem";
 
 type MessageFeedProps = {
   isBooting: boolean;
   isLoadingMessages: boolean;
   isSending: boolean;
+  isStreamingAssistant: boolean;
   error: string | null;
   messages: Message[];
+  currentActivity: AgentActivityItem | null;
+  streamingAssistantMessage: Message | null;
   messageEndRef: RefObject<HTMLDivElement>;
 };
 
@@ -16,10 +19,15 @@ export function MessageFeed({
   isBooting,
   isLoadingMessages,
   isSending,
+  isStreamingAssistant,
   error,
   messages,
+  currentActivity,
+  streamingAssistantMessage,
   messageEndRef
 }: MessageFeedProps) {
+  const showInlineActivity = currentActivity && !streamingAssistantMessage;
+
   return (
     <div
       style={{
@@ -52,15 +60,16 @@ export function MessageFeed({
       {!isBooting && !isLoadingMessages && messages.length === 0 ? (
         <div
           style={{
-            padding: "16px",
+            padding: "18px",
             borderRadius: "14px",
             background: "#111418",
             border: "1px dashed rgba(255,255,255,0.08)",
             color: "#aeb8c1",
-            fontSize: "13px"
+            fontSize: "13px",
+            lineHeight: 1.6
           }}
         >
-          No messages yet. Send the first prompt to start the scaffold flow.
+          这里还没有消息。发第一条指令开始当前对话。
         </div>
       ) : null}
 
@@ -68,45 +77,55 @@ export function MessageFeed({
         <article
           key={message.messageId}
           style={{
-            maxWidth: "92%",
-            padding: "14px",
-            borderRadius: "14px",
+            maxWidth: message.role === "ASSISTANT" ? "100%" : "92%",
+            padding: message.role === "ASSISTANT" ? "2px 0 6px" : "12px 14px",
+            borderRadius: message.role === "ASSISTANT" ? "0" : "14px",
             display: "grid",
-            gap: "10px",
+            gap: "8px",
             ...roleStyleMap[message.role]
           }}
         >
           <div
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              gap: "12px",
-              fontSize: "11px",
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-              color: "#95a0ab"
+              fontSize: "14px",
+              lineHeight: message.role === "ASSISTANT" ? 1.75 : 1.6,
+              color: message.role === "ASSISTANT" ? "#edf2f7" : undefined,
+              paddingRight: message.role === "ASSISTANT" ? "8px" : undefined
             }}
           >
-            <span>{message.role}</span>
-            <span>{formatTimestamp(message.createdAt)}</span>
+            {message.content}
           </div>
-          <div style={{fontSize: "14px", lineHeight: 1.6}}>{message.content}</div>
         </article>
       ))}
 
-      {isSending ? (
-        <div
+      {streamingAssistantMessage ? (
+        <article
           style={{
-            maxWidth: "92%",
-            padding: "14px",
-            borderRadius: "14px",
-            background: "#161a1f",
-            border: "1px solid rgba(255,255,255,0.05)"
+            maxWidth: "100%",
+            padding: "2px 0 6px",
+            borderRadius: "0",
+            display: "grid",
+            gap: "10px",
+            ...roleStyleMap.ASSISTANT
           }}
         >
-          <div style={{fontSize: "13px", color: "#a8b2bb"}}>Thinking...</div>
-        </div>
+          <div
+            style={{
+              fontSize: "14px",
+              lineHeight: 1.75,
+              color: "#edf2f7",
+              paddingRight: "8px"
+            }}
+          >
+            {streamingAssistantMessage.content || " "}
+            {isStreamingAssistant ? (
+              <span className="agent-stream-caret" />
+            ) : null}
+          </div>
+        </article>
       ) : null}
+
+      {showInlineActivity ? <ActivityFeedItem activity={currentActivity} /> : null}
 
       <div ref={messageEndRef} />
     </div>

@@ -13,6 +13,10 @@
 3. 看“当前 agent 标准写法”
 4. 看“LLM Provider 配置”
 5. 看“验证要求”
+6. 如果要做视频能力，再看：
+   - [`../docs/mvp-video-pipeline/README.md`](../docs/mvp-video-pipeline/README.md)
+   - [`../docs/ai-service-video-architecture/README.md`](../docs/ai-service-video-architecture/README.md)
+   - [`../docs/langgraph-guideline/README.md`](../docs/langgraph-guideline/README.md)
 
 ## 当前主线
 
@@ -75,6 +79,8 @@ make up
 - `app/services`
 - `app/schemas`
 - `app/utils`
+- `input`
+- `output`
 
 ### `app/api`
 
@@ -128,6 +134,42 @@ make up
 
 当前先空着，不要为了“看起来完整”往里面塞工具函数。
 
+### `app/assets`
+
+后续放固定风格文件、模板素材和结构化 style assets。
+
+当前先只保留目录边界，不往里面塞业务逻辑。
+
+### `input`
+
+放本地输入视频素材。
+
+当前建议继续按这两个入口分：
+
+- `input/uservideo/`
+- `input/stylizationvideo/`
+
+含义：
+
+- `uservideo`：用户自己的待处理视频
+- `stylizationvideo`：参考风格视频 / 爆款视频
+
+### `output`
+
+放 agent 和后续编辑执行层产出的中间结果与最终结果。
+
+当前建议先按这三类分：
+
+- `output/materials/`
+- `output/plans/`
+- `output/renders/`
+
+含义：
+
+- `materials`：`materials.json` 这类分析产物
+- `plans`：`timeline_plan.json`、`editing_job.json` 这类规划产物
+- `renders`：`final.mp4` 这类最终导出视频
+
 ## 当前 ai-service 目录结构
 
 ```txt
@@ -145,7 +187,16 @@ ai-service/
 │   │   └── respond_response.py
 │   ├── services/
 │   │   └── agent_service.py
+│   ├── assets/
+│   │   └── styles/
 │   └── main.py
+├── input/
+│   ├── stylizationvideo/
+│   └── uservideo/
+├── output/
+│   ├── materials/
+│   ├── plans/
+│   └── renders/
 ├── Dockerfile
 ├── pyproject.toml
 ├── requirements.txt
@@ -158,6 +209,9 @@ ai-service/
 - `graph` 看 LangGraph 流程
 - `services` 看服务入口
 - `schemas` 看协议模型
+- `assets/styles` 看后续固定风格文件入口
+- `input` 看本地视频输入
+- `output` 看分析、规划和导出产物
 
 ## 当前 agent 标准写法
 
@@ -258,6 +312,46 @@ ollama serve
 
 4. 默认先用 `LLM_PROVIDER=ollama`
 5. 需要其他 provider 时，再显式改成 `gemini / openrouter / groq`
+
+## 视频输入输出约定
+
+当前如果开始做视频能力，先按这个约定：
+
+- 参考风格视频放：
+  - `ai-service/input/stylizationvideo/`
+- 用户视频放：
+  - `ai-service/input/uservideo/`
+- 分析产物放：
+  - `ai-service/output/materials/`
+- 规划产物放：
+  - `ai-service/output/plans/`
+- 最终视频放：
+  - `ai-service/output/renders/`
+
+这样后面无论是：
+
+- Material Analyzer
+- Style Retriever
+- Director Planner
+- Editing Skills
+
+大家都会知道输入输出应该落在哪。
+
+## 视频能力如何长出来
+
+当前 `ai-service` 已经有一条最小 IM 对话链，但后面视频能力不会继续硬塞进现在的 `conversation_graph`。
+
+后续建议按三条 graph 长出来：
+
+- `conversation_graph`
+- `style_analysis_graph`
+- `style_editing_graph`
+- `revision_graph`
+
+详细设计见：
+
+- [`../docs/mvp-video-pipeline/README.md`](../docs/mvp-video-pipeline/README.md)
+- [`../docs/ai-service-video-architecture/README.md`](../docs/ai-service-video-architecture/README.md)
 
 ### 云上
 

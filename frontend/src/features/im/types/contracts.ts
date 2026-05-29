@@ -24,6 +24,24 @@ export type Message = {
   createdAt: string;
 };
 
+export type AgentActivityKind = "STATUS" | "TOOL" | "SUBAGENT" | "SYSTEM";
+
+export type AgentActivityState =
+  | "IDLE"
+  | "THINKING"
+  | "STREAMING"
+  | "COMPLETED"
+  | "FAILED";
+
+export type AgentActivityItem = {
+  id: string;
+  kind: AgentActivityKind;
+  state: AgentActivityState;
+  title: string;
+  detail: string;
+  source?: string;
+};
+
 export type SendMessageResult = {
   conversationId: string;
   userMessage: Message;

@@ -1,45 +1,42 @@
 import type {RefObject} from "react";
-import type {Conversation, Message} from "../types/contracts";
-import {buttonStyle, mutedTextStyle, sectionLabelStyle} from "./styles";
-import {ConversationList} from "./ConversationList";
+import type {AgentActivityItem, Message} from "../types/contracts";
+import {sectionLabelStyle} from "./styles";
 import {MessageFeed} from "./MessageFeed";
 import {ChatComposer} from "./ChatComposer";
 
 type ChatPanelProps = {
-  activeConversation: Conversation | null;
-  activeConversationId: string | null;
-  conversations: Conversation[];
   messages: Message[];
+  agentStatus: string;
+  taskSummary: string;
+  currentActivity: AgentActivityItem | null;
   prompt: string;
   error: string | null;
   isBooting: boolean;
   isLoadingMessages: boolean;
   isSending: boolean;
+  isStreamingAssistant: boolean;
+  streamingAssistantMessage: Message | null;
   messageEndRef: RefObject<HTMLDivElement>;
   onPromptChange: (value: string) => void;
   onSend: () => void;
-  onSelectConversation: (conversationId: string) => void;
-  onDeleteConversation: (conversationId: string) => void;
-  onRefresh: () => void;
   onCreateConversation: () => void;
 };
 
 export function ChatPanel({
-  activeConversation,
-  activeConversationId,
-  conversations,
   messages,
+  agentStatus,
+  taskSummary,
+  currentActivity,
   prompt,
   error,
   isBooting,
   isLoadingMessages,
   isSending,
+  isStreamingAssistant,
+  streamingAssistantMessage,
   messageEndRef,
   onPromptChange,
   onSend,
-  onSelectConversation,
-  onDeleteConversation,
-  onRefresh,
   onCreateConversation
 }: ChatPanelProps) {
   return (
@@ -47,8 +44,9 @@ export function ChatPanel({
       style={{
         minHeight: 0,
         display: "grid",
-        gridTemplateRows: "48px 42px minmax(0, 1fr) auto",
-        background: "#15181b"
+        gridTemplateRows: "40px minmax(0, 1fr) auto",
+        background: "#15181b",
+        position: "relative"
       }}
     >
       <div
@@ -57,53 +55,50 @@ export function ChatPanel({
           alignItems: "center",
           justifyContent: "space-between",
           gap: "12px",
-          padding: "0 14px",
+          padding: "0 12px",
           borderBottom: "1px solid rgba(255,255,255,0.06)",
           background: "#171b1f"
         }}
       >
         <div>
-          <p style={sectionLabelStyle}>
-            {activeConversation?.title ?? "Chat"}
-          </p>
+          <p style={sectionLabelStyle}>Agent</p>
         </div>
         <div style={{display: "flex", gap: "8px"}}>
           <button
             style={{
-              ...buttonStyle,
-              background: "#171b1f",
-              color: "#f3f5f7",
-              padding: "8px 12px"
+              appearance: "none",
+              border: "1px solid rgba(255,255,255,0.08)",
+              background: "#f3f5f7",
+              color: "#111315",
+              borderRadius: "8px",
+              padding: "5px 10px",
+              fontSize: "12px",
+              fontWeight: 600,
+              cursor: "pointer"
             }}
-            onClick={onRefresh}
+            onClick={onCreateConversation}
           >
-            Refresh
-          </button>
-          <button style={{...buttonStyle, padding: "8px 12px"}} onClick={onCreateConversation}>
             New
           </button>
         </div>
       </div>
 
-      <ConversationList
-        conversations={conversations}
-        activeConversationId={activeConversationId}
-        onSelectConversation={onSelectConversation}
-        onDeleteConversation={onDeleteConversation}
-      />
-
       <MessageFeed
         isBooting={isBooting}
         isLoadingMessages={isLoadingMessages}
         isSending={isSending}
+        isStreamingAssistant={isStreamingAssistant}
         error={error}
         messages={messages}
+        currentActivity={currentActivity}
+        streamingAssistantMessage={streamingAssistantMessage}
         messageEndRef={messageEndRef}
       />
 
       <ChatComposer
         prompt={prompt}
         isSending={isSending}
+        isStreamingAssistant={isStreamingAssistant}
         onPromptChange={onPromptChange}
         onSend={onSend}
       />

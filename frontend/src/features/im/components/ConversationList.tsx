@@ -28,7 +28,8 @@ export function ConversationList({
           display: "flex",
           gap: "0",
           minWidth: "max-content",
-          paddingRight: "12px"
+          paddingRight: "12px",
+          alignItems: "stretch"
         }}
       >
         {conversations.map((conversation) => {
@@ -39,10 +40,10 @@ export function ConversationList({
               onClick={() => onSelectConversation(conversation.conversationId)}
               style={{
                 textAlign: "left",
-                minWidth: "188px",
-                maxWidth: "220px",
-                height: "42px",
-                padding: "0 12px",
+                minWidth: "180px",
+                maxWidth: "208px",
+                height: "46px",
+                padding: "0 10px 0 12px",
                 borderRadius: 0,
                 border: "none",
                 borderTop: "1px solid rgba(255,255,255,0.06)",
@@ -51,7 +52,7 @@ export function ConversationList({
                   ? "2px solid #4c8dff"
                   : "1px solid rgba(255,255,255,0.06)",
                 borderLeft: "1px solid rgba(255,255,255,0.06)",
-                background: isActive ? "#11161d" : "#14181d",
+                background: isActive ? "#10151b" : "#14181d",
                 color: "#eef2f5",
                 cursor: "pointer",
                 marginRight: "-1px",
@@ -108,7 +109,13 @@ export function ConversationList({
                     fontSize: "14px",
                     lineHeight: 1,
                     flex: "0 0 auto",
-                    cursor: "pointer"
+                    cursor: "pointer",
+                    width: "18px",
+                    height: "18px",
+                    display: "grid",
+                    placeItems: "center",
+                    borderRadius: "999px",
+                    background: isActive ? "rgba(255,255,255,0.04)" : "transparent"
                   }}
                 >
                   ×

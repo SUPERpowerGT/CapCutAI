@@ -52,8 +52,8 @@ export const roleStyleMap: Record<Message["role"], CSSProperties> = {
     justifySelf: "end"
   },
   ASSISTANT: {
-    background: "#161a1f",
-    border: "1px solid rgba(255,255,255,0.05)",
+    background: "transparent",
+    border: "none",
     justifySelf: "start"
   },
   SYSTEM: {

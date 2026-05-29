@@ -64,25 +64,20 @@ export function WorkspaceShell() {
           <ResizeHandle direction="vertical" onMouseDown={layout.startRightResize} />
 
           <ChatPanel
-            activeConversation={imWorkspace.activeConversation}
-            activeConversationId={imWorkspace.activeConversationId}
-            conversations={imWorkspace.conversations}
             messages={imWorkspace.messages}
+            agentStatus={imWorkspace.agentStatus}
+            taskSummary={imWorkspace.taskSummary}
+            currentActivity={imWorkspace.currentActivity}
             prompt={imWorkspace.prompt}
             error={imWorkspace.error}
             isBooting={imWorkspace.isBooting}
             isLoadingMessages={imWorkspace.isLoadingMessages}
             isSending={imWorkspace.isSending}
+            isStreamingAssistant={imWorkspace.isStreamingAssistant}
+            streamingAssistantMessage={imWorkspace.streamingAssistantMessage}
             messageEndRef={imWorkspace.messageEndRef}
             onPromptChange={imWorkspace.setPrompt}
             onSend={() => void imWorkspace.sendMessageAction()}
-            onSelectConversation={(conversationId) =>
-              void imWorkspace.selectConversationAction(conversationId)
-            }
-            onDeleteConversation={(conversationId) =>
-              void imWorkspace.deleteConversationAction(conversationId)
-            }
-            onRefresh={() => void imWorkspace.refreshAction()}
             onCreateConversation={() => void imWorkspace.createConversationAction()}
           />
         </div>

@@ -12,6 +12,13 @@
 
 当前 `workspace` 是最外层固定壳子，`im` 是真实主线，另外两块先保留边界，不在这里乱写假逻辑。
 
+当前产品形态原则：
+
+- 当前阶段先做桌面工作台风格的 Web App
+- 后续目标是封装成 PC 客户端
+- 所以前端现在就要按桌面软件边界来组织
+- 不是按普通网页聊天工具的思路来设计右侧 `IM`
+
 ## 当前主线
 
 frontend 当前首页是一个固定工作台：
@@ -25,6 +32,25 @@ frontend 当前首页是一个固定工作台：
 这些区域都内嵌在固定 shell 里，后续会向 PC 客户端形态演进，并支持像 VS Code 一样拖动分栏。
 
 当前真正接了后端链路的只有 `Chat / IM` 部分。
+
+当前推荐职责边界：
+
+- 左侧 `Assets`
+  - 主上传入口
+  - 管参考视频、用户视频、图片、音频等素材
+- 中间 `Editor`
+  - 管预览和时间轴
+  - 后续接 HyperFrames 或其他编辑能力
+- 右侧 `Agent`
+  - 管意图输入
+  - 管任务状态
+  - 管分析 / 生成 / revision 指令
+
+明确原则：
+
+```txt
+上传主入口在左侧 Assets，不在右侧输入框。
+```
 
 ## 目录结构
 
@@ -80,10 +106,16 @@ src/
 
 职责：
 
-- conversation list
-- message list
+- agent panel
+- message feed
 - input box
 - 与 backend 的 IM 接口对接
+
+注意：
+
+- 后端继续保留 conversation 机制
+- 前端不强调 `session` 概念
+- 右侧默认只展示“当前工作对话”
 
 不要在 `im` 里继续塞：
 
@@ -176,11 +208,10 @@ http://127.0.0.1:38080
 页面起来后，至少确认这几件事：
 
 1. 左侧能看到 `Assets` 占位面板
-2. 右侧能看到 conversation tab list
-3. 点击 `New` 能创建会话
-4. 点击 `×` 能删除会话
-5. 发消息后，用户消息会立刻出现
-6. 随后出现 assistant 回复
+2. 右侧能看到干净的 `Agent` 面板
+3. 点击 `New` 能开始新一轮对话
+4. 发消息后，用户消息会立刻出现
+5. 随后出现 assistant 回复
 
 ## 如何新增前端功能
 
@@ -217,3 +248,4 @@ http://127.0.0.1:38080
 - [`../README.md`](../README.md)
 - [`../backend/README.md`](../backend/README.md)
 - [`../ai-service/README.md`](../ai-service/README.md)
+- [`../docs/im-optimization/README.md`](../docs/im-optimization/README.md)

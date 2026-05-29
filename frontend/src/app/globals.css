@@ -39,3 +39,80 @@ pre {
 .conversation-tabs-scroll::-webkit-scrollbar {
   display: none;
 }
+
+@keyframes agentPulseDot {
+  0%,
+  80%,
+  100% {
+    opacity: 0.24;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-1px);
+  }
+}
+
+@keyframes agentBlinkCaret {
+  0%,
+  45% {
+    opacity: 0.85;
+  }
+  55%,
+  100% {
+    opacity: 0.18;
+  }
+}
+
+.agent-activity {
+  max-width: 100%;
+  padding: 4px 0 8px;
+  display: grid;
+  gap: 6px;
+}
+
+.agent-activity-dots {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  min-height: 18px;
+}
+
+.agent-activity-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #dbe4ed;
+  animation: agentPulseDot 1.2s ease-in-out infinite;
+}
+
+.agent-activity-dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.agent-activity-dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.agent-activity-caption {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #8f99a4;
+}
+
+.agent-activity-label {
+  margin-left: 8px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.agent-stream-caret {
+  display: inline-block;
+  width: 7px;
+  height: 1.2em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background: #e8edf2;
+  animation: agentBlinkCaret 1s linear infinite;
+}

@@ -13,3 +13,9 @@ venv/
 # IDE
 .idea/
 *.iml
+
+# Local media and generated artifacts
+input/**
+output/**
+!input/**/.gitkeep
+!output/**/.gitkeep
