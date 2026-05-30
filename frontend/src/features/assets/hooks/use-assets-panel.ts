@@ -11,7 +11,7 @@ function sortAssets(assets: AssetItem[]) {
   return [...assets].sort((left, right) => right.addedAt.localeCompare(left.addedAt));
 }
 
-export function useAssetsPanel() {
+export function useAssetsPanel(workspaceId: string | null) {
   const [assets, setAssets] = useState<AssetItem[]>([]);
   const [isPicking, setIsPicking] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
@@ -34,11 +34,26 @@ export function useAssetsPanel() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!workspaceId) {
+      resetAssets();
+      return;
+    }
+
+    resetAssets();
+  }, [workspaceId]);
+
   async function addVideo(slot: AssetSlot) {
+    if (!workspaceId) {
+      setError("当前工作区还没准备好，请稍后再试。");
+      return;
+    }
+
     try {
       setError(null);
       setIsPicking(true);
       const pickedAssets = await browserAssetPickerGateway.pickAssets({
+        workspaceId,
         slot,
         accept: browserVideoAccept
       });

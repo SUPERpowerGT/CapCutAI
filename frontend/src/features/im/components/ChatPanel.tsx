@@ -42,7 +42,7 @@ export function ChatPanel({
       style={{
         minHeight: 0,
         display: "grid",
-        gridTemplateRows: "40px minmax(0, 1fr) auto",
+        gridTemplateRows: "56px minmax(0, 1fr) auto",
         background: "#15181b",
         position: "relative"
       }}
@@ -53,7 +53,7 @@ export function ChatPanel({
           alignItems: "center",
           justifyContent: "space-between",
           gap: "12px",
-          padding: "0 12px",
+          padding: "0 16px",
           borderBottom: "1px solid rgba(255,255,255,0.06)",
           background: "#171b1f"
         }}

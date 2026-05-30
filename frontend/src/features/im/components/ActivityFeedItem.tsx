@@ -1,4 +1,5 @@
 import type {AgentActivityItem} from "../types/contracts";
+import {textStyles} from "../../../shared/design/typography";
 
 type ActivityFeedItemProps = {
   activity: AgentActivityItem;
@@ -24,7 +25,13 @@ export function ActivityFeedItem({activity}: ActivityFeedItemProps) {
   const showDots = activity.state === "THINKING" || activity.state === "STREAMING";
 
   return (
-    <div className="agent-activity" style={{color: activity.state === "FAILED" ? "#ffd4d4" : "#c8d0d8"}}>
+    <div
+      className="agent-activity"
+      style={{
+        ...textStyles.bodySmallStrong,
+        color: activity.state === "FAILED" ? "#ffd4d4" : "#c8d0d8"
+      }}
+    >
       {showDots ? (
         <div className="agent-activity-dots" aria-hidden="true">
           <span className="agent-activity-dot" />
@@ -35,12 +42,18 @@ export function ActivityFeedItem({activity}: ActivityFeedItemProps) {
 
       <div
         className="agent-activity-caption"
-        style={{color: activity.state === "FAILED" ? "#ffd4d4" : "#8f99a4"}}
+        style={{
+          ...textStyles.bodySmall,
+          color: activity.state === "FAILED" ? "#ffd4d4" : "#8f99a4"
+        }}
       >
         {activity.detail}
         <span
           className="agent-activity-label"
-          style={{color: stateColorMap[activity.state]}}
+          style={{
+            ...textStyles.button,
+            color: stateColorMap[activity.state]
+          }}
         >
           {activity.kind === "STATUS"
             ? stateLabelMap[activity.state]

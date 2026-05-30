@@ -65,6 +65,7 @@ capcutai-postgres
 - `conversation_id`
 - `user_id`
 - `session_id`
+- `workspace_id`
 - `title`
 - `status`
 - `created_at`
@@ -75,8 +76,22 @@ capcutai-postgres
 - 表示一个会话
 - 绑定当前匿名用户标识
 - 绑定当前匿名 session 标识
+- 绑定当前 workspace / project 上下文
 - 保存会话标题和状态
 - 记录会话创建与最近更新时间
+
+当前桌面客户端语义已经明确：
+
+```txt
+一个窗口 = 一个 workspace
+workspace 下再挂 conversation
+```
+
+所以 `workspace_id` 现在是 conversation 的一级隔离字段：
+
+- 不同窗口的新工作区应当有不同 `workspace_id`
+- conversation 列表默认按 `workspace_id` 过滤
+- 后续 asset、plan、render 也应逐步归属到同一个 `workspace_id`
 
 ### 2. `conversation_messages`
 

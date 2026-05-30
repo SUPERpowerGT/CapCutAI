@@ -8,6 +8,7 @@ export type AssetSyncStatus = "PICKED" | "REGISTERING" | "READY" | "FAILED";
 
 export type AssetItem = {
   assetId: string;
+  workspaceId: string;
   category: AssetCategory;
   slot: AssetSlot;
   origin: AssetOrigin;
@@ -26,6 +27,7 @@ export type AssetItem = {
 };
 
 export type AssetPickRequest = {
+  workspaceId: string;
   slot: AssetSlot;
   accept: string;
   multiple?: boolean;

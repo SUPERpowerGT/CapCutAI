@@ -38,7 +38,11 @@ async function readVideoMetadata(objectUrl: string) {
   });
 }
 
-async function buildAssetItem(file: File, slot: AssetSlot): Promise<AssetItem> {
+async function buildAssetItem(
+  file: File,
+  slot: AssetSlot,
+  workspaceId: string
+): Promise<AssetItem> {
   const objectUrl = URL.createObjectURL(file);
   const category = inferCategory(file);
   const videoMetadata =
@@ -46,6 +50,7 @@ async function buildAssetItem(file: File, slot: AssetSlot): Promise<AssetItem> {
 
   return {
     assetId: `asset_${crypto.randomUUID()}`,
+    workspaceId,
     category,
     slot,
     origin: "BROWSER",
@@ -74,7 +79,7 @@ export const browserAssetPickerGateway: AssetPickerGateway = {
         async () => {
           const files = Array.from(input.files ?? []);
           const assets = await Promise.all(
-            files.map((file) => buildAssetItem(file, request.slot))
+            files.map((file) => buildAssetItem(file, request.slot, request.workspaceId))
           );
           resolve(assets);
           input.remove();

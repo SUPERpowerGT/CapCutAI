@@ -1,6 +1,7 @@
 import {useEffect, useRef} from "react";
 import type {CompositionEvent, KeyboardEvent} from "react";
 import {buttonStyle, mutedTextStyle} from "./styles";
+import {textStyles} from "../../../shared/design/typography";
 
 type ChatComposerProps = {
   prompt: string;
@@ -53,7 +54,7 @@ export function ChatComposer({
   return (
     <div
       style={{
-        padding: "12px",
+        padding: "12px 12px 18px",
         borderTop: "1px solid rgba(255,255,255,0.06)",
         background: "#13171b"
       }}
@@ -75,9 +76,9 @@ export function ChatComposer({
           borderRadius: "14px",
           border: "1px solid rgba(255,255,255,0.08)",
           background: "#0f1317",
-          color: "#eef2f5",
           padding: "14px",
-          font: "inherit",
+          ...textStyles.body,
+          color: "#eef2f5",
           outline: "none"
         }}
       />

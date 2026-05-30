@@ -1,94 +1,122 @@
+import {textStyles} from "../../../shared/design/typography";
+
 type PreviewViewportProps = {
   title: string;
   subtitle?: string;
+  previewSource?: {
+    objectUrl?: string;
+    name: string;
+    mimeType: string;
+  } | null;
 };
 
-const sectionLabelStyle = {
-  margin: 0,
-  fontSize: "11px",
-  letterSpacing: "0.12em",
-  textTransform: "uppercase" as const,
-  color: "#7d8792"
-};
+const sectionLabelStyle = textStyles.sectionLabel;
 
-export function PreviewViewport({title, subtitle}: PreviewViewportProps) {
+export function PreviewViewport({title, subtitle, previewSource}: PreviewViewportProps) {
   return (
     <section
       style={{
         minHeight: 0,
         overflow: "hidden",
-        padding: "16px",
         background: "#121518",
-        borderBottom: "1px solid rgba(255,255,255,0.06)"
+        borderBottom: "1px solid rgba(255,255,255,0.06)",
+        display: "grid",
+        gridTemplateRows: "56px minmax(0, 1fr)"
       }}
     >
-      <p style={sectionLabelStyle}>Preview</p>
       <div
         style={{
-          marginTop: "12px",
-          height: "calc(100% - 31px)",
+          display: "flex",
+          alignItems: "center",
+          padding: "0 16px",
+          borderBottom: "1px solid rgba(255,255,255,0.06)"
+        }}
+      >
+        <p style={sectionLabelStyle}>Preview</p>
+      </div>
+      <div
+        style={{
+          minHeight: 0,
           borderRadius: "18px",
-          border: "1px solid rgba(255,255,255,0.06)",
           background:
             "radial-gradient(circle at top right, rgba(255,153,102,0.18), transparent 24%), #0d1013",
-          padding: "18px",
+          padding: "16px",
           display: "grid",
           placeItems: "center",
           overflow: "hidden"
         }}
       >
-        <div
-          style={{
-            aspectRatio: "16 / 9",
-            width: "100%",
-            maxWidth: "100%",
-            maxHeight: "100%",
-            borderRadius: "16px",
-            overflow: "hidden",
-            background: "linear-gradient(135deg, rgba(34,40,47,1) 0%, rgba(16,19,23,1) 100%)",
-            border: "1px solid rgba(255,255,255,0.06)",
-            display: "grid",
-            placeItems: "center",
-            padding: "20px"
-          }}
-        >
-          <div style={{textAlign: "center", maxWidth: "520px"}}>
-            <p style={{...sectionLabelStyle, color: "#98a5b2"}}>Live Preview</p>
-            <h2 style={{margin: "8px 0 0", fontSize: "28px", lineHeight: 1.2}}>{title}</h2>
-            {subtitle ? (
-              <p
+        {previewSource?.objectUrl ? (
+          <div
+            style={{
+              aspectRatio: "16 / 9",
+              width: "100%",
+              maxWidth: "100%",
+              maxHeight: "100%",
+              borderRadius: "16px",
+              overflow: "hidden",
+              background: "#090b0d",
+              border: "1px solid rgba(255,255,255,0.06)",
+              display: "grid",
+              placeItems: "center"
+            }}
+          >
+            <video
+              key={previewSource.objectUrl}
+              src={previewSource.objectUrl}
+              controls
+              playsInline
+              preload="metadata"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                background: "#090b0d"
+              }}
+            />
+          </div>
+        ) : (
+          <div
+            style={{
+              aspectRatio: "16 / 9",
+              width: "100%",
+              maxWidth: "100%",
+              maxHeight: "100%",
+              display: "grid",
+              placeItems: "center",
+              textAlign: "center",
+              padding: "20px"
+            }}
+          >
+            <div style={{textAlign: "center", maxWidth: "520px"}}>
+              <p style={{...sectionLabelStyle, color: "#98a5b2"}}>Live Preview</p>
+              <div
                 style={{
-                  margin: "8px 0 0",
-                  color: "#9fb0bf",
-                  fontSize: "13px",
-                  lineHeight: 1.6
+                  width: "48px",
+                  height: "48px",
+                  margin: "12px auto 0",
+                  borderRadius: "14px",
+                  background: "rgba(121,192,255,0.08)",
+                  color: "#89beff",
+                  display: "grid",
+                  placeItems: "center",
+                  fontSize: "20px",
+                  fontWeight: 700
                 }}
               >
-                {subtitle}
+                ▶
+              </div>
+              <p
+                style={{
+                  ...textStyles.display,
+                  margin: "16px 0 0"
+                }}
+              >
+                上传视频后，这里会立即显示预览。
               </p>
-            ) : null}
-            <p
-              style={{
-                margin: "12px 0 0",
-                color: "#d8e0e7",
-                fontSize: "16px",
-                lineHeight: 1.6
-              }}
-            >
-              Preview Placeholder
-            </p>
-            <p
-              style={{
-                margin: "8px 0 0",
-                color: "#8d96a0",
-                fontSize: "13px",
-                lineHeight: 1.6
-              }}
-            >
-              当前中间上方只保留预览区边界，后续由 HyperFrames 或真正预览播放器接入。
-            </p>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </section>
   );

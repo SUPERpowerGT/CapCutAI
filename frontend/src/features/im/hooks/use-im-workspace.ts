@@ -9,7 +9,7 @@ import {
 import {buildPendingUserMessage, extractPreviewHeadline} from "../lib/formatters";
 import type {AgentActivityItem, Conversation, Message} from "../types/contracts";
 
-export function useImWorkspace(workspaceId: string) {
+export function useImWorkspace(workspaceId: string | null) {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [activeConversationId, setActiveConversationId] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -100,6 +100,15 @@ export function useImWorkspace(workspaceId: string) {
   };
 
   const boot = async () => {
+    if (!workspaceId) {
+      setIsBooting(false);
+      setConversations([]);
+      setActiveConversationId(null);
+      setMessages([]);
+      setAgentStatus("IDLE");
+      return;
+    }
+
     setIsBooting(true);
     setError(null);
 
@@ -193,6 +202,10 @@ export function useImWorkspace(workspaceId: string) {
   };
 
   const createConversationAction = async () => {
+    if (!workspaceId) {
+      return;
+    }
+
     try {
       stopStreaming();
       const created = await createConversation({
@@ -243,7 +256,7 @@ export function useImWorkspace(workspaceId: string) {
         ...prev.filter((message) => message.messageId !== optimisticMessage.messageId),
         response.userMessage
       ]);
-      const refreshed = await listConversations(workspaceId);
+      const refreshed = await listConversations(workspaceId ?? undefined);
       setConversations(refreshed);
       setAgentStatus(response.agentStatus || "COMPLETED");
       await streamAssistantReply(response.assistantMessage);
@@ -264,7 +277,7 @@ export function useImWorkspace(workspaceId: string) {
     try {
       stopStreaming();
       setError(null);
-      const refreshedConversations = await listConversations(workspaceId);
+      const refreshedConversations = await listConversations(workspaceId ?? undefined);
       setConversations(refreshedConversations);
       await loadMessages(activeConversationId);
     } catch (exception) {

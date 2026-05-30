@@ -13,7 +13,13 @@ export function useWorkspaceLayout() {
   const [leftPaneWidth, setLeftPaneWidth] = useState(21);
   const [rightPaneWidth, setRightPaneWidth] = useState(29);
   const [previewHeight, setPreviewHeight] = useState(58);
+  const [isLeftPaneCollapsed, setIsLeftPaneCollapsed] = useState(false);
+  const [isRightPaneCollapsed, setIsRightPaneCollapsed] = useState(false);
+  const [isBottomPaneCollapsed, setIsBottomPaneCollapsed] = useState(false);
   const dragModeRef = useRef<DragMode>(null);
+  const lastLeftPaneWidthRef = useRef(21);
+  const lastRightPaneWidthRef = useRef(29);
+  const lastPreviewHeightRef = useRef(58);
 
   useEffect(() => {
     const handlePointerMove = (event: MouseEvent) => {
@@ -25,16 +31,22 @@ export function useWorkspaceLayout() {
       const relativeY = ((event.clientY - rect.top) / rect.height) * 100;
 
       if (dragModeRef.current === "left") {
-        setLeftPaneWidth(clamp(relativeX, 16, 32));
+        const next = clamp(relativeX, 16, 32);
+        lastLeftPaneWidthRef.current = next;
+        setLeftPaneWidth(next);
       }
 
       if (dragModeRef.current === "right") {
         const width = 100 - relativeX;
-        setRightPaneWidth(clamp(width, 24, 38));
+        const next = clamp(width, 24, 38);
+        lastRightPaneWidthRef.current = next;
+        setRightPaneWidth(next);
       }
 
       if (dragModeRef.current === "horizontal") {
-        setPreviewHeight(clamp(relativeY, 38, 72));
+        const next = clamp(relativeY, 38, 72);
+        lastPreviewHeightRef.current = next;
+        setPreviewHeight(next);
       }
     };
 
@@ -56,6 +68,9 @@ export function useWorkspaceLayout() {
     leftPaneWidth,
     rightPaneWidth,
     previewHeight,
+    isLeftPaneCollapsed,
+    isRightPaneCollapsed,
+    isBottomPaneCollapsed,
     startLeftResize: () => {
       dragModeRef.current = "left";
     },
@@ -64,6 +79,40 @@ export function useWorkspaceLayout() {
     },
     startHorizontalResize: () => {
       dragModeRef.current = "horizontal";
+    },
+    toggleLeftPane: () => {
+      setIsLeftPaneCollapsed((current) => {
+        const next = !current;
+        if (!next) {
+          setLeftPaneWidth(lastLeftPaneWidthRef.current);
+        } else {
+          lastLeftPaneWidthRef.current = leftPaneWidth;
+        }
+        return next;
+      });
+    },
+    toggleRightPane: () => {
+      setIsRightPaneCollapsed((current) => {
+        const next = !current;
+        if (!next) {
+          setRightPaneWidth(lastRightPaneWidthRef.current);
+        } else {
+          lastRightPaneWidthRef.current = rightPaneWidth;
+        }
+        return next;
+      });
+    },
+    toggleBottomPane: () => {
+      setIsBottomPaneCollapsed((current) => {
+        const next = !current;
+        if (!next) {
+          setPreviewHeight(lastPreviewHeightRef.current);
+        } else {
+          lastPreviewHeightRef.current = previewHeight;
+          setPreviewHeight(100);
+        }
+        return next;
+      });
     }
   };
 }

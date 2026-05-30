@@ -1,6 +1,10 @@
 :root {
   color-scheme: dark;
-  font-family: "SF Pro Text", "Segoe UI", sans-serif;
+  --font-sans: "SF Pro Text", "SF Pro Display", "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", sans-serif;
+  --font-mono: "SF Mono", "JetBrains Mono", "Fira Code", "Menlo", "Monaco",
+    monospace;
+  font-family: var(--font-sans);
 }
 
 * {
@@ -18,6 +22,7 @@ body {
 
 body {
   min-height: 100vh;
+  font-family: var(--font-sans);
 }
 
 a {

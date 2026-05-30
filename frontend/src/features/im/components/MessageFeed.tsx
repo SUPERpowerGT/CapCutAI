@@ -2,6 +2,7 @@ import type {RefObject} from "react";
 import type {AgentActivityItem, Message} from "../types/contracts";
 import {mutedTextStyle, roleStyleMap} from "./styles";
 import {ActivityFeedItem} from "./ActivityFeedItem";
+import {textStyles} from "../../../shared/design/typography";
 
 type MessageFeedProps = {
   isBooting: boolean;
@@ -45,12 +46,12 @@ export function MessageFeed({
       {error ? (
         <div
           style={{
+            ...textStyles.titleSmall,
             padding: "12px",
             borderRadius: "12px",
             background: "#2a1717",
             border: "1px solid rgba(255,130,130,0.25)",
-            color: "#ffd4d4",
-            fontSize: "13px"
+            color: "#ffd4d4"
           }}
         >
           {error}
@@ -60,12 +61,12 @@ export function MessageFeed({
       {!isBooting && !isLoadingMessages && messages.length === 0 ? (
         <div
           style={{
+            ...textStyles.titleSmall,
             padding: "18px",
             borderRadius: "14px",
             background: "#111418",
             border: "1px dashed rgba(255,255,255,0.08)",
             color: "#aeb8c1",
-            fontSize: "13px",
             lineHeight: 1.6
           }}
         >
@@ -87,7 +88,7 @@ export function MessageFeed({
         >
           <div
             style={{
-              fontSize: "14px",
+              ...textStyles.body,
               lineHeight: message.role === "ASSISTANT" ? 1.75 : 1.6,
               color: message.role === "ASSISTANT" ? "#edf2f7" : undefined,
               paddingRight: message.role === "ASSISTANT" ? "8px" : undefined
@@ -111,7 +112,7 @@ export function MessageFeed({
         >
           <div
             style={{
-              fontSize: "14px",
+              ...textStyles.body,
               lineHeight: 1.75,
               color: "#edf2f7",
               paddingRight: "8px"

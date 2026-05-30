@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "desktop:web-dev": "NEXT_PUBLIC_IM_TRANSPORT=direct next dev",
+    "desktop:web-dev": "NEXT_PUBLIC_IM_TRANSPORT=direct next dev --hostname 127.0.0.1 --port 3001",
     "build:desktop": "node ./scripts/build-desktop.mjs",
     "desktop:dev": "tauri dev",
     "desktop:build": "tauri build",

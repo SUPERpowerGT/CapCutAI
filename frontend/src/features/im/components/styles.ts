@@ -1,5 +1,6 @@
 import type {CSSProperties} from "react";
 import type {Message} from "../types/contracts";
+import {textStyles} from "../../../shared/design/typography";
 
 export const appShellStyle: CSSProperties = {
   minHeight: "100vh",
@@ -20,18 +21,11 @@ export const frameStyle: CSSProperties = {
 };
 
 export const sectionLabelStyle: CSSProperties = {
-  margin: 0,
-  fontSize: "11px",
-  letterSpacing: "0.12em",
-  textTransform: "uppercase",
-  color: "#7d8792"
+  ...textStyles.sectionLabel
 };
 
 export const mutedTextStyle: CSSProperties = {
-  margin: 0,
-  color: "#8d96a0",
-  fontSize: "12px",
-  lineHeight: 1.5
+  ...textStyles.bodySmall
 };
 
 export const buttonStyle: CSSProperties = {
@@ -40,8 +34,7 @@ export const buttonStyle: CSSProperties = {
   color: "#111315",
   borderRadius: "10px",
   padding: "10px 14px",
-  fontSize: "12px",
-  fontWeight: 600,
+  ...textStyles.button,
   cursor: "pointer"
 };
 

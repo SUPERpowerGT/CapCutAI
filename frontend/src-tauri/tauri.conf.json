@@ -5,7 +5,7 @@
   "identifier": "com.capcutai.desktop",
   "build": {
     "frontendDist": "../out",
-    "devUrl": "http://127.0.0.1:3000",
+    "devUrl": "http://127.0.0.1:3001",
     "beforeDevCommand": "npm run desktop:web-dev",
     "beforeBuildCommand": "npm run build:desktop"
   },
