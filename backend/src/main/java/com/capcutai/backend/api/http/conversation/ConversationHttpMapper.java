@@ -14,11 +14,12 @@ final class ConversationHttpMapper {
 
     static CreateConversationRequest toApplicationRequest(CreateConversationHttpRequest request) {
         if (request == null) {
-            return new CreateConversationRequest(null, null, null);
+            return new CreateConversationRequest(null, null, null, null);
         }
         return new CreateConversationRequest(
                 request.userId(),
                 request.sessionId(),
+                request.workspaceId(),
                 request.title()
         );
     }
@@ -28,6 +29,7 @@ final class ConversationHttpMapper {
                 view.conversationId(),
                 view.userId(),
                 view.sessionId(),
+                view.workspaceId(),
                 view.title(),
                 view.status(),
                 view.createdAt(),

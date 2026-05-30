@@ -7,6 +7,8 @@ public record CreateConversationRequest(
         String userId,
         @Size(max = 64)
         String sessionId,
+        @Size(max = 64)
+        String workspaceId,
         @Size(max = 255)
         String title
 ) {

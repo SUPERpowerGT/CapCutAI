@@ -23,3 +23,10 @@ server:
 app:
   ai-service:
     base-url: ${AI_SERVICE_BASE_URL:http://localhost:8000}
+  http:
+    allowed-origin-patterns:
+      - http://localhost:*
+      - http://127.0.0.1:*
+      - http://tauri.localhost
+      - https://tauri.localhost
+      - tauri://localhost

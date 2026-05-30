@@ -8,6 +8,7 @@ export type Conversation = {
   conversationId: string;
   userId: string;
   sessionId: string;
+  workspaceId: string;
   title: string;
   status: string;
   createdAt: string;

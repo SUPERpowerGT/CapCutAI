@@ -34,6 +34,8 @@ health + conversation + message + ai-service 调用 + postgresql
 - 调用 `ai-service`
 - 保存 assistant 回复
 
+另外，当前 backend 已经补了本地开发 / 桌面迁移用的轻量 CORS 支持，便于前端后续从 Next 代理模式切到直连 backend 模式。
+
 ## 启动方式
 
 推荐在项目根目录启动：
@@ -273,6 +275,31 @@ backend/
   - [`MessageStatus`](./src/main/java/com/capcutai/backend/domain/message/MessageStatus.java)
 
 ## 当前配置规则
+
+当前 `application.yaml` 里除了数据库和 `ai-service` 外，还保留了一组本地 HTTP 访问配置：
+
+```txt
+app.http.allowed-origin-patterns
+```
+
+它的作用是：
+
+- 允许本地浏览器开发时从 `localhost / 127.0.0.1` 直接访问 backend
+- 允许后续 `Tauri` 客户端常见本地 origin
+
+也就是说，后续当前端从：
+
+```txt
+Next proxy
+```
+
+切到：
+
+```txt
+direct -> backend
+```
+
+时，backend 侧不需要再临时补 CORS。
 
 当前只保留实际用到的配置：
 

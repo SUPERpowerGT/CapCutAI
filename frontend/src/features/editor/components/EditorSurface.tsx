@@ -3,12 +3,14 @@ import {TimelinePanel} from "./TimelinePanel";
 
 type EditorSurfaceProps = {
   title: string;
+  subtitle?: string;
   previewHeightPercent: number;
   onResizeStart: () => void;
 };
 
 export function EditorSurface({
   title,
+  subtitle,
   previewHeightPercent,
   onResizeStart
 }: EditorSurfaceProps) {
@@ -23,7 +25,7 @@ export function EditorSurface({
         background: "#121518"
       }}
     >
-      <PreviewViewport title={title} />
+      <PreviewViewport title={title} subtitle={subtitle} />
       <button
         type="button"
         aria-label="Resize preview and timeline"

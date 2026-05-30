@@ -5,6 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "desktop:web-dev": "NEXT_PUBLIC_IM_TRANSPORT=direct next dev",
+    "build:desktop": "node ./scripts/build-desktop.mjs",
+    "desktop:dev": "tauri dev",
+    "desktop:build": "tauri build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -14,6 +18,8 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@tauri-apps/api": "^2.11.0",
+    "@tauri-apps/cli": "^2.11.2",
     "@types/node": "^22.10.1",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",

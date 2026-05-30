@@ -19,7 +19,6 @@ type ChatPanelProps = {
   messageEndRef: RefObject<HTMLDivElement>;
   onPromptChange: (value: string) => void;
   onSend: () => void;
-  onCreateConversation: () => void;
 };
 
 export function ChatPanel({
@@ -36,8 +35,7 @@ export function ChatPanel({
   streamingAssistantMessage,
   messageEndRef,
   onPromptChange,
-  onSend,
-  onCreateConversation
+  onSend
 }: ChatPanelProps) {
   return (
     <section
@@ -63,24 +61,7 @@ export function ChatPanel({
         <div>
           <p style={sectionLabelStyle}>Agent</p>
         </div>
-        <div style={{display: "flex", gap: "8px"}}>
-          <button
-            style={{
-              appearance: "none",
-              border: "1px solid rgba(255,255,255,0.08)",
-              background: "#f3f5f7",
-              color: "#111315",
-              borderRadius: "8px",
-              padding: "5px 10px",
-              fontSize: "12px",
-              fontWeight: 600,
-              cursor: "pointer"
-            }}
-            onClick={onCreateConversation}
-          >
-            New
-          </button>
-        </div>
+        <div />
       </div>
 
       <MessageFeed

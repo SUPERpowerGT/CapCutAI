@@ -8,7 +8,22 @@
 IM + agent 最小闭环
 ```
 
+同时，产品形态已经明确为：
+
+```txt
+Desktop-first
+```
+
+也就是：
+
+- Desktop Client 是默认产品形态
+- Web 只保留开发 / 调试价值
+- 前端仍然是一套，不需要维护两套 UI
+
 ## 当前最重要的文档
+
+- [`desktop-client-plan/README.md`](./desktop-client-plan/README.md)
+  桌面客户端落地方案。讲清楚为什么 CapCutAI 更适合 `Desktop Client`、为什么优先选 `Tauri`、当前已经完成了哪些桌面化基础、还差哪些客户端能力、以及如何保持 `Local-first, Cloud-ready`。
 
 - [`mvp-video-pipeline/README.md`](./mvp-video-pipeline/README.md)
   当前视频产品路线说明。讲清楚三条主链：参考视频分析、用户视频自动套风格、IM 对话式修订。
@@ -55,10 +70,11 @@ IM + agent 最小闭环
 
 1. 先看根目录 [`README.md`](../README.md)
 2. 再看 [`getting-started/README.md`](./getting-started/README.md)
-3. 再看 [`mvp-video-pipeline/README.md`](./mvp-video-pipeline/README.md)
-4. 再看 [`style-analysis-design/README.md`](./style-analysis-design/README.md) 和 [`style-editing-design/README.md`](./style-editing-design/README.md)
-5. 如果当前在做 IM，再看 [`im-optimization/README.md`](./im-optimization/README.md)
-6. 如果当前在做 LangGraph 和 agent 编排，再看 [`langgraph-guideline/README.md`](./langgraph-guideline/README.md)
-7. 再看 [`frontend/README.md`](../frontend/README.md)、[`backend/README.md`](../backend/README.md)、[`ai-service/README.md`](../ai-service/README.md)
-8. 如果要查 LLM 配置，再看 [`agent-llm/README.md`](./agent-llm/README.md)
-9. 如果要查消息落库，再看 [`database-storage/README.md`](./database-storage/README.md)
+3. 如果当前在做客户端方向，先看 [`desktop-client-plan/README.md`](./desktop-client-plan/README.md)
+4. 再看 [`mvp-video-pipeline/README.md`](./mvp-video-pipeline/README.md)
+5. 再看 [`style-analysis-design/README.md`](./style-analysis-design/README.md) 和 [`style-editing-design/README.md`](./style-editing-design/README.md)
+6. 如果当前在做 IM，再看 [`im-optimization/README.md`](./im-optimization/README.md)
+7. 如果当前在做 LangGraph 和 agent 编排，再看 [`langgraph-guideline/README.md`](./langgraph-guideline/README.md)
+8. 再看 [`frontend/README.md`](../frontend/README.md)、[`backend/README.md`](../backend/README.md)、[`ai-service/README.md`](../ai-service/README.md)
+9. 如果要查 LLM 配置，再看 [`agent-llm/README.md`](./agent-llm/README.md)
+10. 如果要查消息落库，再看 [`database-storage/README.md`](./database-storage/README.md)

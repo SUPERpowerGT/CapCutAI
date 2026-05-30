@@ -9,7 +9,7 @@ import {
 import {buildPendingUserMessage, extractPreviewHeadline} from "../lib/formatters";
 import type {AgentActivityItem, Conversation, Message} from "../types/contracts";
 
-export function useImWorkspace() {
+export function useImWorkspace(workspaceId: string) {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [activeConversationId, setActiveConversationId] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -104,9 +104,12 @@ export function useImWorkspace() {
     setError(null);
 
     try {
-      const loaded = await listConversations();
+      const loaded = await listConversations(workspaceId);
       if (loaded.length === 0) {
-        const created = await createConversation("New Conversation");
+        const created = await createConversation({
+          title: "New Conversation",
+          workspaceId
+        });
         setConversations([created]);
         setActiveConversationId(created.conversationId);
         await loadMessages(created.conversationId);
@@ -126,7 +129,7 @@ export function useImWorkspace() {
 
   useEffect(() => {
     void boot();
-  }, []);
+  }, [workspaceId]);
 
   useEffect(() => {
     messageEndRef.current?.scrollIntoView({behavior: "smooth", block: "end"});
@@ -192,10 +195,14 @@ export function useImWorkspace() {
   const createConversationAction = async () => {
     try {
       stopStreaming();
-      const created = await createConversation("New Conversation");
+      const created = await createConversation({
+        title: "New Conversation",
+        workspaceId
+      });
       setConversations((prev) => [created, ...prev]);
       setActiveConversationId(created.conversationId);
       setMessages([]);
+      setPrompt("");
       setAgentStatus("IDLE");
       setError(null);
     } catch (exception) {
@@ -236,7 +243,7 @@ export function useImWorkspace() {
         ...prev.filter((message) => message.messageId !== optimisticMessage.messageId),
         response.userMessage
       ]);
-      const refreshed = await listConversations();
+      const refreshed = await listConversations(workspaceId);
       setConversations(refreshed);
       setAgentStatus(response.agentStatus || "COMPLETED");
       await streamAssistantReply(response.assistantMessage);
@@ -257,7 +264,7 @@ export function useImWorkspace() {
     try {
       stopStreaming();
       setError(null);
-      const refreshedConversations = await listConversations();
+      const refreshedConversations = await listConversations(workspaceId);
       setConversations(refreshedConversations);
       await loadMessages(activeConversationId);
     } catch (exception) {

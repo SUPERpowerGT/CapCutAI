@@ -5,8 +5,32 @@ import type {
   SendMessageResult
 } from "../types/contracts";
 
+const transport = process.env.NEXT_PUBLIC_IM_TRANSPORT ?? "proxy";
+const backendBaseUrl = (
+  process.env.NEXT_PUBLIC_BACKEND_BASE_URL ?? "http://127.0.0.1:38080"
+).replace(/\/$/, "");
+
+function buildApiUrl(path: string) {
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+
+  if (transport === "direct") {
+    return `${backendBaseUrl}/api${normalizedPath}`;
+  }
+
+  return `/api/im${normalizedPath}`;
+}
+
+function withWorkspaceQuery(path: string, workspaceId?: string) {
+  if (!workspaceId) {
+    return path;
+  }
+
+  const separator = path.includes("?") ? "&" : "?";
+  return `${path}${separator}workspaceId=${encodeURIComponent(workspaceId)}`;
+}
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const response = await fetch(path, {
+  const response = await fetch(buildApiUrl(path), {
     ...init,
     headers: {
       "Content-Type": "application/json",
@@ -28,29 +52,35 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   return body.data;
 }
 
-export function listConversations() {
-  return request<Conversation[]>("/api/im/conversations");
+export function listConversations(workspaceId?: string) {
+  return request<Conversation[]>(withWorkspaceQuery("/conversations", workspaceId));
 }
 
-export function createConversation(title?: string) {
-  return request<Conversation>("/api/im/conversations", {
+export function createConversation({
+  title,
+  workspaceId
+}: {
+  title?: string;
+  workspaceId?: string;
+}) {
+  return request<Conversation>("/conversations", {
     method: "POST",
-    body: JSON.stringify({title})
+    body: JSON.stringify({title, workspaceId})
   });
 }
 
 export function deleteConversation(conversationId: string) {
-  return request<void>(`/api/im/conversations/${conversationId}`, {
+  return request<void>(`/conversations/${conversationId}`, {
     method: "DELETE"
   });
 }
 
 export function listMessages(conversationId: string) {
-  return request<Message[]>(`/api/im/conversations/${conversationId}/messages`);
+  return request<Message[]>(`/conversations/${conversationId}/messages`);
 }
 
 export function sendMessage(conversationId: string, content: string) {
-  return request<SendMessageResult>(`/api/im/conversations/${conversationId}/messages`, {
+  return request<SendMessageResult>(`/conversations/${conversationId}/messages`, {
     method: "POST",
     body: JSON.stringify({content})
   });

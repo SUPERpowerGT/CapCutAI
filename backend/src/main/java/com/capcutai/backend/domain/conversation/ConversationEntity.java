@@ -28,6 +28,9 @@ public class ConversationEntity {
     @Column(name = "session_id", nullable = false, length = 64)
     private String sessionId;
 
+    @Column(name = "workspace_id", length = 64)
+    private String workspaceId;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 32)
     private ConversationStatus status;
@@ -80,6 +83,14 @@ public class ConversationEntity {
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
+    }
+
+    public String getWorkspaceId() {
+        return workspaceId;
+    }
+
+    public void setWorkspaceId(String workspaceId) {
+        this.workspaceId = workspaceId;
     }
 
     public ConversationStatus getStatus() {

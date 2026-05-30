@@ -6,6 +6,7 @@ public record ConversationView(
         String conversationId,
         String userId,
         String sessionId,
+        String workspaceId,
         String title,
         String status,
         OffsetDateTime createdAt,

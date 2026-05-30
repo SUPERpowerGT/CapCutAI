@@ -48,6 +48,8 @@ export function ChatComposer({
     }
   };
 
+  const placeholder = "描述想分析、生成或修改的内容，按 Enter 发送";
+
   return (
     <div
       style={{
@@ -63,7 +65,7 @@ export function ChatComposer({
         onCompositionStart={handleCompositionStart}
         onCompositionEnd={handleCompositionEnd}
         onKeyDown={handlePromptKeyDown}
-        placeholder="描述想分析、生成或修改的内容，按 Enter 发送"
+        placeholder={placeholder}
         style={{
           width: "100%",
           minHeight: "72px",

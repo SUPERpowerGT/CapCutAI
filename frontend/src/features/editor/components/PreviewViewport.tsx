@@ -1,5 +1,6 @@
 type PreviewViewportProps = {
   title: string;
+  subtitle?: string;
 };
 
 const sectionLabelStyle = {
@@ -10,7 +11,7 @@ const sectionLabelStyle = {
   color: "#7d8792"
 };
 
-export function PreviewViewport({title}: PreviewViewportProps) {
+export function PreviewViewport({title, subtitle}: PreviewViewportProps) {
   return (
     <section
       style={{
@@ -54,6 +55,18 @@ export function PreviewViewport({title}: PreviewViewportProps) {
           <div style={{textAlign: "center", maxWidth: "520px"}}>
             <p style={{...sectionLabelStyle, color: "#98a5b2"}}>Live Preview</p>
             <h2 style={{margin: "8px 0 0", fontSize: "28px", lineHeight: 1.2}}>{title}</h2>
+            {subtitle ? (
+              <p
+                style={{
+                  margin: "8px 0 0",
+                  color: "#9fb0bf",
+                  fontSize: "13px",
+                  lineHeight: 1.6
+                }}
+              >
+                {subtitle}
+              </p>
+            ) : null}
             <p
               style={{
                 margin: "12px 0 0",

@@ -34,14 +34,19 @@ public class ConversationService {
         entity.setConversationId("conv_" + UUID.randomUUID());
         entity.setUserId(resolveUserId(request.userId()));
         entity.setSessionId(resolveSessionId(request.sessionId()));
+        entity.setWorkspaceId(resolveWorkspaceId(request.workspaceId()));
         entity.setTitle(request.title() == null || request.title().isBlank() ? "New Conversation" : request.title());
         entity.setStatus(ConversationStatus.ACTIVE);
         return toView(conversationRepository.save(entity));
     }
 
     @Transactional(readOnly = true)
-    public List<ConversationView> listConversations() {
-        return conversationRepository.findAllByOrderByUpdatedAtDesc()
+    public List<ConversationView> listConversations(String workspaceId) {
+        List<ConversationEntity> entities = workspaceId == null || workspaceId.isBlank()
+                ? conversationRepository.findAllByOrderByUpdatedAtDesc()
+                : conversationRepository.findAllByWorkspaceIdOrderByUpdatedAtDesc(workspaceId);
+
+        return entities
                 .stream()
                 .map(this::toView)
                 .toList();
@@ -72,6 +77,7 @@ public class ConversationService {
                 entity.getConversationId(),
                 entity.getUserId(),
                 entity.getSessionId(),
+                entity.getWorkspaceId(),
                 entity.getTitle(),
                 entity.getStatus().name(),
                 entity.getCreatedAt(),
@@ -89,5 +95,11 @@ public class ConversationService {
         return sessionId == null || sessionId.isBlank()
                 ? "sess_" + UUID.randomUUID()
                 : sessionId;
+    }
+
+    private String resolveWorkspaceId(String workspaceId) {
+        return workspaceId == null || workspaceId.isBlank()
+                ? "workspace_" + UUID.randomUUID()
+                : workspaceId;
     }
 }

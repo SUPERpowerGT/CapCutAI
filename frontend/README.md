@@ -14,10 +14,32 @@
 
 当前产品形态原则：
 
-- 当前阶段先做桌面工作台风格的 Web App
-- 后续目标是封装成 PC 客户端
-- 所以前端现在就要按桌面软件边界来组织
+- 当前前端就是客户端界面层
+- 默认运行形态是桌面客户端
+- 浏览器模式只保留开发 / 调试价值
+- 所以前端现在就按桌面软件边界来组织
 - 不是按普通网页聊天工具的思路来设计右侧 `IM`
+
+更准确地说：
+
+```txt
+一套 frontend
+Desktop Client 是默认使用形态
+Web 只用于开发 / 调试
+```
+
+当前推荐桌面路线：
+
+- 前端继续保留为界面层
+- 默认用 `Tauri` 跑成 macOS / PC 客户端
+- 不建议为了客户端直接推倒当前工作台结构
+- 当前已经补上第一版 `Tauri` 桌面壳
+- 当前已经能打出 `.app` 和 `.dmg`
+- 当前策略是 `Local-first, Cloud-ready`
+
+相关说明见：
+
+- [`../docs/desktop-client-plan/README.md`](../docs/desktop-client-plan/README.md)
 
 ## 当前主线
 
@@ -31,7 +53,7 @@ frontend 当前首页是一个固定工作台：
 
 这些区域都内嵌在固定 shell 里，后续会向 PC 客户端形态演进，并支持像 VS Code 一样拖动分栏。
 
-当前真正接了后端链路的只有 `Chat / IM` 部分。
+当前真正接了后端链路的只有右侧 `Agent / IM` 部分。
 
 当前推荐职责边界：
 
@@ -46,11 +68,90 @@ frontend 当前首页是一个固定工作台：
   - 管任务状态
   - 管分析 / 生成 / revision 指令
 
+当前桌面客户端心智还要再明确一层：
+
+```txt
+一个窗口 = 一个 workspace / project 上下文
+不是一个窗口 = 一个 chat session
+```
+
+也就是说，后面更合理的关系应该是：
+
+```txt
+Window
+  -> Workspace / Project
+    -> Assets
+    -> Conversation
+    -> Timeline / Output
+```
+
+这也是为什么现在前端已经开始收掉 “session UI”：
+
+- 后端可以继续保留 conversation 机制
+- 但前端窗口语义不应该继续按“聊天会话”去设计
+- 真正核心应该是当前项目、当前素材、当前时间轴、当前输出
+
+因此当前 `New` 按钮的产品语义也应该理解成：
+
+```txt
+创建新的工作上下文
+```
+
+而不是“新建一个聊天 session 标签”。
+
+再往前一步，默认更合理的客户端交互应该是：
+
+```txt
+Window -> New Window
+```
+
+也就是由桌面客户端新开一个窗口，对应一个新的 workspace / project 上下文。
+
 明确原则：
 
 ```txt
 上传主入口在左侧 Assets，不在右侧输入框。
 ```
+
+当前 `Assets` 这块也已经开始按桌面客户端方向组织：
+
+- 当前浏览器开发模式下先用本地文件选择器
+- 代码层已经抽了 `AssetPickerGateway`
+- 代码层也已经抽了 `AssetUploadGateway`
+- 后续切桌面客户端时，优先替换 picker 实现，不重写左侧面板 UI
+- 后续切云端资产系统时，优先替换 upload 实现，不重写左侧面板 UI
+- 当前选中的 `Reference / Source` 资产已经提升到工作台层
+- 当前工作上下文主要在左侧 `Assets` 面板里可见
+- 右侧 `Agent Panel` 不再镜像展示 `Reference / Source` 卡片，只负责任务输入和结果反馈
+
+## 当前 transport 设计
+
+为了后续顺滑切到桌面客户端，`IM` 请求层现在已经不再写死依赖 Next 代理。
+
+当前支持两种 transport：
+
+- `proxy`
+  - 默认值
+  - 前端走 Next route handlers，再转发到 backend
+  - 适合当前浏览器开发模式
+
+- `direct`
+  - 前端直接请求 backend
+  - 适合后续桌面客户端或本地直连模式
+
+对应环境变量：
+
+```txt
+NEXT_PUBLIC_IM_TRANSPORT=proxy | direct
+NEXT_PUBLIC_BACKEND_BASE_URL=http://127.0.0.1:38080
+```
+
+默认推荐：
+
+- 浏览器开发：`proxy`
+- 桌面客户端：`direct`
+
+当前 `IM` 请求层已经按这个思路抽象，所以后面切换 transport 不需要重写 `Chat` 组件，也不需要维护第二套前端。
 
 ## 目录结构
 
@@ -170,6 +271,32 @@ src/
 
 - [`src/server/backend-proxy.ts`](./src/server/backend-proxy.ts)
 
+这也意味着一件现实问题：
+
+```txt
+当前前端还不是可直接 static export 的纯静态界面。
+```
+
+因为现在仍然依赖 Next route handlers。
+
+后续要真正走 `Tauri` 客户端时，需要先把：
+
+- 代理逻辑
+- 纯 UI 渲染
+- 文件系统能力
+
+三者进一步拆开。
+
+当前已经完成第一步：
+
+- `IM` 请求支持 `proxy / direct` 双 transport
+
+当前桌面构建也已经可用：
+
+- 桌面开发模式：`npm run desktop:dev`
+- 桌面构建模式：`npm run desktop:build`
+- 桌面静态导出脚本：[`scripts/build-desktop.mjs`](./scripts/build-desktop.mjs)
+
 ## 本地运行
 
 先确保 backend / ai-service / postgres 已经启动：
@@ -203,11 +330,55 @@ NEXT_PUBLIC_BACKEND_BASE_URL
 http://127.0.0.1:38080
 ```
 
+## 桌面客户端运行
+
+当前默认建议这样跑客户端开发版，在 `frontend/` 里执行：
+
+```bash
+npm run desktop:dev
+```
+
+说明：
+
+- 这是开发模式
+- 会占用一个终端进程
+- 改代码后会重新编译
+- 不会往系统里重复安装新的 App
+
+如果你要直接打出 macOS 客户端产物：
+
+```bash
+npm run desktop:build
+```
+
+说明：
+
+- 这是打包模式
+- 会生成可直接打开的 `.app / .dmg`
+- 适合给自己或组员直接使用
+
+当前产物位置：
+
+- [`src-tauri/target/release/bundle/macos/CapCutAI.app`](./src-tauri/target/release/bundle/macos/CapCutAI.app)
+- [`src-tauri/target/release/bundle/dmg/CapCutAI_0.1.0_aarch64.dmg`](./src-tauri/target/release/bundle/dmg/CapCutAI_0.1.0_aarch64.dmg)
+
+当前即使已经打出了 `.app`，也仍然要先保证本地服务链已经启动：
+
+```bash
+ollama serve
+make up
+```
+
+也就是说现在的桌面版状态是：
+
+- 客户端界面已经落地
+- 但 `backend / ai-service / postgres / ollama` 仍是本地依赖
+
 ## 最小自检
 
 页面起来后，至少确认这几件事：
 
-1. 左侧能看到 `Assets` 占位面板
+1. 左侧能看到 `Assets` 面板
 2. 右侧能看到干净的 `Agent` 面板
 3. 点击 `New` 能开始新一轮对话
 4. 发消息后，用户消息会立刻出现
@@ -249,3 +420,4 @@ http://127.0.0.1:38080
 - [`../backend/README.md`](../backend/README.md)
 - [`../ai-service/README.md`](../ai-service/README.md)
 - [`../docs/im-optimization/README.md`](../docs/im-optimization/README.md)
+- [`../docs/desktop-client-plan/README.md`](../docs/desktop-client-plan/README.md)

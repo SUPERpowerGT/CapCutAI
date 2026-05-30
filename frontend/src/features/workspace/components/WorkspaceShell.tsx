@@ -1,9 +1,11 @@
 "use client";
 
 import {AssetsSidebar} from "../../assets/components/AssetsSidebar";
+import {useAssetsPanel} from "../../assets/hooks/use-assets-panel";
 import {EditorSurface} from "../../editor/components/EditorSurface";
 import {ChatPanel} from "../../im/components/ChatPanel";
 import {useImWorkspace} from "../../im/hooks/use-im-workspace";
+import {useWorkspaceContext} from "../hooks/use-workspace-context";
 import {useWorkspaceLayout} from "../hooks/use-workspace-layout";
 
 const appShellStyle = {
@@ -26,7 +28,9 @@ const frameStyle = {
 
 export function WorkspaceShell() {
   const layout = useWorkspaceLayout();
-  const imWorkspace = useImWorkspace();
+  const workspace = useWorkspaceContext();
+  const assetsPanel = useAssetsPanel();
+  const imWorkspace = useImWorkspace(workspace.workspaceContext.workspaceId);
 
   return (
     <main style={appShellStyle}>
@@ -35,12 +39,27 @@ export function WorkspaceShell() {
           style={{
             display: "flex",
             alignItems: "center",
+            justifyContent: "space-between",
+            gap: "16px",
             padding: "0 16px",
             background: "linear-gradient(180deg, #1b1f23 0%, #171a1d 100%)",
             borderBottom: "1px solid rgba(255,255,255,0.06)"
           }}
         >
-          <div style={{fontSize: "13px", fontWeight: 600, color: "#e9edf0"}}>CapCutAI</div>
+          <div style={{display: "grid", gap: "2px"}}>
+            <div style={{fontSize: "13px", fontWeight: 600, color: "#e9edf0"}}>CapCutAI</div>
+            <div style={{fontSize: "11px", color: "#8d96a0"}}>{workspace.workspaceContext.title}</div>
+          </div>
+          <div
+            style={{
+              fontSize: "11px",
+              color: "#7d8792",
+              letterSpacing: "0.08em",
+              textTransform: "uppercase"
+            }}
+          >
+            Desktop Workspace
+          </div>
         </header>
 
         <div
@@ -51,12 +70,34 @@ export function WorkspaceShell() {
             gridTemplateColumns: `${layout.leftPaneWidth}% 8px minmax(0, 1fr) 8px ${layout.rightPaneWidth}%`
           }}
         >
-          <AssetsSidebar />
+          <AssetsSidebar
+            workspaceTitle={workspace.workspaceContext.title}
+            referenceAssets={assetsPanel.referenceAssets}
+            sourceAssets={assetsPanel.sourceAssets}
+            selectedReferenceAssetId={assetsPanel.selectedReferenceAssetId}
+            selectedSourceAssetId={assetsPanel.selectedSourceAssetId}
+            isPicking={assetsPanel.isPicking}
+            isRegistering={assetsPanel.isRegistering}
+            error={assetsPanel.error}
+            onAddReferenceVideo={assetsPanel.addReferenceVideo}
+            onAddSourceVideo={assetsPanel.addSourceVideo}
+            onRemoveAsset={assetsPanel.removeAsset}
+            onSelectReferenceAsset={assetsPanel.selectReferenceAsset}
+            onSelectSourceAsset={assetsPanel.selectSourceAsset}
+          />
 
           <ResizeHandle direction="vertical" onMouseDown={layout.startLeftResize} />
 
           <EditorSurface
-            title={imWorkspace.activeConversation?.title ?? "New Conversation"}
+            title={workspace.workspaceContext.title}
+            subtitle={
+              assetsPanel.selectedReferenceAsset || assetsPanel.selectedSourceAsset
+                ? [
+                    assetsPanel.selectedReferenceAsset ? "Reference ready" : "Reference missing",
+                    assetsPanel.selectedSourceAsset ? "Source ready" : "Source missing"
+                  ].join(" · ")
+                : "Select reference and source assets to start the workflow"
+            }
             previewHeightPercent={layout.previewHeight}
             onResizeStart={layout.startHorizontalResize}
           />
@@ -78,7 +119,6 @@ export function WorkspaceShell() {
             messageEndRef={imWorkspace.messageEndRef}
             onPromptChange={imWorkspace.setPrompt}
             onSend={() => void imWorkspace.sendMessageAction()}
-            onCreateConversation={() => void imWorkspace.createConversationAction()}
           />
         </div>
       </section>
