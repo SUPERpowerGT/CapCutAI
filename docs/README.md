@@ -37,7 +37,11 @@ Cloud-ready
 1. [`mvp-video-pipeline/README.md`](./mvp-video-pipeline/README.md)
 2. [`style-analysis-design/README.md`](./style-analysis-design/README.md)
 3. [`style-editing-design/README.md`](./style-editing-design/README.md)
-4. [`ai-service-video-architecture/README.md`](./ai-service-video-architecture/README.md)
+4. [`source-material-handoff/README.md`](./source-material-handoff/README.md)
+5. [`editor-preview-export/README.md`](./editor-preview-export/README.md)
+6. [`agent-editing-tools/README.md`](./agent-editing-tools/README.md)
+7. [`hyperframes-draft-builder/README.md`](./hyperframes-draft-builder/README.md)
+8. [`ai-service-video-architecture/README.md`](./ai-service-video-architecture/README.md)
 
 ### 当前在做 agent / LangGraph
 
@@ -59,6 +63,11 @@ Cloud-ready
 - 视频 MVP 主线：[`mvp-video-pipeline/README.md`](./mvp-video-pipeline/README.md)
 - 风格分析设计：[`style-analysis-design/README.md`](./style-analysis-design/README.md)
 - 风格套用设计：[`style-editing-design/README.md`](./style-editing-design/README.md)
+- `source_material` 交接前提：[`source-material-handoff/README.md`](./source-material-handoff/README.md)
+- 剪辑器预览与导出：[`editor-preview-export/README.md`](./editor-preview-export/README.md)
+- Agent 编辑工具：[`agent-editing-tools/README.md`](./agent-editing-tools/README.md)
+- HyperFrames draft builder：[`hyperframes-draft-builder/README.md`](./hyperframes-draft-builder/README.md)
+- 本次剪辑器 MVP 变更记录：[`editor-mvp-change-summary/README.md`](./editor-mvp-change-summary/README.md)
 - ai-service 视频架构：[`ai-service-video-architecture/README.md`](./ai-service-video-architecture/README.md)
 - LangGraph 规范：[`langgraph-guideline/README.md`](./langgraph-guideline/README.md)
 - LLM 配置：[`agent-llm/README.md`](./agent-llm/README.md)

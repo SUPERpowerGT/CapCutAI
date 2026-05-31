@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://capcutai.local/schemas/editing-job.schema.json",
+  "title": "CapCutAI Editing Job",
+  "type": "object",
+  "required": [
+    "jobId",
+    "timelineId",
+    "renderer",
+    "status",
+    "compositionPath",
+    "outputPath",
+    "renderHints"
+  ],
+  "properties": {
+    "jobId": {
+      "type": "string"
+    },
+    "timelineId": {
+      "type": "string"
+    },
+    "renderer": {
+      "const": "hyperframes"
+    },
+    "status": {
+      "enum": ["draft", "queued", "rendering", "completed", "failed"]
+    },
+    "compositionPath": {
+      "type": "string"
+    },
+    "outputPath": {
+      "type": "string"
+    },
+    "renderHints": {
+      "type": "object",
+      "required": ["fps", "width", "height", "format"],
+      "properties": {
+        "fps": {
+          "type": "number",
+          "minimum": 1
+        },
+        "width": {
+          "type": "number",
+          "minimum": 1
+        },
+        "height": {
+          "type": "number",
+          "minimum": 1
+        },
+        "format": {
+          "const": "mp4"
+        }
+      }
+    }
+  }
+}

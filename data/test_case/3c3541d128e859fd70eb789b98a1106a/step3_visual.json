@@ -1,0 +1,17 @@
+{
+  "shots": [
+    {
+      "index": 0,
+      "start_ms": 0,
+      "end_ms": 17266,
+      "keyframe_path": "/mnt/tidal-alsh-share2/dataset/yekeming/project/AI4Video/outputs/pipeline/test_case/3c3541d128e859fd70eb789b98a1106a/keyframes/shot_000_0ms.jpg",
+      "shot_type": "A_ROLL_MEDIUM",
+      "content_type": "PRESENTER",
+      "emotional_tone": "CALM",
+      "b_roll_semantic_prompt": "两位游客在观景台眺望城市天际线，女士伸臂指向远方，背景是黄昏时分的江景与高楼群。",
+      "camera_motion_effect": "静态",
+      "editing_utility": "NARRATIVE_SUPPORT"
+    }
+  ],
+  "caption_info": null
+}

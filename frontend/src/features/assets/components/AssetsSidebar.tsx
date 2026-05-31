@@ -8,25 +8,19 @@ const mutedTextStyle = textStyles.bodySmall;
 
 type AssetsSidebarProps = {
   workspaceTitle: string;
-  referenceAssets: AssetItem[];
   sourceAssets: AssetItem[];
-  selectedReferenceAssetId: string | null;
   selectedSourceAssetId: string | null;
   isPicking: boolean;
   isRegistering: boolean;
   error: string | null;
-  onAddReferenceVideo: () => void;
   onAddSourceVideo: () => void;
   onRemoveAsset: (assetId: string) => void;
-  onSelectReferenceAsset: (assetId: string) => void;
   onSelectSourceAsset: (assetId: string) => void;
 };
 
 export function AssetsSidebar({
   workspaceTitle,
-  referenceAssets,
   sourceAssets,
-  selectedReferenceAssetId,
   selectedSourceAssetId,
   isPicking,
   isRegistering,
@@ -37,9 +31,6 @@ export function AssetsSidebar({
 }: AssetsSidebarProps) {
   const selectedSourceAsset =
     sourceAssets.find((item) => item.assetId === selectedSourceAssetId) ?? null;
-  const fallbackReferenceAsset =
-    referenceAssets.find((item) => item.assetId === selectedReferenceAssetId) ?? null;
-  const primaryAsset = selectedSourceAsset ?? fallbackReferenceAsset;
 
   return (
     <section
@@ -101,14 +92,19 @@ export function AssetsSidebar({
         {error ? <p style={{...mutedTextStyle, color: "#f2a3a3"}}>{error}</p> : null}
 
         <section style={{display: "grid", gap: "10px"}}>
-          <p style={sectionLabelStyle}>Current Video</p>
-          {primaryAsset ? (
-            <AssetCard
-              asset={primaryAsset}
-              isActive
-              onSelect={() => onSelectSourceAsset(primaryAsset.assetId)}
-              onRemove={() => onRemoveAsset(primaryAsset.assetId)}
-            />
+          <p style={sectionLabelStyle}>Source Videos</p>
+          {sourceAssets.length > 0 ? (
+            <div style={{display: "grid", gap: "10px"}}>
+              {sourceAssets.map((asset) => (
+                <AssetCard
+                  key={asset.assetId}
+                  asset={asset}
+                  isActive={asset.assetId === selectedSourceAsset?.assetId}
+                  onSelect={() => onSelectSourceAsset(asset.assetId)}
+                  onRemove={() => onRemoveAsset(asset.assetId)}
+                />
+              ))}
+            </div>
           ) : (
             <EmptyState />
           )}
@@ -173,7 +169,7 @@ function UploadPanel({
             {isBusy ? "Selecting..." : "上传视频"}
           </p>
           <p style={{...mutedTextStyle, maxWidth: "240px"}}>
-            选择一个本地视频作为当前工作素材。后续分析、生成和修订都围绕这条素材展开。
+            选择一个或多个本地视频作为当前工作素材。后续 agent 会基于这些素材生成剪辑任务。
           </p>
         </div>
         <p style={{...sectionLabelStyle, color: "#8d96a0", letterSpacing: "0.04em", textTransform: "none"}}>

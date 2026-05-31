@@ -86,17 +86,13 @@ export function WorkspaceShell() {
           {!layout.isLeftPaneCollapsed ? (
             <AssetsSidebar
               workspaceTitle={workspace.workspaceContext.title}
-              referenceAssets={assetsPanel.referenceAssets}
               sourceAssets={assetsPanel.sourceAssets}
-              selectedReferenceAssetId={assetsPanel.selectedReferenceAssetId}
               selectedSourceAssetId={assetsPanel.selectedSourceAssetId}
               isPicking={assetsPanel.isPicking}
               isRegistering={assetsPanel.isRegistering}
               error={assetsPanel.error}
-              onAddReferenceVideo={assetsPanel.addReferenceVideo}
               onAddSourceVideo={assetsPanel.addSourceVideo}
               onRemoveAsset={assetsPanel.removeAsset}
-              onSelectReferenceAsset={assetsPanel.selectReferenceAsset}
               onSelectSourceAsset={assetsPanel.selectSourceAsset}
             />
           ) : (
@@ -116,6 +112,9 @@ export function WorkspaceShell() {
                 ? "当前已加载本地视频，可以继续分析、生成或修订。"
                 : "先在左侧上传一个视频，预览区会立即显示本地画面。"
             }
+            workspaceId={workspace.workspaceContext.workspaceId}
+            sourceAssets={assetsPanel.sourceAssets}
+            selectedSourceAsset={assetsPanel.selectedSourceAsset}
             previewSource={
               assetsPanel.selectedSourceAsset
                 ? {

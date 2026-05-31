@@ -117,3 +117,15 @@ workspace 下的智能分析与产物生成归 ai-service
 - [`../docs/langgraph-guideline/README.md`](../docs/langgraph-guideline/README.md)
 - [`../docs/style-analysis-design/README.md`](../docs/style-analysis-design/README.md)
 - [`../docs/style-editing-design/README.md`](../docs/style-editing-design/README.md)
+
+## 当前可直接用的本地工具
+
+如果你已经拿到了 Editor 导出的 `*.editing-package.json`，现在可以先在本地生成一版 HyperFrames draft composition：
+
+```bash
+cd ai-service
+python -m app.tools.build_hyperframes_draft \
+  --package ../path/to/example.editing-package.json
+```
+
+默认会把产物写到 package 里的 `editingJob.compositionPath`。

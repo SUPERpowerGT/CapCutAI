@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://capcutai.local/schemas/editing-experience.schema.json",
+  "title": "CapCutAI Editing Experience",
+  "type": "object",
+  "required": [
+    "experienceId",
+    "styleId",
+    "category",
+    "styleName",
+    "pacingStyle",
+    "visualTheme",
+    "tags",
+    "sampleVideoDurationMs",
+    "storylinePhases",
+    "dynamicBeatCount"
+  ],
+  "properties": {
+    "experienceId": {
+      "type": "string"
+    },
+    "styleId": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "styleName": {
+      "type": "string"
+    },
+    "pacingStyle": {
+      "type": "string"
+    },
+    "visualTheme": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sampleVideoDurationMs": {
+      "type": "number",
+      "minimum": 0
+    },
+    "storylinePhases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["phaseId", "narrativeGoal", "startMs", "endMs", "durationMs"],
+        "properties": {
+          "phaseId": {
+            "type": "string"
+          },
+          "narrativeGoal": {
+            "type": "string"
+          },
+          "startMs": {
+            "type": "number",
+            "minimum": 0
+          },
+          "endMs": {
+            "type": "number",
+            "minimum": 0
+          },
+          "durationMs": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "dynamicBeatCount": {
+      "type": "number",
+      "minimum": 0
+    }
+  }
+}
