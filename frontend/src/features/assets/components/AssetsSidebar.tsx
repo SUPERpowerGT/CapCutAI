@@ -10,8 +10,8 @@ const mutedTextStyle = textStyles.bodySmall;
 type AssetsSidebarProps = {
   workspaceTitle: string;
   referenceAssets: AssetItem[];
-  sourceAssets: AssetItem[];
   selectedReferenceAssetId: string | null;
+  sourceAssets: AssetItem[];
   selectedSourceAssetId: string | null;
   isPicking: boolean;
   isRegistering: boolean;
@@ -26,8 +26,8 @@ type AssetsSidebarProps = {
 export function AssetsSidebar({
   workspaceTitle,
   referenceAssets,
-  sourceAssets,
   selectedReferenceAssetId,
+  sourceAssets,
   selectedSourceAssetId,
   isPicking,
   isRegistering,

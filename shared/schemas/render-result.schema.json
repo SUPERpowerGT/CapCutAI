@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://capcutai.local/schemas/render-result.schema.json",
+  "title": "CapCutAI Render Result",
+  "type": "object",
+  "required": ["renderId", "jobId", "status", "outputPath"],
+  "properties": {
+    "renderId": {
+      "type": "string"
+    },
+    "jobId": {
+      "type": "string"
+    },
+    "status": {
+      "enum": ["not_started", "queued", "rendering", "completed", "failed"]
+    },
+    "outputPath": {
+      "type": "string"
+    },
+    "previewAssetId": {
+      "type": "string"
+    },
+    "errorMessage": {
+      "type": "string"
+    }
+  }
+}

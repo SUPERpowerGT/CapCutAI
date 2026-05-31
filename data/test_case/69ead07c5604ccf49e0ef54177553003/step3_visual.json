@@ -1,0 +1,17 @@
+{
+  "shots": [
+    {
+      "index": 0,
+      "start_ms": 0,
+      "end_ms": 27266,
+      "keyframe_path": "/mnt/tidal-alsh-share2/dataset/yekeming/project/AI4Video/outputs/pipeline/test_case/69ead07c5604ccf49e0ef54177553003/keyframes/shot_000_0ms.jpg",
+      "shot_type": "A_ROLL_MEDIUM",
+      "content_type": "SCENE",
+      "emotional_tone": "NEUTRAL",
+      "b_roll_semantic_prompt": "城市广场人群漫步，灰调建筑与红黄花坛，自然光下日常街景",
+      "camera_motion_effect": "静态",
+      "editing_utility": "NARRATIVE_SUPPORT"
+    }
+  ],
+  "caption_info": null
+}

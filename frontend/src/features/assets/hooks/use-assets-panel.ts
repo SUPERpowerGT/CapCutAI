@@ -21,7 +21,9 @@ export function useAssetsPanel(workspaceId: string | null) {
   const [isPicking, setIsPicking] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [selectedReferenceAssetId, setSelectedReferenceAssetId] = useState<string | null>(null);
+  const [selectedReferenceAssetId, setSelectedReferenceAssetId] = useState<string | null>(
+    null
+  );
   const [selectedSourceAssetId, setSelectedSourceAssetId] = useState<string | null>(null);
   const assetsRef = useRef<AssetItem[]>([]);
 
@@ -136,7 +138,6 @@ export function useAssetsPanel(workspaceId: string | null) {
       if (slot === "REFERENCE") {
         setSelectedReferenceAssetId(firstPickedAsset.assetId);
       }
-
       if (slot === "SOURCE") {
         setSelectedSourceAssetId(firstPickedAsset.assetId);
       }
@@ -181,12 +182,11 @@ export function useAssetsPanel(workspaceId: string | null) {
       return currentAssets.filter((item) => item.assetId !== assetId);
     });
 
-    if (selectedReferenceAssetId === assetId) {
-      setSelectedReferenceAssetId(null);
-    }
-
     if (selectedSourceAssetId === assetId) {
       setSelectedSourceAssetId(null);
+    }
+    if (selectedReferenceAssetId === assetId) {
+      setSelectedReferenceAssetId(null);
     }
   }
 
@@ -228,8 +228,8 @@ export function useAssetsPanel(workspaceId: string | null) {
     referenceAssets,
     sourceAssets,
     selectedReferenceAssetId,
-    selectedSourceAssetId,
     selectedReferenceAsset,
+    selectedSourceAssetId,
     selectedSourceAsset,
     isPicking,
     isRegistering,

@@ -1,0 +1,90 @@
+{
+  "full_text": "At break of day, in hope we rise.We speak your name, we lift our eyes.Tune our hearts into your beat.Where we walk, there you'll be.With fire in our eyes, our lives a light.Your love untamed, it's blazing out.The streets will glow, forever bright.Your glory's breaking through the night.You will never fade away.Your love is here to stay.Promise sign in my life.Shining through me every day.You will never fade away.Your love is here to stay.Promise sign in my life.Shining through me every day.Every day!",
+  "sentences": [
+    {
+      "text": "At break of day, in hope we rise.",
+      "start_ms": 15700,
+      "end_ms": 19200
+    },
+    {
+      "text": "We speak your name, we lift our eyes.",
+      "start_ms": 19500,
+      "end_ms": 22800
+    },
+    {
+      "text": "Tune our hearts into your beat.",
+      "start_ms": 23200,
+      "end_ms": 26400
+    },
+    {
+      "text": "Where we walk, there you'll be.",
+      "start_ms": 26800,
+      "end_ms": 29800
+    },
+    {
+      "text": "With fire in our eyes, our lives a light.",
+      "start_ms": 30200,
+      "end_ms": 33400
+    },
+    {
+      "text": "Your love untamed, it's blazing out.",
+      "start_ms": 33700,
+      "end_ms": 36900
+    },
+    {
+      "text": "The streets will glow, forever bright.",
+      "start_ms": 37200,
+      "end_ms": 40200
+    },
+    {
+      "text": "Your glory's breaking through the night.",
+      "start_ms": 40500,
+      "end_ms": 43700
+    },
+    {
+      "text": "You will never fade away.",
+      "start_ms": 44100,
+      "end_ms": 46200
+    },
+    {
+      "text": "Your love is here to stay.",
+      "start_ms": 46500,
+      "end_ms": 48400
+    },
+    {
+      "text": "Promise sign in my life.",
+      "start_ms": 48700,
+      "end_ms": 50200
+    },
+    {
+      "text": "Shining through me every day.",
+      "start_ms": 50500,
+      "end_ms": 52400
+    },
+    {
+      "text": "You will never fade away.",
+      "start_ms": 52700,
+      "end_ms": 54800
+    },
+    {
+      "text": "Your love is here to stay.",
+      "start_ms": 55100,
+      "end_ms": 57000
+    },
+    {
+      "text": "Promise sign in my life.",
+      "start_ms": 57300,
+      "end_ms": 58800
+    },
+    {
+      "text": "Shining through me every day.",
+      "start_ms": 59100,
+      "end_ms": 60800
+    },
+    {
+      "text": "Every day!",
+      "start_ms": 60000,
+      "end_ms": 60800
+    }
+  ]
+}

@@ -142,8 +142,8 @@ export function WorkspaceShell() {
             <AssetsSidebar
               workspaceTitle={workspace.workspaceContext.title}
               referenceAssets={assetsPanel.referenceAssets}
-              sourceAssets={assetsPanel.sourceAssets}
               selectedReferenceAssetId={assetsPanel.selectedReferenceAssetId}
+              sourceAssets={assetsPanel.sourceAssets}
               selectedSourceAssetId={assetsPanel.selectedSourceAssetId}
               isPicking={assetsPanel.isPicking}
               isRegistering={assetsPanel.isRegistering}
@@ -171,6 +171,9 @@ export function WorkspaceShell() {
                 ? "当前已加载本地视频，可以继续分析、生成或修订。"
                 : "先在左侧上传一个视频，预览区会立即显示本地画面。"
             }
+            workspaceId={workspace.workspaceContext.workspaceId}
+            sourceAssets={assetsPanel.sourceAssets}
+            selectedSourceAsset={assetsPanel.selectedSourceAsset}
             previewSource={
               assetsPanel.selectedSourceAsset
                 ? {

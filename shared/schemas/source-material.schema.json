@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://capcutai.local/schemas/source-material.schema.json",
+  "title": "CapCutAI Source Material",
+  "type": "object",
+  "required": [
+    "sourceMaterialId",
+    "sourceCaseId",
+    "durationMs",
+    "bpm",
+    "beatsMs",
+    "dropsMs",
+    "transcript",
+    "visualShots"
+  ],
+  "properties": {
+    "sourceMaterialId": {
+      "type": "string"
+    },
+    "sourceCaseId": {
+      "type": "string"
+    },
+    "durationMs": {
+      "type": "number",
+      "minimum": 0
+    },
+    "bpm": {
+      "type": "number",
+      "minimum": 0
+    },
+    "beatsMs": {
+      "type": "array",
+      "items": {
+        "type": "number",
+        "minimum": 0
+      }
+    },
+    "dropsMs": {
+      "type": "array",
+      "items": {
+        "type": "number",
+        "minimum": 0
+      }
+    },
+    "transcript": {
+      "type": "object",
+      "required": ["fullText", "sentences"],
+      "properties": {
+        "fullText": {
+          "type": "string"
+        },
+        "sentences": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["text", "startMs", "endMs"],
+            "properties": {
+              "text": {
+                "type": "string"
+              },
+              "startMs": {
+                "type": "number",
+                "minimum": 0
+              },
+              "endMs": {
+                "type": "number",
+                "minimum": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "visualShots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "index",
+          "startMs",
+          "endMs",
+          "shotType",
+          "contentType",
+          "emotionalTone",
+          "semanticPrompt",
+          "cameraMotionEffect",
+          "editingUtility"
+        ],
+        "properties": {
+          "index": {
+            "type": "number",
+            "minimum": 0
+          },
+          "startMs": {
+            "type": "number",
+            "minimum": 0
+          },
+          "endMs": {
+            "type": "number",
+            "minimum": 0
+          },
+          "shotType": {
+            "type": "string"
+          },
+          "contentType": {
+            "type": "string"
+          },
+          "emotionalTone": {
+            "type": "string"
+          },
+          "semanticPrompt": {
+            "type": "string"
+          },
+          "cameraMotionEffect": {
+            "type": "string"
+          },
+          "editingUtility": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "optionalStyleHints": {
+      "type": "object",
+      "properties": {
+        "styleId": {
+          "type": "string"
+        },
+        "storylinePhaseCount": {
+          "type": "number",
+          "minimum": 0
+        },
+        "narrativeGoals": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
