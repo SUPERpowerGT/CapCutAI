@@ -1,0 +1,98 @@
+{
+  "style_metadata": {
+    "style_id": "urban-cinematic-montage",
+    "category": "Movie_Montage",
+    "driving_mode": "AUDIO_VISUAL_EMOTION",
+    "pacing_style": "HIGH_CONTRAST_FAST",
+    "visual_theme": "Natural_Outdoor",
+    "tags": [
+      "城市风光",
+      "缆车",
+      "高能节奏",
+      "卡点视频"
+    ],
+    "sample_video_total_duration_ms": 6036
+  },
+  "storyline_structure": [
+    {
+      "phase_id": "PHASE_INTRO",
+      "energy_level": "HIGH",
+      "narrative_goal": "建立城市氛围，引入视觉主轴",
+      "bgm_alignment_rule": "ALIGN_TO_FIRST_DROP",
+      "absolute_time_range": {
+        "start_ms": 0,
+        "end_ms": 1376,
+        "duration_ms": 1376
+      },
+      "relative_time_range": {
+        "start_ratio": 0.0,
+        "end_ratio": 0.228,
+        "duration_ratio": 0.228
+      }
+    },
+    {
+      "phase_id": "PHASE_BUILDUP",
+      "energy_level": "MEDIUM",
+      "narrative_goal": "节奏递进，情绪铺垫",
+      "bgm_alignment_rule": "ALIGN_TO_SECOND_DROP",
+      "absolute_time_range": {
+        "start_ms": 1376,
+        "end_ms": 5280,
+        "duration_ms": 3904
+      },
+      "relative_time_range": {
+        "start_ratio": 0.228,
+        "end_ratio": 0.8748,
+        "duration_ratio": 0.6468
+      }
+    },
+    {
+      "phase_id": "PHASE_CLIMAX",
+      "energy_level": "PEAK",
+      "narrative_goal": "情绪释放，视觉收束",
+      "bgm_alignment_rule": "ALIGN_TO_FADE_OUT",
+      "absolute_time_range": {
+        "start_ms": 5280,
+        "end_ms": 6036,
+        "duration_ms": 756
+      },
+      "relative_time_range": {
+        "start_ratio": 0.8748,
+        "end_ratio": 1.0,
+        "duration_ratio": 0.1252
+      }
+    }
+  ],
+  "visual_assets_rule": {
+    "main_caption": {
+      "font_family_type": "Sans-Serif-Bold",
+      "css_style": "font-size: 48px; color: #ffffff; font-weight: bold;",
+      "position_y_percentage": 85,
+      "highlight_strategy": "核心词使用黄色#FFD700加粗"
+    },
+    "global_overlays": []
+  },
+  "dynamic_pacing_blueprint": [
+    {
+      "belong_to_phase": "PHASE_INTRO",
+      "absolute_trigger_ms": 0,
+      "relative_beat_offset": 0,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "城市江景缆车，灰天背景下高楼林立，红色缆车悬空，前景有行人与装饰灯柱。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "WHOOSH",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    }
+  ]
+}
