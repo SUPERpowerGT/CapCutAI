@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://capcutai.local/schemas/timeline-plan.schema.json",
+  "title": "CapCutAI Timeline Plan",
+  "type": "object",
+  "required": [
+    "timelineId",
+    "workspaceId",
+    "styleId",
+    "sourceAssetIds",
+    "sourceMaterialIds",
+    "targetDurationMs",
+    "tracks"
+  ],
+  "properties": {
+    "timelineId": {
+      "type": "string"
+    },
+    "workspaceId": {
+      "type": "string"
+    },
+    "styleId": {
+      "type": "string"
+    },
+    "sourceAssetIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sourceMaterialIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "targetDurationMs": {
+      "type": "number",
+      "minimum": 0
+    },
+    "tracks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/track"
+      }
+    }
+  },
+  "$defs": {
+    "track": {
+      "type": "object",
+      "required": ["trackId", "type", "clips"],
+      "properties": {
+        "trackId": {
+          "type": "string"
+        },
+        "type": {
+          "enum": ["video", "subtitle", "overlay", "audio"]
+        },
+        "clips": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/clip"
+          }
+        }
+      }
+    },
+    "clip": {
+      "type": "object",
+      "required": ["clipId", "type", "startMs", "durationMs", "label"],
+      "properties": {
+        "clipId": {
+          "type": "string"
+        },
+        "assetId": {
+          "type": "string"
+        },
+        "sourceMaterialId": {
+          "type": "string"
+        },
+        "type": {
+          "enum": ["video", "subtitle", "overlay", "audio"]
+        },
+        "startMs": {
+          "type": "number",
+          "minimum": 0
+        },
+        "durationMs": {
+          "type": "number",
+          "minimum": 0
+        },
+        "sourceStartMs": {
+          "type": "number",
+          "minimum": 0
+        },
+        "label": {
+          "type": "string"
+        },
+        "phaseId": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

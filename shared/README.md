@@ -43,14 +43,21 @@
 
 ```txt
 shared/
-└── openapi/
-    ├── frontend-backend.openapi.yaml
-    └── backend-ai.openapi.yaml
+├── openapi/
+│   ├── frontend-backend.openapi.yaml
+│   └── backend-ai.openapi.yaml
+└── schemas/
+    ├── source-material.schema.json
+    ├── editing-experience.schema.json
+    ├── timeline-plan.schema.json
+    ├── editing-job.schema.json
+    ├── render-result.schema.json
+    └── hyperframes-composition-draft.schema.json
 ```
 
 ## 当前重点
 
-当前 `shared/` 的重点已经不是 timeline，而是：
+当前 `shared/openapi/` 的重点是：
 
 ```txt
 conversation / message / agent-response
@@ -61,6 +68,31 @@ conversation / message / agent-response
 - 前端怎么调 backend
 - backend 怎么调 ai-service
 - 大家共同依赖哪些字段名、响应结构、状态值
+
+当前 `shared/schemas/` 开始补剪辑器与 agent editing tools 的共享协议：
+
+- `source-material.schema.json`
+  - 表达 analyzer 对用户上传视频做完结构化理解后的结果
+  - 是 planner 和 HyperFrames 前置链路的关键输入
+  - 可以包含可选 style hints，但不建议把这部分作为硬依赖
+
+- `editing-experience.schema.json`
+  - 表达从爆款视频经验中沉淀出来的可复用风格经验
+  - 当前可由 `data/elastic_template.json` mock 转换得到
+
+- `timeline-plan.schema.json`
+  - 表达 agent 规划出来的多轨剪辑计划
+  - 前端 Editor 用它做预览，HyperFrames adapter 用它做 composition 输入
+
+- `editing-job.schema.json`
+  - 表达交给 HyperFrames 执行层的渲染任务
+
+- `render-result.schema.json`
+  - 表达最终导出结果或渲染状态
+
+- `hyperframes-composition-draft.schema.json`
+  - 表达 `timelinePlan` 进一步转换后的 HyperFrames draft composition
+  - 给 Codex / Cursor / agent 继续生成真实 render composition 使用
 
 ## 规则
 

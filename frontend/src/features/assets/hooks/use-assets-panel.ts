@@ -16,7 +16,6 @@ export function useAssetsPanel(workspaceId: string | null) {
   const [isPicking, setIsPicking] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [selectedReferenceAssetId, setSelectedReferenceAssetId] = useState<string | null>(null);
   const [selectedSourceAssetId, setSelectedSourceAssetId] = useState<string | null>(null);
   const assetsRef = useRef<AssetItem[]>([]);
 
@@ -55,7 +54,8 @@ export function useAssetsPanel(workspaceId: string | null) {
       const pickedAssets = await browserAssetPickerGateway.pickAssets({
         workspaceId,
         slot,
-        accept: browserVideoAccept
+        accept: browserVideoAccept,
+        multiple: slot === "SOURCE"
       });
 
       if (pickedAssets.length === 0) {
@@ -69,10 +69,6 @@ export function useAssetsPanel(workspaceId: string | null) {
 
       setAssets((currentAssets) => sortAssets([...registeringAssets, ...currentAssets]));
       const [firstPickedAsset] = pickedAssets;
-      if (slot === "REFERENCE") {
-        setSelectedReferenceAssetId(firstPickedAsset.assetId);
-      }
-
       if (slot === "SOURCE") {
         setSelectedSourceAssetId(firstPickedAsset.assetId);
       }
@@ -108,10 +104,6 @@ export function useAssetsPanel(workspaceId: string | null) {
       return currentAssets.filter((item) => item.assetId !== assetId);
     });
 
-    if (selectedReferenceAssetId === assetId) {
-      setSelectedReferenceAssetId(null);
-    }
-
     if (selectedSourceAssetId === assetId) {
       setSelectedSourceAssetId(null);
     }
@@ -126,24 +118,15 @@ export function useAssetsPanel(workspaceId: string | null) {
 
     assetsRef.current = [];
     setAssets([]);
-    setSelectedReferenceAssetId(null);
     setSelectedSourceAssetId(null);
     setError(null);
     setIsPicking(false);
     setIsRegistering(false);
   }
 
-  const referenceAssets = useMemo(
-    () => assets.filter((item) => item.slot === "REFERENCE"),
-    [assets]
-  );
   const sourceAssets = useMemo(
     () => assets.filter((item) => item.slot === "SOURCE"),
     [assets]
-  );
-  const selectedReferenceAsset = useMemo(
-    () => referenceAssets.find((item) => item.assetId === selectedReferenceAssetId) ?? null,
-    [referenceAssets, selectedReferenceAssetId]
   );
   const selectedSourceAsset = useMemo(
     () => sourceAssets.find((item) => item.assetId === selectedSourceAssetId) ?? null,
@@ -152,20 +135,15 @@ export function useAssetsPanel(workspaceId: string | null) {
 
   return {
     assets,
-    referenceAssets,
     sourceAssets,
-    selectedReferenceAssetId,
     selectedSourceAssetId,
-    selectedReferenceAsset,
     selectedSourceAsset,
     isPicking,
     isRegistering,
     error,
-    addReferenceVideo: () => addVideo("REFERENCE"),
     addSourceVideo: () => addVideo("SOURCE"),
     removeAsset,
     resetAssets,
-    selectReferenceAsset: setSelectedReferenceAssetId,
     selectSourceAsset: setSelectedSourceAssetId
   };
 }

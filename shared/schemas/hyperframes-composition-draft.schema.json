@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://capcutai.local/schemas/hyperframes-composition-draft.schema.json",
+  "title": "CapCutAI HyperFrames Composition Draft",
+  "type": "object",
+  "required": [
+    "compositionId",
+    "timelineId",
+    "renderer",
+    "durationMs",
+    "fps",
+    "width",
+    "height",
+    "totalFrames",
+    "scenes"
+  ],
+  "properties": {
+    "compositionId": {
+      "type": "string"
+    },
+    "timelineId": {
+      "type": "string"
+    },
+    "renderer": {
+      "const": "hyperframes"
+    },
+    "durationMs": {
+      "type": "number",
+      "minimum": 0
+    },
+    "fps": {
+      "type": "number",
+      "minimum": 1
+    },
+    "width": {
+      "type": "number",
+      "minimum": 1
+    },
+    "height": {
+      "type": "number",
+      "minimum": 1
+    },
+    "totalFrames": {
+      "type": "number",
+      "minimum": 1
+    },
+    "scenes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/scene"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "scene": {
+      "type": "object",
+      "required": [
+        "sceneId",
+        "assetId",
+        "sourceMaterialId",
+        "assetName",
+        "timelineStartMs",
+        "durationMs",
+        "sourceStartMs",
+        "label",
+        "subtitleTexts",
+        "overlayTexts",
+        "audioCueLabels"
+      ],
+      "properties": {
+        "sceneId": {
+          "type": "string"
+        },
+        "assetId": {
+          "type": "string"
+        },
+        "sourceMaterialId": {
+          "type": "string"
+        },
+        "assetName": {
+          "type": "string"
+        },
+        "assetObjectUrl": {
+          "type": "string"
+        },
+        "previewImagePath": {
+          "type": "string"
+        },
+        "timelineStartMs": {
+          "type": "number",
+          "minimum": 0
+        },
+        "durationMs": {
+          "type": "number",
+          "minimum": 0
+        },
+        "sourceStartMs": {
+          "type": "number",
+          "minimum": 0
+        },
+        "label": {
+          "type": "string"
+        },
+        "subtitleTexts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "overlayTexts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "audioCueLabels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
