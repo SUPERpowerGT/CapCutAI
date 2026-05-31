@@ -61,6 +61,20 @@ source "$HOME/.cargo/env"
 npm run desktop:build
 ```
 
+如果 `npm run desktop:dev` 报：
+
+```txt
+listen EPERM: operation not permitted 127.0.0.1:3001
+```
+
+通常是当前终端环境不允许本地监听端口。先在普通本地终端里单独执行：
+
+```bash
+npm run desktop:web-dev
+```
+
+确认能看到 `Local: http://127.0.0.1:3001`，再回到 `npm run desktop:dev`。
+
 ## 当前心智
 
 ```txt

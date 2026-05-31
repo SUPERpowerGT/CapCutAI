@@ -25,6 +25,7 @@ export function useAssetsPanel(workspaceId: string | null) {
     null
   );
   const [selectedSourceAssetId, setSelectedSourceAssetId] = useState<string | null>(null);
+  const [previewAssetId, setPreviewAssetId] = useState<string | null>(null);
   const assetsRef = useRef<AssetItem[]>([]);
 
   useEffect(() => {
@@ -76,6 +77,7 @@ export function useAssetsPanel(workspaceId: string | null) {
         const restoredSource = sortedAssets.find((item) => item.slot === "SOURCE");
         setSelectedReferenceAssetId(restoredReference?.assetId ?? null);
         setSelectedSourceAssetId(restoredSource?.assetId ?? null);
+        setPreviewAssetId(restoredSource?.assetId ?? restoredReference?.assetId ?? null);
       } catch {
         if (!disposed) {
           setError("读取当前工作区素材失败，请稍后重试。");
@@ -137,9 +139,11 @@ export function useAssetsPanel(workspaceId: string | null) {
       const [firstPickedAsset] = pickedAssets;
       if (slot === "REFERENCE") {
         setSelectedReferenceAssetId(firstPickedAsset.assetId);
+        setPreviewAssetId(firstPickedAsset.assetId);
       }
       if (slot === "SOURCE") {
         setSelectedSourceAssetId(firstPickedAsset.assetId);
+        setPreviewAssetId(firstPickedAsset.assetId);
       }
 
       setIsRegistering(true);
@@ -165,6 +169,13 @@ export function useAssetsPanel(workspaceId: string | null) {
 
   async function removeAsset(assetId: string) {
     const assetToRemove = assetsRef.current.find((item) => item.assetId === assetId);
+    const remainingSourceAssets = assetsRef.current.filter(
+      (item) => item.slot === "SOURCE" && item.assetId !== assetId
+    );
+    const remainingReferenceAssets = assetsRef.current.filter(
+      (item) => item.slot === "REFERENCE" && item.assetId !== assetId
+    );
+
     if (assetToRemove?.workspaceFilePath && isDesktopRuntime()) {
       try {
         await deleteWorkspaceAsset(assetToRemove.workspaceFilePath);
@@ -183,10 +194,15 @@ export function useAssetsPanel(workspaceId: string | null) {
     });
 
     if (selectedSourceAssetId === assetId) {
-      setSelectedSourceAssetId(null);
+      setSelectedSourceAssetId(remainingSourceAssets[0]?.assetId ?? null);
     }
     if (selectedReferenceAssetId === assetId) {
-      setSelectedReferenceAssetId(null);
+      setSelectedReferenceAssetId(remainingReferenceAssets[0]?.assetId ?? null);
+    }
+    if (previewAssetId === assetId) {
+      setPreviewAssetId(
+        remainingSourceAssets[0]?.assetId ?? remainingReferenceAssets[0]?.assetId ?? null
+      );
     }
   }
 
@@ -201,6 +217,7 @@ export function useAssetsPanel(workspaceId: string | null) {
     setAssets([]);
     setSelectedReferenceAssetId(null);
     setSelectedSourceAssetId(null);
+    setPreviewAssetId(null);
     setError(null);
     setIsPicking(false);
     setIsRegistering(false);
@@ -222,6 +239,20 @@ export function useAssetsPanel(workspaceId: string | null) {
     () => sourceAssets.find((item) => item.assetId === selectedSourceAssetId) ?? null,
     [selectedSourceAssetId, sourceAssets]
   );
+  const selectedPreviewAsset = useMemo(
+    () => assets.find((item) => item.assetId === previewAssetId) ?? null,
+    [assets, previewAssetId]
+  );
+
+  function selectReferenceAsset(assetId: string | null) {
+    setSelectedReferenceAssetId(assetId);
+    setPreviewAssetId(assetId);
+  }
+
+  function selectSourceAsset(assetId: string | null) {
+    setSelectedSourceAssetId(assetId);
+    setPreviewAssetId(assetId);
+  }
 
   return {
     assets,
@@ -231,6 +262,8 @@ export function useAssetsPanel(workspaceId: string | null) {
     selectedReferenceAsset,
     selectedSourceAssetId,
     selectedSourceAsset,
+    selectedPreviewAssetId: selectedPreviewAsset?.assetId ?? null,
+    selectedPreviewAsset,
     isPicking,
     isRegistering,
     error,
@@ -238,7 +271,7 @@ export function useAssetsPanel(workspaceId: string | null) {
     addSourceVideo: () => addVideo("SOURCE"),
     removeAsset,
     resetAssets,
-    selectReferenceAsset: setSelectedReferenceAssetId,
-    selectSourceAsset: setSelectedSourceAssetId
+    selectReferenceAsset,
+    selectSourceAsset
   };
 }

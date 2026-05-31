@@ -1,6 +1,7 @@
 use std::{
   fs,
   path::{Path, PathBuf},
+  process::Command,
   time::{SystemTime, UNIX_EPOCH},
 };
 
@@ -554,6 +555,62 @@ fn delete_workspace_asset(workspace_file_path: String) -> Result<(), String> {
 }
 
 #[tauri::command]
+fn read_workspace_asset_bytes(workspace_file_path: String) -> Result<Vec<u8>, String> {
+  let path = PathBuf::from(&workspace_file_path);
+  if !path.exists() {
+    return Err(format!("asset does not exist: {}", path.display()));
+  }
+
+  fs::read(&path).map_err(|error| format!("failed to read {}: {error}", path.display()))
+}
+
+#[tauri::command]
+fn open_workspace_asset_location(workspace_file_path: String) -> Result<(), String> {
+  let path = PathBuf::from(&workspace_file_path);
+  if !path.exists() {
+    return Err(format!("asset does not exist: {}", path.display()));
+  }
+
+  #[cfg(target_os = "macos")]
+  {
+    Command::new("open")
+      .arg("-R")
+      .arg(&path)
+      .status()
+      .map_err(|error| format!("failed to reveal {}: {error}", path.display()))?;
+    return Ok(());
+  }
+
+  #[cfg(target_os = "windows")]
+  {
+    Command::new("explorer")
+      .arg("/select,")
+      .arg(&path)
+      .status()
+      .map_err(|error| format!("failed to reveal {}: {error}", path.display()))?;
+    return Ok(());
+  }
+
+  #[cfg(target_os = "linux")]
+  {
+    let parent = path
+      .parent()
+      .ok_or_else(|| format!("asset has no parent directory: {}", path.display()))?;
+    Command::new("xdg-open")
+      .arg(parent)
+      .status()
+      .map_err(|error| format!("failed to open {}: {error}", parent.display()))?;
+    return Ok(());
+  }
+
+  #[allow(unreachable_code)]
+  Err(format!(
+    "opening file location is not supported on this platform: {}",
+    path.display()
+  ))
+}
+
+#[tauri::command]
 fn list_workspace_assets<R: Runtime>(
   app: AppHandle<R>,
   workspace_id: String,
@@ -591,6 +648,8 @@ pub fn run() {
       create_workspace,
       persist_workspace_asset,
       delete_workspace_asset,
+      read_workspace_asset_bytes,
+      open_workspace_asset_location,
       list_workspace_assets
     ])
     .on_menu_event(|app, event| {

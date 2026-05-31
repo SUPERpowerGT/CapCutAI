@@ -132,6 +132,33 @@ cd frontend
 npm run desktop:dev
 ```
 
+### `npm run desktop:dev` 提示 `listen EPERM: operation not permitted 127.0.0.1:3001`
+
+这通常不是 Tauri 本身坏了，而是当前终端环境不允许本地监听端口。
+
+先确认你是在普通本地终端里运行，而不是受限沙箱 / 受限远程环境里运行。
+
+然后在：
+
+```bash
+cd frontend
+npm run desktop:web-dev
+```
+
+单独验证前端 dev server 能不能起来。
+
+如果这里能正常看到：
+
+```txt
+Local: http://127.0.0.1:3001
+```
+
+再回到：
+
+```bash
+npm run desktop:dev
+```
+
 ### `npm run desktop:dev` 在哪里执行
 
 必须在：

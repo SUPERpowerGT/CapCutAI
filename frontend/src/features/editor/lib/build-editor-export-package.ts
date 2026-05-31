@@ -6,7 +6,8 @@ import type {
   RenderResult,
   SourceMaterial,
   TimelinePlan,
-  TimelinePlanClip
+  TimelinePlanClip,
+  WorkspaceTimelineClip
 } from "../types/editor-preview";
 
 function toMs(seconds?: number) {
@@ -23,7 +24,34 @@ function getMaterialOffsetMs(sourceMaterials: SourceMaterial[], materialIndex: n
     .reduce((total, material) => total + Math.max(0, material.durationMs), 0);
 }
 
-function buildVideoClips(sourceAssets: AssetItem[], sourceMaterials: SourceMaterial[]) {
+function buildVideoClips(
+  sourceAssets: AssetItem[],
+  sourceMaterials: SourceMaterial[],
+  workspaceTimelineClips: WorkspaceTimelineClip[]
+) {
+  if (workspaceTimelineClips.length > 0) {
+    return [...workspaceTimelineClips]
+      .sort((left, right) => left.timelineStartMs - right.timelineStartMs)
+      .map((clip): TimelinePlanClip => {
+      const asset = sourceAssets.find((item) => item.assetId === clip.assetId);
+      const timelineClip: TimelinePlanClip = {
+        clipId: clip.clipId,
+        assetId: clip.assetId,
+        type: "video",
+        startMs: clip.timelineStartMs,
+        durationMs: clip.durationMs,
+        sourceStartMs: clip.sourceStartMs,
+        label: clip.label
+      };
+
+      if (asset) {
+        timelineClip.label = `${asset.name} · ${clip.label}`;
+      }
+
+      return timelineClip;
+    });
+  }
+
   if (sourceAssets.length === 0 || sourceMaterials.length === 0) {
     return [];
   }
@@ -111,19 +139,28 @@ export function buildTimelinePlan({
   workspaceId,
   sourceAssets,
   experience,
-  sourceMaterials
+  sourceMaterials,
+  workspaceTimelineClips = []
 }: {
   workspaceId: string;
   sourceAssets: AssetItem[];
   experience: EditingExperience;
   sourceMaterials: SourceMaterial[];
+  workspaceTimelineClips?: WorkspaceTimelineClip[];
 }): TimelinePlan {
   const assetDurationMs = sourceAssets.reduce((total, asset) => total + toMs(asset.durationSeconds), 0);
   const sourceMaterialDurationMs = sourceMaterials.reduce(
     (total, sourceMaterial) => total + Math.max(0, sourceMaterial.durationMs),
     0
   );
+  const workspaceTimelineDurationMs = workspaceTimelineClips.reduce(
+    (maxDurationMs, clip) => Math.max(maxDurationMs, clip.timelineStartMs + Math.max(0, clip.durationMs)),
+    0
+  );
   const targetDurationMs =
+    workspaceTimelineDurationMs > 0
+      ? workspaceTimelineDurationMs
+      :
     sourceMaterialDurationMs > 0
       ? sourceMaterialDurationMs
       : experience.sampleVideoDurationMs > 0
@@ -138,14 +175,17 @@ export function buildTimelinePlan({
     timelineId,
     workspaceId,
     styleId: experience.styleId,
-    sourceAssetIds: sourceAssets.map((asset) => asset.assetId),
+    sourceAssetIds:
+      workspaceTimelineClips.length > 0
+        ? Array.from(new Set(workspaceTimelineClips.map((clip) => clip.assetId)))
+        : sourceAssets.map((asset) => asset.assetId),
     sourceMaterialIds: sourceMaterials.map((sourceMaterial) => sourceMaterial.sourceMaterialId),
     targetDurationMs,
     tracks: [
       {
         trackId: "track_video_main",
         type: "video",
-        clips: buildVideoClips(sourceAssets, sourceMaterials)
+        clips: buildVideoClips(sourceAssets, sourceMaterials, workspaceTimelineClips)
       },
       {
         trackId: "track_caption_main",
@@ -197,16 +237,24 @@ export function buildEditorExportPackage({
   workspaceId,
   sourceAssets,
   selectedSourceAsset,
+  workspaceTimelineClips = [],
   experience,
   sourceMaterials
 }: {
   workspaceId: string;
   sourceAssets: AssetItem[];
   selectedSourceAsset: AssetItem | null;
+  workspaceTimelineClips?: WorkspaceTimelineClip[];
   experience: EditingExperience;
   sourceMaterials: SourceMaterial[];
 }): EditorExportPackage {
-  const timelinePlan = buildTimelinePlan({workspaceId, sourceAssets, experience, sourceMaterials});
+  const timelinePlan = buildTimelinePlan({
+    workspaceId,
+    sourceAssets,
+    experience,
+    sourceMaterials,
+    workspaceTimelineClips
+  });
   const editingJob = buildEditingJob(timelinePlan);
 
   return {

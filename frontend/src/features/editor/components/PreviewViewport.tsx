@@ -1,11 +1,22 @@
 import {useEffect, useMemo, useRef, useState} from "react";
 import {textStyles} from "../../../shared/design/typography";
 import type {AssetItem} from "../../assets/types/assets";
-import type {EditingExperience, SourceMaterial} from "../types/editor-preview";
+import type {EditingExperience, SourceMaterial, WorkspaceTimelineClip} from "../types/editor-preview";
 
 type PreviewViewportProps = {
   title: string;
   subtitle?: string;
+  previewMode: "asset" | "timeline";
+  timelineAssets: AssetItem[];
+  timelineClips: WorkspaceTimelineClip[];
+  selectedTimelineClipId: string | null;
+  timelineElapsedMs: number;
+  isTimelinePlaybackActive: boolean;
+  onTimelineElapsedMsChange: (elapsedMs: number) => void;
+  onTimelinePlaybackActiveChange: (isActive: boolean) => void;
+  onActiveTimelineClipChange: (clipId: string | null) => void;
+  onRequestTimelinePreview: () => void;
+  selectedPreviewAsset: AssetItem | null;
   selectedSourceAsset: AssetItem | null;
   sourceAssetCount: number;
   editingExperience: EditingExperience;
@@ -24,31 +35,69 @@ export function PreviewViewport({
   title,
   subtitle,
   previewSource,
+  previewMode,
+  timelineAssets,
+  timelineClips,
+  selectedTimelineClipId,
+  timelineElapsedMs,
+  isTimelinePlaybackActive,
+  onTimelineElapsedMsChange,
+  onTimelinePlaybackActiveChange,
+  onActiveTimelineClipChange,
+  onRequestTimelinePreview,
+  selectedPreviewAsset,
   selectedSourceAsset,
   sourceAssetCount,
   editingExperience,
   sourceMaterials
 }: PreviewViewportProps) {
-  const sourceMaterialCount = sourceMaterials.length;
-  const totalShotCount = sourceMaterials.reduce(
-    (total, sourceMaterial) => total + sourceMaterial.visualShots.length,
-    0
-  );
-  const totalSentenceCount = sourceMaterials.reduce(
-    (total, sourceMaterial) => total + sourceMaterial.transcript.sentences.length,
-    0
-  );
-  const totalDropCount = sourceMaterials.reduce(
-    (total, sourceMaterial) => total + sourceMaterial.dropsMs.length,
-    0
-  );
   const [previewScaleMode, setPreviewScaleMode] = useState<PreviewScaleMode>("contain");
+  const [activeTimelineClipId, setActiveTimelineClipId] = useState<string | null>(null);
   const previewFrameRef = useRef<HTMLDivElement>(null);
+  const timelineVideoRef = useRef<HTMLVideoElement>(null);
   const [previewFrameSize, setPreviewFrameSize] = useState({width: 0, height: 0});
+  const orderedTimelineClips = useMemo(
+    () => [...timelineClips].sort((left, right) => left.timelineStartMs - right.timelineStartMs),
+    [timelineClips]
+  );
+  const timelineDurationMs = orderedTimelineClips.reduce(
+    (maxDurationMs, clip) => Math.max(maxDurationMs, clip.timelineStartMs + clip.durationMs),
+    0
+  );
+  const activeTimelineClip =
+    orderedTimelineClips.find((clip) => clip.clipId === activeTimelineClipId) ??
+    orderedTimelineClips.find((clip) => clip.clipId === selectedTimelineClipId) ??
+    orderedTimelineClips.find(
+      (clip) =>
+        timelineElapsedMs >= clip.timelineStartMs &&
+        timelineElapsedMs < clip.timelineStartMs + clip.durationMs
+    ) ??
+    orderedTimelineClips[0] ??
+    null;
+  const activeTimelineAsset = activeTimelineClip
+    ? timelineAssets.find((asset) => asset.assetId === activeTimelineClip.assetId) ?? null
+    : null;
+  const isTimelinePreviewVisible =
+    previewMode === "timeline" && Boolean(activeTimelineClip && activeTimelineAsset?.objectUrl);
   const mediaAspectRatio =
-    selectedSourceAsset?.frameWidth && selectedSourceAsset?.frameHeight
-      ? selectedSourceAsset.frameWidth / selectedSourceAsset.frameHeight
+    isTimelinePreviewVisible && activeTimelineAsset?.frameWidth && activeTimelineAsset?.frameHeight
+      ? activeTimelineAsset.frameWidth / activeTimelineAsset.frameHeight
+      : selectedPreviewAsset?.frameWidth && selectedPreviewAsset?.frameHeight
+      ? selectedPreviewAsset.frameWidth / selectedPreviewAsset.frameHeight
       : 16 / 9;
+
+  useEffect(() => {
+    if (!orderedTimelineClips.length) {
+      onTimelinePlaybackActiveChange(false);
+      setActiveTimelineClipId(null);
+      onTimelineElapsedMsChange(0);
+      return;
+    }
+
+    if (selectedTimelineClipId) {
+      setActiveTimelineClipId(selectedTimelineClipId);
+    }
+  }, [onTimelineElapsedMsChange, onTimelinePlaybackActiveChange, orderedTimelineClips, selectedTimelineClipId]);
 
   useEffect(() => {
     const element = previewFrameRef.current;
@@ -115,10 +164,108 @@ export function PreviewViewport({
       height: `${frameWidth / mediaAspectRatio}px`
     };
   }, [mediaAspectRatio, previewFrameSize.height, previewFrameSize.width, previewScaleMode]);
-  const sourceMaterialSummary =
-    sourceMaterialCount > 0
-      ? sourceMaterials.map((sourceMaterial) => sourceMaterial.sourceCaseId.slice(0, 8)).join(" / ")
-      : "No source material";
+
+  useEffect(() => {
+    const video = timelineVideoRef.current;
+    if (!video || !isTimelinePreviewVisible || !activeTimelineClip || !activeTimelineAsset?.objectUrl) {
+      return;
+    }
+
+    const clipOffsetMs = Math.max(0, timelineElapsedMs - activeTimelineClip.timelineStartMs);
+    const targetTimeSeconds =
+      (activeTimelineClip.sourceStartMs + Math.min(activeTimelineClip.durationMs, clipOffsetMs)) /
+      1000;
+
+    const syncFrame = () => {
+      if (Math.abs(video.currentTime - targetTimeSeconds) > 0.05) {
+        video.currentTime = targetTimeSeconds;
+      }
+    };
+
+    if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+      syncFrame();
+      return;
+    }
+
+    video.addEventListener("loadedmetadata", syncFrame);
+    return () => {
+      video.removeEventListener("loadedmetadata", syncFrame);
+    };
+  }, [
+    activeTimelineAsset?.objectUrl,
+    activeTimelineClip,
+    isTimelinePreviewVisible,
+    timelineElapsedMs
+  ]);
+
+  useEffect(() => {
+    const video = timelineVideoRef.current;
+    if (!video || !isTimelinePreviewVisible || !activeTimelineClip || !activeTimelineAsset?.objectUrl) {
+      return;
+    }
+
+    if (!isTimelinePlaybackActive) {
+      video.pause();
+      return;
+    }
+
+    const onLoadedMetadata = async () => {
+      try {
+        await video.play();
+      } catch {
+        onTimelinePlaybackActiveChange(false);
+      }
+    };
+
+    const onTimeUpdate = () => {
+      const clipEndSeconds =
+        (activeTimelineClip.sourceStartMs + activeTimelineClip.durationMs) / 1000;
+      const localElapsedMs = Math.max(
+        0,
+        Math.round((video.currentTime - activeTimelineClip.sourceStartMs / 1000) * 1000)
+      );
+      onTimelineElapsedMsChange(
+        Math.min(timelineDurationMs, activeTimelineClip.timelineStartMs + localElapsedMs)
+      );
+
+      if (video.currentTime >= clipEndSeconds) {
+        const currentIndex = orderedTimelineClips.findIndex(
+          (clip) => clip.clipId === activeTimelineClip.clipId
+        );
+        const nextClip = orderedTimelineClips[currentIndex + 1];
+        if (nextClip) {
+          setActiveTimelineClipId(nextClip.clipId);
+          onActiveTimelineClipChange(nextClip.clipId);
+          onTimelineElapsedMsChange(nextClip.timelineStartMs);
+        } else {
+          onTimelinePlaybackActiveChange(false);
+          onTimelineElapsedMsChange(timelineDurationMs);
+          video.pause();
+        }
+      }
+    };
+
+    video.addEventListener("loadedmetadata", onLoadedMetadata);
+    video.addEventListener("timeupdate", onTimeUpdate);
+    if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+      void onLoadedMetadata();
+    }
+
+    return () => {
+      video.removeEventListener("loadedmetadata", onLoadedMetadata);
+      video.removeEventListener("timeupdate", onTimeUpdate);
+    };
+  }, [
+    activeTimelineAsset?.objectUrl,
+    activeTimelineClip,
+    isTimelinePlaybackActive,
+    isTimelinePreviewVisible,
+    onActiveTimelineClipChange,
+    onTimelineElapsedMsChange,
+    onTimelinePlaybackActiveChange,
+    orderedTimelineClips,
+    timelineDurationMs
+  ]);
 
   return (
     <section
@@ -159,7 +306,7 @@ export function PreviewViewport({
         style={{
           minHeight: 0,
           display: "grid",
-          gridTemplateRows: "minmax(0, 1fr) auto",
+          gridTemplateRows: "minmax(0, 1fr)",
           overflow: "hidden",
           background: "#0d1013"
         }}
@@ -184,7 +331,64 @@ export function PreviewViewport({
               placeItems: "center"
             }}
           >
-            {previewSource?.objectUrl ? (
+            {isTimelinePreviewVisible && activeTimelineClip && activeTimelineAsset?.objectUrl ? (
+              <div
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  display: "grid",
+                  gridTemplateRows: "minmax(0, 1fr) auto",
+                  padding: "20px",
+                  gap: "12px"
+                }}
+              >
+                <div style={{display: "grid", placeItems: "center", overflow: "hidden"}}>
+                  <div
+                    style={{
+                      ...previewBoxStyle,
+                      overflow: "hidden",
+                      borderRadius: "14px",
+                      background: "#090b0d",
+                      display: "grid",
+                      placeItems: "center"
+                    }}
+                  >
+                    <video
+                      ref={timelineVideoRef}
+                      key={`${activeTimelineAsset.objectUrl}_${activeTimelineClip.clipId}`}
+                      src={activeTimelineAsset.objectUrl}
+                      playsInline
+                      preload="metadata"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: previewScaleMode,
+                        background: "#090b0d",
+                        display: "block"
+                      }}
+                    />
+                  </div>
+                </div>
+                <TimelinePlaybackBar
+                  clip={activeTimelineClip}
+                  isPlaying={isTimelinePlaybackActive}
+                  elapsedMs={timelineElapsedMs}
+                  totalDurationMs={timelineDurationMs}
+                  onToggle={() => {
+                    if (!orderedTimelineClips.length) {
+                      return;
+                    }
+
+                    onRequestTimelinePreview();
+                    if (!isTimelinePlaybackActive && !activeTimelineClipId) {
+                      setActiveTimelineClipId(orderedTimelineClips[0]?.clipId ?? null);
+                      onActiveTimelineClipChange(orderedTimelineClips[0]?.clipId ?? null);
+                    }
+                    onTimelinePlaybackActiveChange(!isTimelinePlaybackActive);
+                  }}
+                />
+              </div>
+            ) : previewSource?.objectUrl ? (
               <div
                 style={{
                   width: "100%",
@@ -264,46 +468,6 @@ export function PreviewViewport({
             )}
           </div>
         </div>
-
-        <div
-          style={{
-            borderTop: "1px solid rgba(255,255,255,0.06)",
-            background: "#101316",
-            padding: "12px 16px 14px",
-            display: "grid",
-            gridAutoFlow: "column",
-            gridAutoColumns: "minmax(180px, 1fr)",
-            gap: "10px",
-            overflowX: "auto",
-            overflowY: "hidden"
-          }}
-        >
-          <InspectorTile
-            label="Source Assets"
-            value={`${sourceAssetCount} video${sourceAssetCount === 1 ? "" : "s"}`}
-            detail={selectedSourceAsset ? formatAssetMeta(selectedSourceAsset) : "Waiting for upload"}
-          />
-          <InspectorTile
-            label="Current Preview"
-            value={selectedSourceAsset?.name ?? "No video selected"}
-            detail={selectedSourceAsset?.mimeType ?? "Select a source video"}
-          />
-          <InspectorTile
-            label="Source Materials"
-            value={`${sourceMaterialCount} case${sourceMaterialCount === 1 ? "" : "s"}`}
-            detail={`${totalShotCount} shots · ${totalSentenceCount} sentences`}
-          />
-          <InspectorTile
-            label="Editing Experience"
-            value={editingExperience.styleName}
-            detail={`${editingExperience.storylinePhases.length} phases · ${totalDropCount} drops`}
-          />
-          <InspectorTile
-            label="Mock Cases"
-            value={sourceMaterialSummary}
-            detail="Audio / transcript / visual analyzer output"
-          />
-        </div>
       </div>
     </section>
   );
@@ -340,76 +504,85 @@ function ScaleToggleButton({
   );
 }
 
-function InspectorTile({label, value, detail}: {label: string; value: string; detail: string}) {
+function TimelinePlaybackBar({
+  clip,
+  isPlaying,
+  elapsedMs,
+  totalDurationMs,
+  onToggle
+}: {
+  clip: WorkspaceTimelineClip;
+  isPlaying: boolean;
+  elapsedMs: number;
+  totalDurationMs: number;
+  onToggle: () => void;
+}) {
+  const progress =
+    totalDurationMs > 0 ? Math.max(0, Math.min(100, (elapsedMs / totalDurationMs) * 100)) : 0;
+
   return (
     <div
       style={{
-        minWidth: 0,
         borderRadius: "12px",
         border: "1px solid rgba(255,255,255,0.06)",
-        background: "#14181c",
-        padding: "10px 12px"
+        background: "#10161b",
+        padding: "10px 12px",
+        display: "grid",
+        gap: "10px"
       }}
     >
-      <p style={sectionLabelStyle}>{label}</p>
-      <p
+      <div style={{display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px"}}>
+        <button
+          type="button"
+          onClick={onToggle}
+          style={{
+            appearance: "none",
+            border: "1px solid rgba(255,255,255,0.08)",
+            borderRadius: "999px",
+            background: "rgba(121,192,255,0.16)",
+            color: "#dcecff",
+            padding: "6px 12px",
+            cursor: "pointer",
+            fontSize: "11px",
+            fontWeight: 600,
+            lineHeight: 1
+          }}
+        >
+          {isPlaying ? "Pause" : "Play"}
+        </button>
+        <span style={{...textStyles.bodySmall, color: "#dbe4ed"}}>{clip.label}</span>
+        <span style={{...textStyles.bodySmall, color: "#8a96a2"}}>
+          {formatDurationMs(elapsedMs)} / {formatDurationMs(totalDurationMs)}
+        </span>
+      </div>
+      <div
         style={{
-          ...textStyles.titleSmall,
-          marginTop: "6px",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          whiteSpace: "nowrap"
+          height: "8px",
+          borderRadius: "999px",
+          background: "#0a0d10",
+          overflow: "hidden"
         }}
-        title={value}
       >
-        {value}
-      </p>
-      <p
-        style={{
-          ...textStyles.bodySmall,
-          marginTop: "4px",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          whiteSpace: "nowrap",
-          fontSize: "11px"
-        }}
-        title={detail}
-      >
-        {detail}
-      </p>
+        <div
+          style={{
+            width: `${progress}%`,
+            height: "100%",
+            background: "linear-gradient(90deg, #4b88ad 0%, #80cfff 100%)"
+          }}
+        />
+      </div>
     </div>
   );
 }
 
-function formatAssetMeta(asset: AssetItem) {
-  const parts = [formatBytes(asset.sizeBytes)];
-
-  if (asset.frameWidth && asset.frameHeight) {
-    parts.push(`${asset.frameWidth}x${asset.frameHeight}`);
-  }
-
-  if (asset.durationSeconds) {
-    parts.push(formatDuration(asset.durationSeconds));
-  }
-
-  return parts.join(" · ");
-}
-
-function formatBytes(sizeBytes: number) {
-  if (sizeBytes < 1024 * 1024) {
-    return `${Math.max(1, Math.round(sizeBytes / 1024))} KB`;
-  }
-
-  return `${(sizeBytes / (1024 * 1024)).toFixed(1)} MB`;
-}
-
-function formatDuration(durationSeconds: number) {
-  const minutes = Math.floor(durationSeconds / 60);
-  const seconds = Math.max(0, Math.round(durationSeconds % 60));
+function formatDurationMs(durationMs: number) {
+  const totalSeconds = Math.max(0, Math.round(durationMs / 1000));
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
 
   if (minutes <= 0) {
     return `${seconds}s`;
   }
 
-  return `${minutes}m ${seconds.toString().padStart(2, "0")}s`;
+  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 }

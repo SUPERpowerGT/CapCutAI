@@ -1,7 +1,9 @@
 "use client";
 
-import type {ReactNode} from "react";
+import {useEffect, useRef, useState} from "react";
+import type {MouseEvent as ReactMouseEvent, ReactNode} from "react";
 import {AssetsSidebar} from "../../assets/components/AssetsSidebar";
+import type {AssetItem} from "../../assets/types/assets";
 import {useAssetsPanel} from "../../assets/hooks/use-assets-panel";
 import {EditorSurface} from "../../editor/components/EditorSurface";
 import {ChatPanel} from "../../im/components/ChatPanel";
@@ -88,6 +90,97 @@ export function WorkspaceShell() {
     workspace.isReady ? workspace.workspaceContext.workspaceId : null,
     agentWorkspaceContext
   );
+  const timelineDropZoneRef = useRef<HTMLDivElement | null>(null);
+  const [dragCandidate, setDragCandidate] = useState<{
+    asset: AssetItem;
+    startX: number;
+    startY: number;
+    currentX: number;
+    currentY: number;
+  } | null>(null);
+  const [activeTimelineDrag, setActiveTimelineDrag] = useState<{
+    asset: AssetItem;
+    x: number;
+    y: number;
+  } | null>(null);
+  const [externalTimelineDropRequest, setExternalTimelineDropRequest] = useState<{
+    assetId: string;
+    clientX: number;
+    clientY: number;
+    nonce: number;
+  } | null>(null);
+
+  useEffect(() => {
+    if (!dragCandidate) {
+      return;
+    }
+    const candidate = dragCandidate;
+
+    function handleMouseMove(event: MouseEvent) {
+      const nextX = event.clientX;
+      const nextY = event.clientY;
+      const distance = Math.hypot(nextX - candidate.startX, nextY - candidate.startY);
+
+      if (distance > 6) {
+        setActiveTimelineDrag({
+          asset: candidate.asset,
+          x: nextX,
+          y: nextY
+        });
+      }
+
+      setDragCandidate((current) =>
+        current
+          ? {
+              ...current,
+              currentX: nextX,
+              currentY: nextY
+            }
+          : current
+      );
+    }
+
+    function handleMouseUp(event: MouseEvent) {
+      const dropZone = timelineDropZoneRef.current;
+      if (dropZone && activeTimelineDrag) {
+        const rect = dropZone.getBoundingClientRect();
+        const insideDropZone =
+          event.clientX >= rect.left &&
+          event.clientX <= rect.right &&
+          event.clientY >= rect.top &&
+          event.clientY <= rect.bottom;
+
+        if (insideDropZone) {
+          setExternalTimelineDropRequest({
+            assetId: activeTimelineDrag.asset.assetId,
+            clientX: event.clientX,
+            clientY: event.clientY,
+            nonce: Date.now()
+          });
+        }
+      }
+
+      setDragCandidate(null);
+      setActiveTimelineDrag(null);
+    }
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [activeTimelineDrag, dragCandidate]);
+
+  function handleStartSourceTimelineDrag(asset: AssetItem, event: ReactMouseEvent<HTMLDivElement>) {
+    setDragCandidate({
+      asset,
+      startX: event.clientX,
+      startY: event.clientY,
+      currentX: event.clientX,
+      currentY: event.clientY
+    });
+  }
 
   return (
     <main style={appShellStyle}>
@@ -143,6 +236,7 @@ export function WorkspaceShell() {
               workspaceTitle={workspace.workspaceContext.title}
               referenceAssets={assetsPanel.referenceAssets}
               selectedReferenceAssetId={assetsPanel.selectedReferenceAssetId}
+              selectedPreviewAssetId={assetsPanel.selectedPreviewAssetId}
               sourceAssets={assetsPanel.sourceAssets}
               selectedSourceAssetId={assetsPanel.selectedSourceAssetId}
               isPicking={assetsPanel.isPicking}
@@ -153,6 +247,7 @@ export function WorkspaceShell() {
               onRemoveAsset={assetsPanel.removeAsset}
               onSelectReferenceAsset={assetsPanel.selectReferenceAsset}
               onSelectSourceAsset={assetsPanel.selectSourceAsset}
+              onStartSourceTimelineDrag={handleStartSourceTimelineDrag}
             />
           ) : (
             <div />
@@ -167,25 +262,40 @@ export function WorkspaceShell() {
           <EditorSurface
             title={workspace.workspaceContext.title}
             subtitle={
-              assetsPanel.selectedSourceAsset
+              assetsPanel.selectedPreviewAsset
                 ? "当前已加载本地视频，可以继续分析、生成或修订。"
                 : "先在左侧上传一个视频，预览区会立即显示本地画面。"
             }
             workspaceId={workspace.workspaceContext.workspaceId}
             sourceAssets={assetsPanel.sourceAssets}
             selectedSourceAsset={assetsPanel.selectedSourceAsset}
+            selectedPreviewAsset={assetsPanel.selectedPreviewAsset}
             previewSource={
-              assetsPanel.selectedSourceAsset
+              assetsPanel.selectedPreviewAsset
                 ? {
-                    objectUrl: assetsPanel.selectedSourceAsset.objectUrl,
-                    name: assetsPanel.selectedSourceAsset.name,
-                    mimeType: assetsPanel.selectedSourceAsset.mimeType
+                    objectUrl: assetsPanel.selectedPreviewAsset.objectUrl,
+                    name: assetsPanel.selectedPreviewAsset.name,
+                    mimeType: assetsPanel.selectedPreviewAsset.mimeType
                   }
                 : null
             }
             previewHeightPercent={layout.previewHeight}
             isBottomPaneCollapsed={layout.isBottomPaneCollapsed}
             onResizeStart={layout.startHorizontalResize}
+            externalTimelineDropRequest={externalTimelineDropRequest}
+            externalTimelineDrag={
+              activeTimelineDrag
+                ? {
+                    assetId: activeTimelineDrag.asset.assetId,
+                    label: activeTimelineDrag.asset.name,
+                    clientX: activeTimelineDrag.x,
+                    clientY: activeTimelineDrag.y
+                  }
+                : null
+            }
+            onTimelineDropZoneElementChange={(element) => {
+              timelineDropZoneRef.current = element;
+            }}
           />
 
           {!layout.isRightPaneCollapsed ? (
@@ -216,6 +326,30 @@ export function WorkspaceShell() {
           )}
         </div>
       </section>
+      {activeTimelineDrag ? (
+        <div
+          style={{
+            position: "fixed",
+            left: `${activeTimelineDrag.x + 12}px`,
+            top: `${activeTimelineDrag.y + 12}px`,
+            padding: "10px 12px",
+            borderRadius: "10px",
+            background: "rgba(33,40,48,0.96)",
+            border: "1px solid rgba(121,192,255,0.24)",
+            boxShadow: "0 16px 36px rgba(0,0,0,0.28)",
+            pointerEvents: "none",
+            zIndex: 1000,
+            maxWidth: "240px",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            ...textStyles.bodySmallStrong,
+            color: "#e7f2ff"
+          }}
+        >
+          {activeTimelineDrag.asset.name}
+        </div>
+      ) : null}
     </main>
   );
 }

@@ -1,4 +1,7 @@
 import type {AssetItem, AssetPickRequest, AssetPickerGateway, AssetSlot} from "../types/assets";
+import {readVideoPreview} from "../lib/video-preview";
+
+const pickerSafetyTimeoutMs = 15000;
 
 function inferCategory(file: File): AssetItem["category"] {
   if (file.type.startsWith("audio/")) {
@@ -12,32 +15,6 @@ function inferCategory(file: File): AssetItem["category"] {
   return "VIDEO";
 }
 
-async function readVideoMetadata(objectUrl: string) {
-  return new Promise<{
-    durationSeconds?: number;
-    frameWidth?: number;
-    frameHeight?: number;
-  }>((resolve) => {
-    const video = document.createElement("video");
-    video.preload = "metadata";
-    video.src = objectUrl;
-
-    const finish = () => {
-      resolve({
-        durationSeconds:
-          Number.isFinite(video.duration) && video.duration > 0 ? video.duration : undefined,
-        frameWidth: video.videoWidth || undefined,
-        frameHeight: video.videoHeight || undefined
-      });
-      video.removeAttribute("src");
-      video.load();
-    };
-
-    video.onloadedmetadata = finish;
-    video.onerror = () => resolve({});
-  });
-}
-
 async function buildAssetItem(
   file: File,
   slot: AssetSlot,
@@ -45,8 +22,7 @@ async function buildAssetItem(
 ): Promise<AssetItem> {
   const objectUrl = URL.createObjectURL(file);
   const category = inferCategory(file);
-  const videoMetadata =
-    category === "VIDEO" ? await readVideoMetadata(objectUrl) : {};
+  const videoMetadata = category === "VIDEO" ? await readVideoPreview(objectUrl) : {};
 
   return {
     assetId: `asset_${crypto.randomUUID()}`,
@@ -72,7 +48,30 @@ export const browserAssetPickerGateway: AssetPickerGateway = {
       input.type = "file";
       input.accept = request.accept;
       input.multiple = request.multiple ?? false;
-      input.style.display = "none";
+      input.style.position = "fixed";
+      input.style.left = "-9999px";
+      input.style.width = "1px";
+      input.style.height = "1px";
+      input.style.opacity = "0";
+      input.style.pointerEvents = "none";
+
+      let settled = false;
+      let safetyTimer = 0;
+
+      const cleanup = () => {
+        window.clearTimeout(safetyTimer);
+        input.remove();
+      };
+
+      const finish = (assets: AssetItem[]) => {
+        if (settled) {
+          return;
+        }
+
+        settled = true;
+        cleanup();
+        resolve(assets);
+      };
 
       input.addEventListener(
         "change",
@@ -81,13 +80,24 @@ export const browserAssetPickerGateway: AssetPickerGateway = {
           const assets = await Promise.all(
             files.map((file) => buildAssetItem(file, request.slot, request.workspaceId))
           );
-          resolve(assets);
-          input.remove();
+          finish(assets);
+        },
+        {once: true}
+      );
+      input.addEventListener(
+        "cancel",
+        () => {
+          finish([]);
         },
         {once: true}
       );
 
       document.body.appendChild(input);
+      safetyTimer = window.setTimeout(() => {
+        if (!settled) {
+          finish([]);
+        }
+      }, pickerSafetyTimeoutMs);
       input.click();
     });
   }

@@ -21,6 +21,7 @@ export type AssetItem = {
   durationSeconds?: number;
   frameWidth?: number;
   frameHeight?: number;
+  previewImageUrl?: string;
   objectUrl?: string;
   remoteAssetId?: string;
   workspaceFilePath?: string;

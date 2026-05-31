@@ -66,6 +66,15 @@ export type TimelinePlanClip = {
   phaseId?: string;
 };
 
+export type WorkspaceTimelineClip = {
+  clipId: string;
+  assetId: string;
+  label: string;
+  timelineStartMs: number;
+  sourceStartMs: number;
+  durationMs: number;
+};
+
 export type TimelinePlan = {
   timelineId: string;
   workspaceId: string;
