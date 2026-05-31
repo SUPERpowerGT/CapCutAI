@@ -1,3 +1,4 @@
+import {useEffect, useMemo, useRef, useState} from "react";
 import {textStyles} from "../../../shared/design/typography";
 import type {AssetItem} from "../../assets/types/assets";
 import type {EditingExperience, SourceMaterial} from "../types/editor-preview";
@@ -17,6 +18,7 @@ type PreviewViewportProps = {
 };
 
 const sectionLabelStyle = textStyles.sectionLabel;
+type PreviewScaleMode = "contain" | "cover";
 
 export function PreviewViewport({
   title,
@@ -40,6 +42,79 @@ export function PreviewViewport({
     (total, sourceMaterial) => total + sourceMaterial.dropsMs.length,
     0
   );
+  const [previewScaleMode, setPreviewScaleMode] = useState<PreviewScaleMode>("contain");
+  const previewFrameRef = useRef<HTMLDivElement>(null);
+  const [previewFrameSize, setPreviewFrameSize] = useState({width: 0, height: 0});
+  const mediaAspectRatio =
+    selectedSourceAsset?.frameWidth && selectedSourceAsset?.frameHeight
+      ? selectedSourceAsset.frameWidth / selectedSourceAsset.frameHeight
+      : 16 / 9;
+
+  useEffect(() => {
+    const element = previewFrameRef.current;
+    if (!element) {
+      return;
+    }
+
+    const observer = new ResizeObserver((entries) => {
+      const entry = entries[0];
+      if (!entry) {
+        return;
+      }
+
+      const {width, height} = entry.contentRect;
+      setPreviewFrameSize({
+        width: Math.max(0, width),
+        height: Math.max(0, height)
+      });
+    });
+
+    observer.observe(element);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  const previewBoxStyle = useMemo(() => {
+    const frameWidth = previewFrameSize.width;
+    const frameHeight = previewFrameSize.height;
+
+    if (!frameWidth || !frameHeight) {
+      return {
+        width: "100%",
+        height: "100%"
+      };
+    }
+
+    const frameAspectRatio = frameWidth / frameHeight;
+
+    if (previewScaleMode === "cover") {
+      if (frameAspectRatio > mediaAspectRatio) {
+        return {
+          width: `${frameWidth}px`,
+          height: `${frameWidth / mediaAspectRatio}px`
+        };
+      }
+
+      return {
+        width: `${frameHeight * mediaAspectRatio}px`,
+        height: `${frameHeight}px`
+      };
+    }
+
+    if (frameAspectRatio > mediaAspectRatio) {
+      return {
+        width: `${frameHeight * mediaAspectRatio}px`,
+        height: `${frameHeight}px`
+      };
+    }
+
+    return {
+      width: `${frameWidth}px`,
+      height: `${frameWidth / mediaAspectRatio}px`
+    };
+  }, [mediaAspectRatio, previewFrameSize.height, previewFrameSize.width, previewScaleMode]);
   const sourceMaterialSummary =
     sourceMaterialCount > 0
       ? sourceMaterials.map((sourceMaterial) => sourceMaterial.sourceCaseId.slice(0, 8)).join(" / ")
@@ -53,140 +128,215 @@ export function PreviewViewport({
         background: "#121518",
         borderBottom: "1px solid rgba(255,255,255,0.06)",
         display: "grid",
-        gridTemplateRows: "56px minmax(0, 1fr) auto"
+        gridTemplateRows: "56px minmax(0, 1fr)"
       }}
     >
       <div
         style={{
           display: "flex",
           alignItems: "center",
+          justifyContent: "space-between",
+          gap: "12px",
           padding: "0 16px",
           borderBottom: "1px solid rgba(255,255,255,0.06)"
         }}
       >
         <p style={sectionLabelStyle}>Preview</p>
+        <div style={{display: "flex", alignItems: "center", gap: "8px"}}>
+          <ScaleToggleButton
+            label="Fit"
+            active={previewScaleMode === "contain"}
+            onClick={() => setPreviewScaleMode("contain")}
+          />
+          <ScaleToggleButton
+            label="Fill"
+            active={previewScaleMode === "cover"}
+            onClick={() => setPreviewScaleMode("cover")}
+          />
+        </div>
       </div>
       <div
         style={{
           minHeight: 0,
-          borderRadius: "18px",
-          background:
-            "radial-gradient(circle at top right, rgba(255,153,102,0.18), transparent 24%), #0d1013",
-          padding: "16px",
           display: "grid",
-          placeItems: "center",
-          overflow: "hidden"
+          gridTemplateRows: "minmax(0, 1fr) auto",
+          overflow: "hidden",
+          background: "#0d1013"
         }}
       >
-        {previewSource?.objectUrl ? (
+        <div
+          style={{
+            minHeight: 0,
+            padding: "16px",
+            display: "grid"
+          }}
+        >
           <div
+            ref={previewFrameRef}
             style={{
-              aspectRatio: "16 / 9",
-              width: "100%",
-              maxWidth: "100%",
-              maxHeight: "100%",
-              borderRadius: "16px",
-              overflow: "hidden",
-              background: "#090b0d",
+              minHeight: 0,
+              borderRadius: "18px",
+              background:
+                "radial-gradient(circle at top right, rgba(255,153,102,0.18), transparent 24%), #0b0e11",
               border: "1px solid rgba(255,255,255,0.06)",
+              overflow: "hidden",
               display: "grid",
               placeItems: "center"
             }}
           >
-            <video
-              key={previewSource.objectUrl}
-              src={previewSource.objectUrl}
-              controls
-              playsInline
-              preload="metadata"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "contain",
-                background: "#090b0d"
-              }}
-            />
-          </div>
-        ) : (
-          <div
-            style={{
-              aspectRatio: "16 / 9",
-              width: "100%",
-              maxWidth: "100%",
-              maxHeight: "100%",
-              display: "grid",
-              placeItems: "center",
-              textAlign: "center",
-              padding: "20px"
-            }}
-          >
-            <div style={{textAlign: "center", maxWidth: "520px"}}>
-              <p style={{...sectionLabelStyle, color: "#98a5b2"}}>Live Preview</p>
+            {previewSource?.objectUrl ? (
               <div
                 style={{
-                  width: "48px",
-                  height: "48px",
-                  margin: "12px auto 0",
-                  borderRadius: "14px",
-                  background: "rgba(121,192,255,0.08)",
-                  color: "#89beff",
+                  width: "100%",
+                  height: "100%",
                   display: "grid",
                   placeItems: "center",
-                  fontSize: "20px",
-                  fontWeight: 700
+                  padding: "20px",
+                  overflow: "hidden"
                 }}
               >
-                ▶
+                <div
+                  style={{
+                    ...previewBoxStyle,
+                    overflow: "hidden",
+                    borderRadius: "14px",
+                    background: "#090b0d",
+                    display: "grid",
+                    placeItems: "center"
+                  }}
+                >
+                  <video
+                    key={previewSource.objectUrl}
+                    src={previewSource.objectUrl}
+                    controls
+                    playsInline
+                    preload="metadata"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: previewScaleMode,
+                      background: "#090b0d",
+                      display: "block"
+                    }}
+                  />
+                </div>
               </div>
-              <p
+            ) : (
+              <div
                 style={{
-                  ...textStyles.display,
-                  margin: "16px 0 0"
+                  width: "100%",
+                  height: "100%",
+                  display: "grid",
+                  placeItems: "center",
+                  textAlign: "center",
+                  padding: "24px"
                 }}
               >
-                上传视频后，这里会立即显示预览。
-              </p>
-            </div>
+                <div style={{textAlign: "center", maxWidth: "520px"}}>
+                  <p style={{...sectionLabelStyle, color: "#98a5b2"}}>Live Preview</p>
+                  <div
+                    style={{
+                      width: "56px",
+                      height: "56px",
+                      margin: "14px auto 0",
+                      borderRadius: "16px",
+                      background: "rgba(121,192,255,0.08)",
+                      color: "#89beff",
+                      display: "grid",
+                      placeItems: "center",
+                      fontSize: "22px",
+                      fontWeight: 700
+                    }}
+                  >
+                    ▶
+                  </div>
+                  <p
+                    style={{
+                      ...textStyles.display,
+                      fontSize: "clamp(15px, 1.4vw, 17px)",
+                      margin: "16px 0 0"
+                    }}
+                  >
+                    上传视频后，这里会立即显示预览。
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
-        )}
-      </div>
-      <div
-        style={{
-          borderTop: "1px solid rgba(255,255,255,0.06)",
-          background: "#101316",
-          padding: "12px 16px",
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-          gap: "12px"
-        }}
-      >
-        <InspectorTile
-          label="Source Assets"
-          value={`${sourceAssetCount} video${sourceAssetCount === 1 ? "" : "s"}`}
-          detail={selectedSourceAsset ? formatAssetMeta(selectedSourceAsset) : "Waiting for upload"}
-        />
-        <InspectorTile
-          label="Current Preview"
-          value={selectedSourceAsset?.name ?? "No video selected"}
-          detail={selectedSourceAsset?.mimeType ?? "Select a source video"}
-        />
-        <InspectorTile
-          label="Source Materials"
-          value={`${sourceMaterialCount} case${sourceMaterialCount === 1 ? "" : "s"}`}
-          detail={`${totalShotCount} shots · ${totalSentenceCount} sentences`}
-        />
-        <InspectorTile
-          label="Editing Experience"
-          value={editingExperience.styleName}
-          detail={`${editingExperience.storylinePhases.length} phases · ${totalDropCount} drops`}
-        />
-        <InspectorTile
-          label="Mock Cases"
-          value={sourceMaterialSummary}
-          detail="Audio / transcript / visual analyzer output"
-        />
+        </div>
+
+        <div
+          style={{
+            borderTop: "1px solid rgba(255,255,255,0.06)",
+            background: "#101316",
+            padding: "12px 16px 14px",
+            display: "grid",
+            gridAutoFlow: "column",
+            gridAutoColumns: "minmax(180px, 1fr)",
+            gap: "10px",
+            overflowX: "auto",
+            overflowY: "hidden"
+          }}
+        >
+          <InspectorTile
+            label="Source Assets"
+            value={`${sourceAssetCount} video${sourceAssetCount === 1 ? "" : "s"}`}
+            detail={selectedSourceAsset ? formatAssetMeta(selectedSourceAsset) : "Waiting for upload"}
+          />
+          <InspectorTile
+            label="Current Preview"
+            value={selectedSourceAsset?.name ?? "No video selected"}
+            detail={selectedSourceAsset?.mimeType ?? "Select a source video"}
+          />
+          <InspectorTile
+            label="Source Materials"
+            value={`${sourceMaterialCount} case${sourceMaterialCount === 1 ? "" : "s"}`}
+            detail={`${totalShotCount} shots · ${totalSentenceCount} sentences`}
+          />
+          <InspectorTile
+            label="Editing Experience"
+            value={editingExperience.styleName}
+            detail={`${editingExperience.storylinePhases.length} phases · ${totalDropCount} drops`}
+          />
+          <InspectorTile
+            label="Mock Cases"
+            value={sourceMaterialSummary}
+            detail="Audio / transcript / visual analyzer output"
+          />
+        </div>
       </div>
     </section>
+  );
+}
+
+function ScaleToggleButton({
+  label,
+  active,
+  onClick
+}: {
+  label: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      style={{
+        appearance: "none",
+        border: "1px solid rgba(255,255,255,0.08)",
+        background: active ? "rgba(121,192,255,0.16)" : "#151a1f",
+        color: active ? "#dcecff" : "#94a0ac",
+        borderRadius: "999px",
+        padding: "6px 10px",
+        cursor: "pointer",
+        fontSize: "11px",
+        fontWeight: 600,
+        lineHeight: 1
+      }}
+    >
+      {label}
+    </button>
   );
 }
 
@@ -195,10 +345,10 @@ function InspectorTile({label, value, detail}: {label: string; value: string; de
     <div
       style={{
         minWidth: 0,
-        borderRadius: "10px",
+        borderRadius: "12px",
         border: "1px solid rgba(255,255,255,0.06)",
         background: "#14181c",
-        padding: "10px"
+        padding: "10px 12px"
       }}
     >
       <p style={sectionLabelStyle}>{label}</p>
@@ -220,7 +370,8 @@ function InspectorTile({label, value, detail}: {label: string; value: string; de
           marginTop: "4px",
           overflow: "hidden",
           textOverflow: "ellipsis",
-          whiteSpace: "nowrap"
+          whiteSpace: "nowrap",
+          fontSize: "11px"
         }}
         title={detail}
       >
