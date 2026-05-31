@@ -1,0 +1,106 @@
+{
+  "shots": [
+    {
+      "index": 0,
+      "start_ms": 0,
+      "end_ms": 14776,
+      "keyframe_path": "outputs/pipeline/3246165181/keyframes/shot_000_mock.jpg",
+      "shot_type": "A_ROLL_MEDIUM",
+      "content_type": "PRESENTER",
+      "emotional_tone": "HIGH_ENERGY",
+      "b_roll_semantic_prompt": "主播面对镜头，背景整洁白色书房，神情自信",
+      "camera_motion_effect": "静态",
+      "editing_utility": "HOOK_OPENER"
+    },
+    {
+      "index": 1,
+      "start_ms": 14776,
+      "end_ms": 29552,
+      "keyframe_path": "outputs/pipeline/3246165181/keyframes/shot_001_mock.jpg",
+      "shot_type": "A_ROLL_CLOSE_UP",
+      "content_type": "PRESENTER",
+      "emotional_tone": "NEUTRAL",
+      "b_roll_semantic_prompt": "主播特写面部，眼神坚定，灯光柔和",
+      "camera_motion_effect": "轻微放大",
+      "editing_utility": "NARRATIVE_SUPPORT"
+    },
+    {
+      "index": 2,
+      "start_ms": 29552,
+      "end_ms": 44328,
+      "keyframe_path": "outputs/pipeline/3246165181/keyframes/shot_002_mock.jpg",
+      "shot_type": "B_ROLL_SEMANTIC",
+      "content_type": "SCENE",
+      "emotional_tone": "NEUTRAL",
+      "b_roll_semantic_prompt": "书桌上的笔记本电脑屏幕显示代码，室内自然光线",
+      "camera_motion_effect": "静态",
+      "editing_utility": "NARRATIVE_SUPPORT"
+    },
+    {
+      "index": 3,
+      "start_ms": 44328,
+      "end_ms": 59104,
+      "keyframe_path": "outputs/pipeline/3246165181/keyframes/shot_003_mock.jpg",
+      "shot_type": "A_ROLL_MEDIUM",
+      "content_type": "PRESENTER",
+      "emotional_tone": "NEUTRAL",
+      "b_roll_semantic_prompt": "主播中景，双手比划讲解，白色背景",
+      "camera_motion_effect": "静态",
+      "editing_utility": "NARRATIVE_SUPPORT"
+    },
+    {
+      "index": 4,
+      "start_ms": 59104,
+      "end_ms": 73880,
+      "keyframe_path": "outputs/pipeline/3246165181/keyframes/shot_004_mock.jpg",
+      "shot_type": "B_ROLL_SEMANTIC",
+      "content_type": "PRODUCT",
+      "emotional_tone": "NEUTRAL",
+      "b_roll_semantic_prompt": "产品特写，光滑表面反光，极简白色背景",
+      "camera_motion_effect": "轻微缩小",
+      "editing_utility": "EMPHASIS_HIGHLIGHT"
+    },
+    {
+      "index": 5,
+      "start_ms": 73880,
+      "end_ms": 88656,
+      "keyframe_path": "outputs/pipeline/3246165181/keyframes/shot_005_mock.jpg",
+      "shot_type": "A_ROLL_CLOSE_UP",
+      "content_type": "PRESENTER",
+      "emotional_tone": "EMPHASIS_HIGHLIGHT",
+      "b_roll_semantic_prompt": "主播特写，嘴唇动作清晰，面部表情专注",
+      "camera_motion_effect": "静态",
+      "editing_utility": "EMPHASIS_HIGHLIGHT"
+    },
+    {
+      "index": 6,
+      "start_ms": 88656,
+      "end_ms": 103432,
+      "keyframe_path": "outputs/pipeline/3246165181/keyframes/shot_006_mock.jpg",
+      "shot_type": "A_ROLL_MEDIUM",
+      "content_type": "PRESENTER",
+      "emotional_tone": "NEUTRAL",
+      "b_roll_semantic_prompt": "主播微笑，手持产品向镜头展示",
+      "camera_motion_effect": "静态",
+      "editing_utility": "NARRATIVE_SUPPORT"
+    },
+    {
+      "index": 7,
+      "start_ms": 103432,
+      "end_ms": 118208,
+      "keyframe_path": "outputs/pipeline/3246165181/keyframes/shot_007_mock.jpg",
+      "shot_type": "B_ROLL_SEMANTIC",
+      "content_type": "TEXT_GRAPHIC",
+      "emotional_tone": "CALM",
+      "b_roll_semantic_prompt": "品牌Logo特写，白底黑字，干净简洁",
+      "camera_motion_effect": "静态",
+      "editing_utility": "TRANSITION_BRIDGE"
+    }
+  ],
+  "caption_info": {
+    "font_family_type": "Sans-Serif-Bold",
+    "css_style": "font-size: 36px; color: #FFFFFF; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);",
+    "position_y_percentage": 78.0,
+    "highlight_strategy": "核心关键词使用黄色（#FFD700）高亮显示"
+  }
+}

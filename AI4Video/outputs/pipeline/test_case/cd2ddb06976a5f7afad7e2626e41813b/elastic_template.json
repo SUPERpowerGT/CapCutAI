@@ -1,0 +1,113 @@
+{
+  "style_metadata": {
+    "style_id": "life-record-vlog",
+    "category": "Life_Record",
+    "driving_mode": "TEXT_LOGIC_DRIVEN",
+    "pacing_style": "STEADY_NARRATIVE",
+    "visual_theme": "Natural_Outdoor",
+    "tags": [
+      "Vlog",
+      "Travel",
+      "StreetLife"
+    ],
+    "sample_video_total_duration_ms": 28799
+  },
+  "storyline_structure": [
+    {
+      "phase_id": "PHASE_OPENING",
+      "energy_level": "HIGH",
+      "narrative_goal": "展示古街热闹景象，引出核心口播内容",
+      "bgm_alignment_rule": "ALIGN_TO_FIRST_DROP",
+      "absolute_time_range": {
+        "start_ms": 0,
+        "end_ms": 16032,
+        "duration_ms": 16032
+      },
+      "relative_time_range": {
+        "start_ratio": 0.0,
+        "end_ratio": 0.5567,
+        "duration_ratio": 0.5567
+      }
+    },
+    {
+      "phase_id": "PHASE_CORE",
+      "energy_level": "MEDIUM",
+      "narrative_goal": "聚焦店铺与互动装置，深化主题",
+      "bgm_alignment_rule": "ALIGN_TO_SECOND_DROP",
+      "absolute_time_range": {
+        "start_ms": 16032,
+        "end_ms": 21312,
+        "duration_ms": 5280
+      },
+      "relative_time_range": {
+        "start_ratio": 0.5567,
+        "end_ratio": 0.74,
+        "duration_ratio": 0.1833
+      }
+    },
+    {
+      "phase_id": "PHASE_HIGHLIGHT",
+      "energy_level": "PEAK",
+      "narrative_goal": "通过特写镜头强调核心互动点",
+      "bgm_alignment_rule": "ALIGN_TO_THIRD_DROP",
+      "absolute_time_range": {
+        "start_ms": 21312,
+        "end_ms": 26592,
+        "duration_ms": 5280
+      },
+      "relative_time_range": {
+        "start_ratio": 0.74,
+        "end_ratio": 0.9234,
+        "duration_ratio": 0.1833
+      }
+    },
+    {
+      "phase_id": "PHASE_ENDING",
+      "energy_level": "MEDIUM",
+      "narrative_goal": "收尾，引导观众思考与互动",
+      "bgm_alignment_rule": "ALIGN_TO_FADE_OUT",
+      "absolute_time_range": {
+        "start_ms": 26592,
+        "end_ms": 28799,
+        "duration_ms": 2207
+      },
+      "relative_time_range": {
+        "start_ratio": 0.9234,
+        "end_ratio": 1.0,
+        "duration_ratio": 0.0766
+      }
+    }
+  ],
+  "visual_assets_rule": {
+    "main_caption": {
+      "font_family_type": "Sans-Serif-Bold",
+      "css_style": "font-size: 24px; color: #FFFFFF; font-weight: bold;",
+      "position_y_percentage": 85,
+      "highlight_strategy": "关键词使用黄色#FFD700加粗"
+    },
+    "global_overlays": []
+  },
+  "dynamic_pacing_blueprint": [
+    {
+      "belong_to_phase": "PHASE_OPENING",
+      "absolute_trigger_ms": 0,
+      "relative_beat_offset": 0,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "古街石阶旁红灯笼装饰，游客闲逛，店铺招牌林立，暖色调建筑与绿植相映",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    }
+  ]
+}

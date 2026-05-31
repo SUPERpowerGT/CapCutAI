@@ -1,0 +1,62 @@
+{
+  "custom_voice": [
+    {
+      "model": "Qwen3-TTS-12Hz-1.7B-CustomVoice",
+      "text": "夜深了，我一个人坐在窗前，望着远处的灯火，心里突然涌起一股说不清的情绪。",
+      "language": "Chinese",
+      "latency_sec": 14.229687690734863,
+      "id": "vivian_chinese",
+      "speaker": "Vivian",
+      "speaker_desc": "Bright, slightly edgy young female voice (Chinese)",
+      "instruct": "",
+      "wav_path": "custom_vivian_chinese.wav",
+      "samples": 230400,
+      "sample_rate": 24000,
+      "duration_sec": 9.6,
+      "bytes": 460844
+    },
+    {
+      "model": "Qwen3-TTS-12Hz-1.7B-CustomVoice",
+      "text": "夜深了，我一个人坐在窗前，望着远处的灯火，心里突然涌起一股说不清的情绪。",
+      "language": "Chinese",
+      "latency_sec": 13.54085087776184,
+      "id": "uncle_fu_chinese",
+      "speaker": "Uncle_Fu",
+      "speaker_desc": "Seasoned male voice with a low, mellow timbre (Chinese)",
+      "instruct": "",
+      "wav_path": "custom_uncle_fu_chinese.wav",
+      "samples": 226560,
+      "sample_rate": 24000,
+      "duration_sec": 9.44,
+      "bytes": 453164
+    }
+  ],
+  "voice_design": [
+    {
+      "model": "Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+      "text": "听说，这次他真的回来了。已经整整十年了，谁也不曾忘记那个夏天发生的事。",
+      "language": "Chinese",
+      "latency_sec": 12.710864782333374,
+      "id": "elderly_male_narrator",
+      "instruct": "成熟稳重的中年男性嗓音，音色低沉浑厚，略带沙哑的颗粒感；语速偏慢，咬字清晰，带着沉思与追忆的气息，像是在讲述一段尘封的往事。",
+      "wav_path": "outputs/tts_compare/design_elderly_male_narrator.wav",
+      "samples": 213120,
+      "sample_rate": 24000,
+      "duration_sec": 8.88,
+      "bytes": 426284
+    },
+    {
+      "model": "Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+      "text": "听说，这次他真的回来了。已经整整十年了，谁也不曾忘记那个夏天发生的事。",
+      "language": "Chinese",
+      "latency_sec": 9.97673511505127,
+      "id": "lively_young_female",
+      "instruct": "活泼俏皮的少女声音，音调偏高，语速轻快灵动，句尾微微上扬，带着兴奋和八卦感，像是在和闺蜜分享一个惊人的消息。",
+      "wav_path": "outputs/tts_compare/design_lively_young_female.wav",
+      "samples": 174720,
+      "sample_rate": 24000,
+      "duration_sec": 7.28,
+      "bytes": 349484
+    }
+  ]
+}
