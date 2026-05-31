@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SendMessageUseCase {
@@ -32,14 +33,22 @@ public class SendMessageUseCase {
     }
 
     @Transactional
-    public SendMessageResult execute(String conversationId, String content) {
+    public SendMessageResult execute(
+            String conversationId,
+            String content,
+            Map<String, Object> context
+    ) {
         conversationService.requireConversation(conversationId);
 
         MessageView userMessage = messageCommandService.createUserMessage(conversationId, content);
         conversationService.touchConversation(conversationId);
 
         List<MessageView> messages = messageQueryService.listMessages(conversationId);
-        AgentRespondResponse agentResponse = agentOrchestrationService.respond(conversationId, messages);
+        AgentRespondResponse agentResponse = agentOrchestrationService.respond(
+                conversationId,
+                messages,
+                context
+        );
 
         MessageStatus assistantStatus = resolveAssistantStatus(agentResponse.status());
         MessageView assistantMessage = messageCommandService.createAssistantMessage(

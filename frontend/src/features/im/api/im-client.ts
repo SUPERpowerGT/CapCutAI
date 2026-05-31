@@ -1,4 +1,5 @@
 import type {
+  AgentWorkspaceContext,
   ApiResponse,
   Conversation,
   Message,
@@ -79,9 +80,13 @@ export function listMessages(conversationId: string) {
   return request<Message[]>(`/conversations/${conversationId}/messages`);
 }
 
-export function sendMessage(conversationId: string, content: string) {
+export function sendMessage(
+  conversationId: string,
+  content: string,
+  context?: AgentWorkspaceContext | null
+) {
   return request<SendMessageResult>(`/conversations/${conversationId}/messages`, {
     method: "POST",
-    body: JSON.stringify({content})
+    body: JSON.stringify({content, context})
   });
 }

@@ -16,6 +16,7 @@ def build_agent_reply(request: AgentRespondRequest) -> AgentRespondResponse:
                 }
                 for message in request.messages
             ],
+            "context": request.context or {},
             "trace": ["received conversation payload", "selected langgraph agent flow"],
         }
     )

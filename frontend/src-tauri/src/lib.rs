@@ -26,6 +26,39 @@ struct DesktopState {
   last_workspace_id: Option<String>,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct PersistWorkspaceAssetRequest {
+  asset_id: String,
+  workspace_id: String,
+  slot: String,
+  file_name: String,
+  mime_type: String,
+  bytes: Vec<u8>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct PersistWorkspaceAssetResponse {
+  asset_id: String,
+  workspace_file_path: String,
+  workspace_relative_path: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct WorkspaceAssetDescriptor {
+  asset_id: String,
+  workspace_id: String,
+  slot: String,
+  name: String,
+  mime_type: String,
+  size_bytes: u64,
+  added_at: String,
+  workspace_file_path: String,
+  workspace_relative_path: String,
+}
+
 fn now_stamp() -> String {
   let millis = SystemTime::now()
     .duration_since(UNIX_EPOCH)
@@ -76,6 +109,149 @@ fn workspace_manifest_path(base_dir: &Path, workspace_id: &str) -> PathBuf {
 
 fn ensure_dir(path: &Path) -> Result<(), String> {
   fs::create_dir_all(path).map_err(|error| format!("failed to create {}: {error}", path.display()))
+}
+
+fn sanitize_file_name(file_name: &str) -> String {
+  let sanitized = file_name
+    .chars()
+    .map(|character| match character {
+      '/' | '\\' | ':' | '*' | '?' | '"' | '<' | '>' | '|' => '_',
+      _ => character,
+    })
+    .collect::<String>()
+    .trim()
+    .to_string();
+
+  if sanitized.is_empty() {
+    "asset.bin".to_string()
+  } else {
+    sanitized
+  }
+}
+
+fn infer_mime_type(file_name: &str) -> String {
+  let extension = Path::new(file_name)
+    .extension()
+    .and_then(|value| value.to_str())
+    .unwrap_or_default()
+    .to_ascii_lowercase();
+
+  match extension.as_str() {
+    "mp4" => "video/mp4",
+    "mov" => "video/quicktime",
+    "m4v" => "video/x-m4v",
+    "webm" => "video/webm",
+    "avi" => "video/x-msvideo",
+    "mkv" => "video/x-matroska",
+    _ => "application/octet-stream",
+  }
+  .to_string()
+}
+
+fn workspace_assets_dir(base_dir: &Path, workspace_id: &str) -> PathBuf {
+  workspace_dir(base_dir, workspace_id).join("assets")
+}
+
+fn resolve_asset_target_paths(
+  base_dir: &Path,
+  request: &PersistWorkspaceAssetRequest,
+) -> Result<(PathBuf, String), String> {
+  let assets_dir = workspace_assets_dir(base_dir, &request.workspace_id);
+  let file_name = sanitize_file_name(&request.file_name);
+
+  match request.slot.as_str() {
+    "REFERENCE" => {
+      let reference_dir = assets_dir.join("reference").join("current");
+      ensure_dir(&reference_dir)?;
+      if reference_dir.exists() {
+        for entry in fs::read_dir(&reference_dir)
+          .map_err(|error| format!("failed to read {}: {error}", reference_dir.display()))?
+        {
+          let entry =
+            entry.map_err(|error| format!("failed to read reference entry: {error}"))?;
+          let path = entry.path();
+          if path.is_dir() {
+            fs::remove_dir_all(&path).map_err(|error| {
+              format!("failed to clear {}: {error}", path.display())
+            })?;
+          } else {
+            fs::remove_file(&path).map_err(|error| {
+              format!("failed to clear {}: {error}", path.display())
+            })?;
+          }
+        }
+      }
+
+      Ok((
+        reference_dir.join(&file_name),
+        format!("assets/reference/current/{file_name}"),
+      ))
+    }
+    "SOURCE" => {
+      let source_dir = assets_dir.join("source");
+      ensure_dir(&source_dir)?;
+      let persisted_file_name = format!("{}__{}", request.asset_id, file_name);
+      Ok((
+        source_dir.join(&persisted_file_name),
+        format!("assets/source/{persisted_file_name}"),
+      ))
+    }
+    slot => Err(format!("unsupported asset slot: {slot}")),
+  }
+}
+
+fn collect_workspace_assets_from_dir(
+  workspace_id: &str,
+  slot: &str,
+  directory: &Path,
+  relative_dir: &str,
+) -> Result<Vec<WorkspaceAssetDescriptor>, String> {
+  if !directory.exists() {
+    return Ok(Vec::new());
+  }
+
+  let mut assets = Vec::new();
+  for entry in fs::read_dir(directory)
+    .map_err(|error| format!("failed to read {}: {error}", directory.display()))?
+  {
+    let entry = entry.map_err(|error| format!("failed to read asset entry: {error}"))?;
+    let path = entry.path();
+    if !path.is_file() {
+      continue;
+    }
+
+    let metadata =
+      fs::metadata(&path).map_err(|error| format!("failed to read {}: {error}", path.display()))?;
+    let name = path
+      .file_name()
+      .and_then(|value| value.to_str())
+      .unwrap_or("asset")
+      .to_string();
+    let asset_id = if slot == "SOURCE" {
+      name.split("__")
+        .next()
+        .filter(|value| value.starts_with("asset_"))
+        .map(|value| value.to_string())
+        .unwrap_or_else(|| format!("asset_restore_{}", name))
+    } else {
+      format!("asset_reference_{}", name)
+    };
+
+    assets.push(WorkspaceAssetDescriptor {
+      asset_id,
+      workspace_id: workspace_id.to_string(),
+      slot: slot.to_string(),
+      name: name.clone(),
+      mime_type: infer_mime_type(&name),
+      size_bytes: metadata.len(),
+      added_at: now_stamp(),
+      workspace_file_path: path.display().to_string(),
+      workspace_relative_path: format!("{relative_dir}/{name}"),
+    });
+  }
+
+  assets.sort_by(|left, right| right.name.cmp(&left.name));
+  Ok(assets)
 }
 
 fn write_json_file<T: Serialize>(path: &Path, value: &T) -> Result<(), String> {
@@ -334,10 +510,89 @@ fn create_workspace<R: Runtime>(app: AppHandle<R>) -> Result<WorkspaceDescriptor
   Ok(descriptor)
 }
 
+#[tauri::command]
+fn persist_workspace_asset<R: Runtime>(
+  app: AppHandle<R>,
+  request: PersistWorkspaceAssetRequest,
+) -> Result<PersistWorkspaceAssetResponse, String> {
+  let base_dir = workspace_root_dir(&app)?;
+  ensure_dir(&base_dir)?;
+
+  let workspace_descriptor = load_workspace_descriptor(&base_dir, &request.workspace_id)?;
+  if workspace_descriptor.is_none() {
+    return Err(format!(
+      "workspace {} does not exist",
+      request.workspace_id
+    ));
+  }
+
+  let (target_path, relative_path) = resolve_asset_target_paths(&base_dir, &request)?;
+  if let Some(parent) = target_path.parent() {
+    ensure_dir(parent)?;
+  }
+
+  fs::write(&target_path, &request.bytes).map_err(|error| {
+    format!("failed to persist {}: {error}", target_path.display())
+  })?;
+
+  Ok(PersistWorkspaceAssetResponse {
+    asset_id: request.asset_id,
+    workspace_file_path: target_path.display().to_string(),
+    workspace_relative_path: relative_path,
+  })
+}
+
+#[tauri::command]
+fn delete_workspace_asset(workspace_file_path: String) -> Result<(), String> {
+  let path = PathBuf::from(&workspace_file_path);
+  if !path.exists() {
+    return Ok(());
+  }
+
+  fs::remove_file(&path)
+    .map_err(|error| format!("failed to delete {}: {error}", path.display()))
+}
+
+#[tauri::command]
+fn list_workspace_assets<R: Runtime>(
+  app: AppHandle<R>,
+  workspace_id: String,
+) -> Result<Vec<WorkspaceAssetDescriptor>, String> {
+  let base_dir = workspace_root_dir(&app)?;
+  ensure_dir(&base_dir)?;
+
+  let workspace_descriptor = load_workspace_descriptor(&base_dir, &workspace_id)?;
+  if workspace_descriptor.is_none() {
+    return Err(format!("workspace {} does not exist", workspace_id));
+  }
+
+  let assets_dir = workspace_assets_dir(&base_dir, &workspace_id);
+  let mut assets = Vec::new();
+  assets.extend(collect_workspace_assets_from_dir(
+    &workspace_id,
+    "REFERENCE",
+    &assets_dir.join("reference").join("current"),
+    "assets/reference/current",
+  )?);
+  assets.extend(collect_workspace_assets_from_dir(
+    &workspace_id,
+    "SOURCE",
+    &assets_dir.join("source"),
+    "assets/source",
+  )?);
+  Ok(assets)
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![ensure_workspace, create_workspace])
+    .invoke_handler(tauri::generate_handler![
+      ensure_workspace,
+      create_workspace,
+      persist_workspace_asset,
+      delete_workspace_asset,
+      list_workspace_assets
+    ])
     .on_menu_event(|app, event| {
       if event.id().as_ref() == "new_window" {
         if let Err(error) = open_new_workspace_window(app) {

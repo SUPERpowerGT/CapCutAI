@@ -6,6 +6,7 @@ import {useAssetsPanel} from "../../assets/hooks/use-assets-panel";
 import {EditorSurface} from "../../editor/components/EditorSurface";
 import {ChatPanel} from "../../im/components/ChatPanel";
 import {useImWorkspace} from "../../im/hooks/use-im-workspace";
+import type {AgentWorkspaceContext} from "../../im/types/contracts";
 import {textStyles} from "../../../shared/design/typography";
 import {useWorkspaceContext} from "../hooks/use-workspace-context";
 import {useWorkspaceLayout} from "../hooks/use-workspace-layout";
@@ -30,8 +31,62 @@ export function WorkspaceShell() {
   const assetsPanel = useAssetsPanel(
     workspace.isReady ? workspace.workspaceContext.workspaceId : null
   );
+  const workspaceFolderPath = workspace.isReady
+    ? workspace.workspaceContext.folderPath
+    : undefined;
+  const referenceDirectoryPath = workspaceFolderPath
+    ? `${workspaceFolderPath}/assets/reference/current`
+    : undefined;
+  const sourceDirectoryPath = workspaceFolderPath
+    ? `${workspaceFolderPath}/assets/source`
+    : undefined;
+  const agentWorkspaceContext: AgentWorkspaceContext = {
+    workspaceId: workspace.isReady ? workspace.workspaceContext.workspaceId : undefined,
+    workspaceTitle: workspace.workspaceContext.title,
+    workspaceFolderPath,
+    referenceDirectoryPath,
+    sourceDirectoryPath,
+    hasReferenceVideo: Boolean(assetsPanel.selectedReferenceAsset),
+    hasSourceVideo: assetsPanel.sourceAssets.length > 0,
+    referenceVideo: assetsPanel.selectedReferenceAsset
+      ? {
+          assetId: assetsPanel.selectedReferenceAsset.assetId,
+          name: assetsPanel.selectedReferenceAsset.name,
+          mimeType: assetsPanel.selectedReferenceAsset.mimeType,
+          durationSeconds: assetsPanel.selectedReferenceAsset.durationSeconds,
+          frameWidth: assetsPanel.selectedReferenceAsset.frameWidth,
+          frameHeight: assetsPanel.selectedReferenceAsset.frameHeight,
+          workspaceFilePath: assetsPanel.selectedReferenceAsset.workspaceFilePath,
+          workspaceRelativePath:
+            assetsPanel.selectedReferenceAsset.workspaceRelativePath
+        }
+      : null,
+    sourceVideo: assetsPanel.selectedSourceAsset
+      ? {
+          assetId: assetsPanel.selectedSourceAsset.assetId,
+          name: assetsPanel.selectedSourceAsset.name,
+          mimeType: assetsPanel.selectedSourceAsset.mimeType,
+          durationSeconds: assetsPanel.selectedSourceAsset.durationSeconds,
+          frameWidth: assetsPanel.selectedSourceAsset.frameWidth,
+          frameHeight: assetsPanel.selectedSourceAsset.frameHeight,
+          workspaceFilePath: assetsPanel.selectedSourceAsset.workspaceFilePath,
+          workspaceRelativePath: assetsPanel.selectedSourceAsset.workspaceRelativePath
+        }
+      : null,
+    sourceVideos: assetsPanel.sourceAssets.map((asset) => ({
+      assetId: asset.assetId,
+      name: asset.name,
+      mimeType: asset.mimeType,
+      durationSeconds: asset.durationSeconds,
+      frameWidth: asset.frameWidth,
+      frameHeight: asset.frameHeight,
+      workspaceFilePath: asset.workspaceFilePath,
+      workspaceRelativePath: asset.workspaceRelativePath
+    }))
+  };
   const imWorkspace = useImWorkspace(
-    workspace.isReady ? workspace.workspaceContext.workspaceId : null
+    workspace.isReady ? workspace.workspaceContext.workspaceId : null,
+    agentWorkspaceContext
   );
 
   return (

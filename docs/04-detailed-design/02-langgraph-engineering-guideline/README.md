@@ -86,12 +86,34 @@ graph 负责“编排”，不是“把所有逻辑都塞进去”。
 tool = graph 可调用的外部能力
 ```
 
+在 CapCutAI 里再补一条硬边界：
+
+```txt
+tool != UI action
+```
+
+也就是说，graph 调的是本地 Agent Runtime 挂接的受控能力，不是直接点客户端按钮。
+
+CapCutAI 当前已经开始落的第一批基础 tool，就是这种“graph 可直接调的只读/校验能力”：
+
+- `describe_workspace_state`
+- `list_source_videos`
+- `validate_workspace_inputs`
+
+它们先不做复杂执行，只负责：
+
+- 读取当前 workspace / assets
+- 给 graph 一份稳定的结构化结果
+- 帮助 graph 决定能不能继续走分析 / 生成 / 修订
+
 ### tool 的职责
 
 - 输入清晰
 - 输出结构化
 - 自己不做工作流判断
 - 被 graph 或 node 调用
+- 作用域尽量限制在当前 workspace
+- 调用过程可记录到 trace / task history
 
 ### tool 不做什么
 
@@ -246,6 +268,21 @@ log 给工程和排障看
 - timeline 规划
 - editing job 生成
 
+## 8. Plan vs Execution
+
+这里建议强制区分两层：
+
+```txt
+LLM / planner 生成的是语义层 Edit Plan
+Tool Runtime 执行的是可落地的 Execution Plan
+```
+
+也就是说：
+
+- 模型不直接输出 FFmpeg / Remotion 细节作为最终执行真相
+- graph / runtime 可以把语义计划编译成时间线、参数、素材映射和渲染任务
+- 具体媒体执行继续交给本地工具层
+
 ### `revision_graph`
 
 负责：
@@ -257,6 +294,25 @@ log 给工程和排障看
 ## 8. state 应该长什么样
 
 后面 graph state 不应该只是一段聊天文本。
+
+当前更合理的第一阶段骨架应该至少有：
+
+- `meta`
+- `workspace`
+- `assets`
+- `memory`
+- `intent`
+- `tool_calls`
+- `response`
+- `trace`
+- `status`
+- `error`
+
+当前 `conversation_graph` 已经开始按这层走，而不是只保留：
+
+- `messages`
+- `latest_user_message`
+- `reply_content`
 
 建议逐步扩成结构化状态：
 

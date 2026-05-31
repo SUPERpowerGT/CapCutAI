@@ -1,5 +1,6 @@
 "use client";
 
+import type {ReactNode} from "react";
 import type {AssetItem} from "../types/assets";
 import {textStyles} from "../../../shared/design/typography";
 
@@ -31,15 +32,16 @@ export function AssetsSidebar({
   isPicking,
   isRegistering,
   error,
+  onAddReferenceVideo,
   onAddSourceVideo,
   onRemoveAsset,
+  onSelectReferenceAsset,
   onSelectSourceAsset
 }: AssetsSidebarProps) {
+  const selectedReferenceAsset =
+    referenceAssets.find((item) => item.assetId === selectedReferenceAssetId) ?? null;
   const selectedSourceAsset =
     sourceAssets.find((item) => item.assetId === selectedSourceAssetId) ?? null;
-  const fallbackReferenceAsset =
-    referenceAssets.find((item) => item.assetId === selectedReferenceAssetId) ?? null;
-  const primaryAsset = selectedSourceAsset ?? fallbackReferenceAsset;
 
   return (
     <section
@@ -68,15 +70,10 @@ export function AssetsSidebar({
           padding: "16px",
           display: "grid",
           alignContent: "start",
-          gap: "16px"
+          gap: "18px"
         }}
       >
-        <div
-          style={{
-            display: "grid",
-            gap: "4px"
-          }}
-        >
+        <div style={{display: "grid", gap: "4px"}}>
           <p style={sectionLabelStyle}>Workspace</p>
           <p
             style={{
@@ -92,120 +89,164 @@ export function AssetsSidebar({
           </p>
         </div>
 
-        <UploadPanel
-          disabled={isPicking || isRegistering}
-          isBusy={isPicking || isRegistering}
-          onClick={onAddSourceVideo}
-        />
-
         {error ? <p style={{...mutedTextStyle, color: "#f2a3a3"}}>{error}</p> : null}
 
-        <section style={{display: "grid", gap: "10px"}}>
-          <p style={sectionLabelStyle}>Current Video</p>
-          {primaryAsset ? (
+        <AssetGroupSection
+          label="Reference Video"
+          title="上传爆款参考视频"
+          description="当前版本先只支持一个参考视频。重新上传会直接替换当前参考视频。"
+          buttonLabel={isPicking || isRegistering ? "Selecting..." : "上传参考视频"}
+          disabled={isPicking || isRegistering}
+          onAdd={onAddReferenceVideo}
+        >
+          {selectedReferenceAsset ? (
             <AssetCard
-              asset={primaryAsset}
+              asset={selectedReferenceAsset}
+              badge="Current Reference"
               isActive
-              onSelect={() => onSelectSourceAsset(primaryAsset.assetId)}
-              onRemove={() => onRemoveAsset(primaryAsset.assetId)}
+              onSelect={() => onSelectReferenceAsset(selectedReferenceAsset.assetId)}
+              onRemove={() => onRemoveAsset(selectedReferenceAsset.assetId)}
             />
           ) : (
-            <EmptyState />
+            <EmptyState text="还没有参考视频。上传一个爆款视频做风格分析。" />
           )}
-        </section>
+        </AssetGroupSection>
+
+        <AssetGroupSection
+          label="Source Videos"
+          title="上传用户待剪视频"
+          description="这里支持多个 source 视频。后续模型会基于当前 workspace 的 source 目录做分析与拆分。"
+          buttonLabel={isPicking || isRegistering ? "Selecting..." : "上传源视频"}
+          disabled={isPicking || isRegistering}
+          onAdd={onAddSourceVideo}
+        >
+          {sourceAssets.length > 0 ? (
+            <div style={{display: "grid", gap: "10px"}}>
+              {sourceAssets.map((asset) => (
+                <AssetCard
+                  key={asset.assetId}
+                  asset={asset}
+                  badge={
+                    asset.assetId === selectedSourceAsset?.assetId
+                      ? "Current Source"
+                      : "Source"
+                  }
+                  isActive={asset.assetId === selectedSourceAsset?.assetId}
+                  onSelect={() => onSelectSourceAsset(asset.assetId)}
+                  onRemove={() => onRemoveAsset(asset.assetId)}
+                />
+              ))}
+            </div>
+          ) : (
+            <EmptyState text="还没有源视频。这里可以连续上传多个用户视频。" />
+          )}
+        </AssetGroupSection>
       </div>
     </section>
   );
 }
 
-function UploadPanel({
+function AssetGroupSection({
+  label,
+  title,
+  description,
+  buttonLabel,
   disabled,
-  isBusy,
-  onClick
+  onAdd,
+  children
 }: {
+  label: string;
+  title: string;
+  description: string;
+  buttonLabel: string;
   disabled: boolean;
-  isBusy: boolean;
-  onClick: () => void;
+  onAdd: () => void;
+  children: ReactNode;
 }) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
+    <section
       style={{
-        appearance: "none",
-        width: "100%",
-        minHeight: "180px",
-        borderRadius: "16px",
-        border: "1px dashed rgba(255,255,255,0.12)",
-        background: "linear-gradient(180deg, #171a1e 0%, #111418 100%)",
-        padding: "20px 18px",
         display: "grid",
-        placeItems: "center",
-        textAlign: "center",
-        cursor: disabled ? "default" : "pointer"
+        gap: "12px",
+        padding: "14px",
+        borderRadius: "18px",
+        border: "1px solid rgba(255,255,255,0.06)",
+        background: "#111418"
       }}
     >
-      <div style={{display: "grid", gap: "14px", justifyItems: "center", maxWidth: "100%"}}>
-        <div
-          style={{
-            width: "42px",
-            height: "42px",
-            borderRadius: "12px",
-            display: "grid",
-            placeItems: "center",
-            background: "rgba(121,192,255,0.10)",
-            color: "#78b7ff",
-            fontSize: "18px",
-            fontWeight: 700
-          }}
-        >
-          ↑
-        </div>
-        <div style={{display: "grid", gap: "6px"}}>
-          <p
+      <p style={sectionLabelStyle}>{label}</p>
+
+      <button
+        type="button"
+        onClick={onAdd}
+        disabled={disabled}
+        style={{
+          appearance: "none",
+          width: "100%",
+          minHeight: "132px",
+          borderRadius: "16px",
+          border: "1px dashed rgba(255,255,255,0.12)",
+          background: "linear-gradient(180deg, #171a1e 0%, #111418 100%)",
+          padding: "18px",
+          display: "grid",
+          placeItems: "center",
+          textAlign: "center",
+          cursor: disabled ? "default" : "pointer"
+        }}
+      >
+        <div style={{display: "grid", gap: "8px", justifyItems: "center", maxWidth: "100%"}}>
+          <div
             style={{
-              ...textStyles.titleMedium,
-              fontSize: "18px",
-              color: disabled ? "#8a949f" : "#dfe7ee"
+              width: "38px",
+              height: "38px",
+              borderRadius: "10px",
+              display: "grid",
+              placeItems: "center",
+              background: "rgba(121,192,255,0.10)",
+              color: "#78b7ff",
+              fontSize: "16px",
+              fontWeight: 700
             }}
           >
-            {isBusy ? "Selecting..." : "上传视频"}
+            ↑
+          </div>
+          <p style={{...textStyles.titleMedium, color: disabled ? "#8a949f" : "#dfe7ee"}}>
+            {buttonLabel}
           </p>
-          <p style={{...mutedTextStyle, maxWidth: "240px"}}>
-            选择一个本地视频作为当前工作素材。后续分析、生成和修订都围绕这条素材展开。
-          </p>
+          <p style={{...mutedTextStyle, maxWidth: "280px"}}>{title}</p>
+          <p style={{...mutedTextStyle, maxWidth: "320px"}}>{description}</p>
         </div>
-        <p style={{...sectionLabelStyle, color: "#8d96a0", letterSpacing: "0.04em", textTransform: "none"}}>
-          支持 mp4 / mov / webm
-        </p>
-      </div>
-    </button>
+      </button>
+
+      {children}
+    </section>
   );
 }
 
-function EmptyState() {
+function EmptyState({text}: {text: string}) {
   return (
     <div
       style={{
         borderRadius: "14px",
         border: "1px dashed rgba(255,255,255,0.08)",
-        background: "#111418",
-        padding: "18px"
+        background: "#0f1317",
+        padding: "16px"
       }}
     >
-      <p style={mutedTextStyle}>还没有选择视频。先从上面的上传入口添加一个本地素材。</p>
+      <p style={mutedTextStyle}>{text}</p>
     </div>
   );
 }
 
 function AssetCard({
   asset,
+  badge,
   isActive,
   onSelect,
   onRemove
 }: {
   asset: AssetItem;
+  badge: string;
   isActive: boolean;
   onSelect: () => void;
   onRemove: () => void;
@@ -217,7 +258,7 @@ function AssetCard({
         border: isActive
           ? "1px solid rgba(121,192,255,0.45)"
           : "1px solid rgba(255,255,255,0.08)",
-        background: isActive ? "#141b23" : "#111418",
+        background: isActive ? "#141b23" : "#0f1317",
         padding: "14px",
         display: "grid",
         gap: "12px"
@@ -256,10 +297,10 @@ function AssetCard({
         <span
           style={{
             ...sectionLabelStyle,
-            color: "rgba(121,192,255,0.88)"
+            color: isActive ? "rgba(121,192,255,0.88)" : "#8d96a0"
           }}
         >
-          Current
+          {badge}
         </span>
         <button
           type="button"

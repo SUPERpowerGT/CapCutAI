@@ -25,6 +25,7 @@ postgresql
 - 本地 workspace 文件夹生命周期
 - 本地素材目录管理
 - 真实视频剪辑执行
+- 直接替模型做 tool routing 或 runtime orchestration
 
 ## 怎么启动
 
@@ -105,6 +106,14 @@ workspace 的本地生命周期归客户端
 workspace 下的对话与消息归 backend
 ```
 
+再严格一点：
+
+```txt
+Backend 是业务记录与持久化边界
+不是本地视频工具执行器
+也不是客户端 UI 控制器
+```
+
 ## 当前标准模块
 
 如果你要按现有风格继续写，优先参考：
@@ -117,6 +126,6 @@ workspace 下的对话与消息归 backend
 ## 继续看哪里
 
 - 总入口：[`../README.md`](../README.md)
-- 启动：[`../docs/getting-started/README.md`](../docs/getting-started/README.md)
-- 数据库存储：[`../docs/database-storage/README.md`](../docs/database-storage/README.md)
+- 启动：[`../docs/90-getting-started/README.md`](../docs/90-getting-started/README.md)
+- 数据库存储：[`../docs/04-detailed-design/04-database-storage-design/README.md`](../docs/04-detailed-design/04-database-storage-design/README.md)
 - 共享协议：[`../shared/README.md`](../shared/README.md)

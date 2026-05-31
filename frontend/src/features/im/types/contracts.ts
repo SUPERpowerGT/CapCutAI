@@ -49,3 +49,27 @@ export type SendMessageResult = {
   assistantMessage: Message;
   agentStatus: string;
 };
+
+export type AgentVideoAssetContext = {
+  assetId: string;
+  name: string;
+  mimeType: string;
+  durationSeconds?: number;
+  frameWidth?: number;
+  frameHeight?: number;
+  workspaceFilePath?: string;
+  workspaceRelativePath?: string;
+};
+
+export type AgentWorkspaceContext = {
+  workspaceId?: string;
+  workspaceTitle?: string;
+  workspaceFolderPath?: string;
+  referenceDirectoryPath?: string;
+  sourceDirectoryPath?: string;
+  hasReferenceVideo: boolean;
+  hasSourceVideo: boolean;
+  referenceVideo?: AgentVideoAssetContext | null;
+  sourceVideo?: AgentVideoAssetContext | null;
+  sourceVideos?: AgentVideoAssetContext[];
+};

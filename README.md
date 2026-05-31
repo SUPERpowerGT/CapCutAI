@@ -23,6 +23,22 @@ Local-first
 Cloud-ready
 ```
 
+更严格一点，现在推荐统一理解成：
+
+```txt
+Desktop Client
+  + Local Agent Runtime
+  + Local Tool Runtime
+  + Local Workspace File System
+  + Cloud / Local LLM
+```
+
+最关键的边界是：
+
+- 不是“模型直接调用客户端 UI”
+- 而是“本地 Agent Runtime 调用本地 Tool Runtime 暴露出来的受控工具能力”
+- `Client UI` 只负责交互、状态展示和结果预览
+
 浏览器模式还保留，但只用于开发 / 调试，不再作为产品主形态。
 
 ## 先知道这几件事
@@ -146,7 +162,7 @@ npm run dev
 - 打开工作台界面
 - 创建 / 恢复本地 `workspace`
 - `Window -> New Window` 创建新的 workspace 窗口
-- 本地上传视频
+- 导入本地视频到当前 workspace
 - 在中间 `Preview` 立即显示本地视频预览
 - 跑右侧 `Agent` 对话链路
 
@@ -207,17 +223,20 @@ npm run dev
 
 第一次拉项目，建议按这个顺序看：
 
-1. [`docs/getting-started/README.md`](./docs/getting-started/README.md)
+1. [`docs/90-getting-started/README.md`](./docs/90-getting-started/README.md)
 2. [`frontend/README.md`](./frontend/README.md)
 3. [`backend/README.md`](./backend/README.md)
 4. [`ai-service/README.md`](./ai-service/README.md)
-5. [`docs/desktop-client-plan/README.md`](./docs/desktop-client-plan/README.md)
+5. [`docs/04-detailed-design/07-desktop-client-design/README.md`](./docs/04-detailed-design/07-desktop-client-design/README.md)
 
 按主题继续看：
 
-- LLM 配置：[`docs/agent-llm/README.md`](./docs/agent-llm/README.md)
-- 桌面客户端路线：[`docs/desktop-client-plan/README.md`](./docs/desktop-client-plan/README.md)
-- 数据库存储：[`docs/database-storage/README.md`](./docs/database-storage/README.md)
+- LLM 配置：[`docs/04-detailed-design/09-agent-llm-setup/README.md`](./docs/04-detailed-design/09-agent-llm-setup/README.md)
+- 桌面客户端路线：[`docs/04-detailed-design/07-desktop-client-design/README.md`](./docs/04-detailed-design/07-desktop-client-design/README.md)
+- Workspace / Agent 模型：[`docs/03-architecture/01-workspace-agent-runtime-model/README.md`](./docs/03-architecture/01-workspace-agent-runtime-model/README.md)
+- Client / Backend / AI 边界：[`docs/03-architecture/02-client-backend-agent-tool-boundary/README.md`](./docs/03-architecture/02-client-backend-agent-tool-boundary/README.md)
+- Workspace Agent Use Cases：[`docs/02-use-cases/01-workspace-agent-use-cases/README.md`](./docs/02-use-cases/01-workspace-agent-use-cases/README.md)
+- 数据库存储：[`docs/04-detailed-design/04-database-storage-design/README.md`](./docs/04-detailed-design/04-database-storage-design/README.md)
 - 文档中心：[`docs/README.md`](./docs/README.md)
 
 ## 当前开发约定
@@ -227,6 +246,8 @@ npm run dev
 - `workspace` 比 `session` 更重要
 - 一个窗口 = 一个 `workspace`
 - conversation 目前跟着 `workspace` 走
+- 原始视频、抽帧、中间产物、最终产物优先保存在本地 workspace
+- 模型负责理解、规划、修订；真正的视频分析、渲染、转码由本地工具执行
 
 ## 常见坑
 

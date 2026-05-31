@@ -11,6 +11,18 @@ Tauri 是默认运行壳
 Web 只用于开发 / 调试
 ```
 
+前端这层要特别区分：
+
+```txt
+Client UI != Local Tool Runtime
+```
+
+也就是说：
+
+- 前端负责 workspace 交互、状态展示、结果预览
+- 前端不直接承载复杂剪辑逻辑
+- 本地剪辑能力应该通过稳定接口接到本地 Agent / Tool Runtime
+
 ## 这层负责什么
 
 - 左侧 `Assets`
@@ -19,6 +31,8 @@ Web 只用于开发 / 调试
   - `Timeline`
 - 右侧 `Agent Panel`
 - 整个桌面工作台布局
+- 收集当前窗口级 workspace facts
+- 展示任务进度、artifact 摘要、最终视频预览
 
 前端现在不是聊天网页，而是桌面工作台。
 
@@ -103,7 +117,7 @@ src/
 
 负责：
 
-- 主上传入口
+- 主素材导入入口
 - 当前素材选择
 - 素材元数据展示
 - 后续目录 / 上传 / 搜索 / 删除
@@ -127,10 +141,11 @@ src/
 
 ## 当前几个关键原则
 
-1. 上传主入口在左侧 `Assets`
+1. 素材导入主入口在左侧 `Assets`
 2. 右侧是 `Agent Panel`，不是聊天软件
 3. 前端弱化 `session UI`，强化 `workspace`
 4. 新功能默认按桌面客户端能力设计
+5. UI 不直接做剪辑决策，UI 展示的是 Agent Runtime 和 Tool Runtime 的执行结果
 
 ## 当前适配层
 
@@ -146,11 +161,12 @@ src/
 
 - UI 主体只维护一套
 - 差异尽量落在底层 adapter / gateway
+- 后面可以把本地素材导入、本地工具调用、云端同步分别挂到独立适配层
 
 ## 继续看哪里
 
 - 总入口：[`../README.md`](../README.md)
-- 启动：[`../docs/getting-started/README.md`](../docs/getting-started/README.md)
-- 桌面路线：[`../docs/desktop-client-plan/README.md`](../docs/desktop-client-plan/README.md)
+- 启动：[`../docs/90-getting-started/README.md`](../docs/90-getting-started/README.md)
+- 桌面路线：[`../docs/04-detailed-design/07-desktop-client-design/README.md`](../docs/04-detailed-design/07-desktop-client-design/README.md)
 - Assets：[`./src/features/assets/README.md`](./src/features/assets/README.md)
-- IM：[`../docs/im-optimization/README.md`](../docs/im-optimization/README.md)
+- IM：[`../docs/04-detailed-design/08-agent-panel-im-design/README.md`](../docs/04-detailed-design/08-agent-panel-im-design/README.md)

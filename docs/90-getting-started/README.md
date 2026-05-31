@@ -159,4 +159,4 @@ frontend/
 - 前端：[`../../frontend/README.md`](../../frontend/README.md)
 - 后端：[`../../backend/README.md`](../../backend/README.md)
 - AI：[`../../ai-service/README.md`](../../ai-service/README.md)
-- 桌面客户端路线：[`../desktop-client-plan/README.md`](../desktop-client-plan/README.md)
+- 桌面客户端路线：[`../04-detailed-design/07-desktop-client-design/README.md`](../04-detailed-design/07-desktop-client-design/README.md)

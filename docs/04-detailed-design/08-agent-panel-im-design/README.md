@@ -14,7 +14,7 @@
 - 后端可以继续保留 conversation
 - 前端不强调 `session` UI
 - 当前窗口只围绕一个 workspace 工作
-- 上传主入口在左侧 `Assets`
+- 素材导入主入口在左侧 `Assets`
 - 右侧只负责：
   - 意图输入
   - 状态反馈

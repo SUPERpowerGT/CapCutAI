@@ -176,6 +176,18 @@ order by created_at asc;
 - `make smoke` 跑一次后，就能在数据库里看到新会话和两条消息
 - 当前 schema 还比较轻，后面如果接真实 agent 历史、工具调用、附件、素材索引，可以继续在这个目录扩展文档
 
+## 边界说明
+
+这份文档现在只保留：
+
+- 当前已经存在的数据库表
+- 当前消息落库链路
+- 本地如何查看 PostgreSQL
+
+更细的目标表、workspace 存储布局、以及 use case 到存储映射，请改看：
+
+- [`../12-workspace-storage-and-target-schema/README.md`](../12-workspace-storage-and-target-schema/README.md)
+
 ## 参考
 
 - [`../README.md`](../README.md)

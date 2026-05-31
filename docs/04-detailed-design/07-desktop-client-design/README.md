@@ -34,6 +34,7 @@ Desktop-first
 frontend 继续做界面层
 Tauri 作为默认桌面壳
 backend + ai-service 保留服务能力
+Local Tool Runtime 承接本地媒体能力
 ```
 
 一句话：
@@ -42,6 +43,16 @@ backend + ai-service 保留服务能力
 一套 frontend
 Desktop 是默认运行形态
 Web 只用于开发 / 调试
+```
+
+再严格一点，当前推荐的桌面架构是：
+
+```txt
+Desktop Client
+  -> Local Agent Runtime
+  -> Local Tool Runtime
+  -> Local Workspace File System
+  -> Cloud / Local LLM
 ```
 
 ## 当前窗口心智
@@ -105,7 +116,8 @@ Window
 
 - workspace 本地生命周期归客户端
 - conversation / message 归 backend
-- 分析、规划、导出产物归 ai-service
+- 智能编排归本地 Agent Runtime
+- 媒体分析、渲染、导出归本地 Tool Runtime
 
 ## 当前已经完成到哪
 
@@ -138,3 +150,4 @@ Cloud-ready
 
 - 当前先保证本地可用
 - 后续 backend / ai-service / database 上云时，客户端平滑切换
+- 但默认不把完整原始视频上传到云端做主流程处理

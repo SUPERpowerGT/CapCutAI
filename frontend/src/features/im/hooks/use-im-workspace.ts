@@ -7,9 +7,17 @@ import {
   sendMessage
 } from "../api/im-client";
 import {buildPendingUserMessage, extractPreviewHeadline} from "../lib/formatters";
-import type {AgentActivityItem, Conversation, Message} from "../types/contracts";
+import type {
+  AgentActivityItem,
+  AgentWorkspaceContext,
+  Conversation,
+  Message
+} from "../types/contracts";
 
-export function useImWorkspace(workspaceId: string | null) {
+export function useImWorkspace(
+  workspaceId: string | null,
+  workspaceContext?: AgentWorkspaceContext | null
+) {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [activeConversationId, setActiveConversationId] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -251,7 +259,11 @@ export function useImWorkspace(workspaceId: string | null) {
     setMessages((prev) => [...prev, optimisticMessage]);
 
     try {
-      const response = await sendMessage(activeConversationId, normalized);
+      const response = await sendMessage(
+        activeConversationId,
+        normalized,
+        workspaceContext
+      );
       setMessages((prev) => [
         ...prev.filter((message) => message.messageId !== optimisticMessage.messageId),
         response.userMessage

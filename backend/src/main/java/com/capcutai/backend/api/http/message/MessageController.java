@@ -50,7 +50,11 @@ public class MessageController {
     ) {
         return ApiResponse.success(
                 MessageHttpMapper.toHttpResponse(
-                        sendMessageUseCase.execute(conversationId, request.content())
+                        sendMessageUseCase.execute(
+                                conversationId,
+                                request.content(),
+                                request.context()
+                        )
                 )
         );
     }

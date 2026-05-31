@@ -23,6 +23,8 @@ export type AssetItem = {
   frameHeight?: number;
   objectUrl?: string;
   remoteAssetId?: string;
+  workspaceFilePath?: string;
+  workspaceRelativePath?: string;
   errorMessage?: string;
 };
 
