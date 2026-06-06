@@ -107,7 +107,7 @@ agent 负责：
 - 无视频或轻量包装层的 HyperFrames composition 已经可以作为 agent 视觉生成链路使用
 - 带真实 source video 的长主轨，不作为第一阶段 HyperFrames 的优先渲染对象
 - 如果需要 HyperFrames 参与真实视频成片，优先让 ffmpeg 先产出主轨 base video，再由 HyperFrames 生成包装层或 overlay
-- 如果 HyperFrames 本机 render 遇到浏览器采帧 runtime 问题，先保留 bundle 和 lint 结果，用 ffmpeg native render 保障闭环
+- 如果 HyperFrames 本机 render 遇到浏览器采帧 runtime 问题，先检查 timeline contract，再用 ffmpeg native render 保障闭环
 
 ### Avoid HyperFrames for primary video assembly
 
@@ -247,12 +247,53 @@ npx --yes hyperframes lint ./output/plans/<bundle-dir>
 - 1080p base video 可由 ffmpeg native render 生成
 - HyperFrames bundle 可生成并通过 lint
 - 纯视觉 / 无真实 source video 的 HyperFrames composition 此前已可用
+- 带真实 source video 的 HyperFrames 1080p render 已可走通
 
 当前观察到的限制：
 
 - 带真实 source video 的 1080p HyperFrames 本机 render 曾在 browser capture 阶段报 `Cannot access 'he' before initialization`
+- 实际根因是 composition 注册了 `window.__timelines["main"] = {}`，空对象没有 `pause()` 等 timeline 控制方法
 - Docker render 曾在镜像构建阶段因 `deb.debian.org` apt 连接超时失败
+- 修复为空 timeline contract 后，HyperFrames render 可以完成，但 1080p 全量主轨耗时约 4m
 - 这些问题不影响 ffmpeg native render 闭环，也不代表 HyperFrames bundle schema 不可用
+
+### 7. HyperFrames timeline contract
+
+不要写：
+
+```js
+window.__timelines["main"] = {};
+```
+
+如果 composition 没有 GSAP 动效，也必须注册一个可被 HyperFrames 控制的 paused timeline contract：
+
+```js
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = {
+  _time: 0,
+  _duration: 32.333,
+  pause() { return this; },
+  play() { return this; },
+  seek(value) { this._time = Number(value) || 0; return this; },
+  totalTime(value) {
+    if (typeof value === "number") this._time = value;
+    return this._time;
+  },
+  time() { return this._time; },
+  duration() { return this._duration; },
+  timeScale() { return this; },
+  kill() { return this; }
+};
+```
+
+如果有真实动效，则优先使用 GSAP：
+
+```js
+const tl = gsap.timeline({ paused: true });
+window.__timelines["main"] = tl;
+```
+
+registry key 必须等于 root element 的 `data-composition-id`。
 
 ## Decision Table
 

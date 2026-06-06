@@ -296,7 +296,7 @@ npx --yes hyperframes lint ai-service/output/plans/agent-sample-1080-hyperframes
 
 ### HyperFrames 渲染观察
 
-本次不继续做 HyperFrames runtime 测试，只记录已经观察到的问题。
+此前观察到的问题已经进一步定位。
 
 此前无真实视频素材的 HyperFrames composition 已经可用。今天尝试的是“包含真实 source video 的 1080p composition render”，这个场景在本机 Chrome capture 阶段出现过：
 
@@ -304,6 +304,14 @@ npx --yes hyperframes lint ai-service/output/plans/agent-sample-1080-hyperframes
 Cannot access 'he' before initialization
 t.capturedTimeline.pause is not a function
 ```
+
+根因不是本机 Mac、Chrome、ffmpeg 或视频素材不可用，而是生成的 composition 为了通过 timeline registry 校验写了：
+
+```js
+window.__timelines["main"] = {};
+```
+
+HyperFrames 要求 `window.__timelines[compositionId]` 是一个可被 runtime 控制的 paused timeline，至少需要提供 `pause / play / seek / totalTime / time / duration` 等方法。空对象可以让部分静态校验通过，但 render 阶段调用 `pause()` 时会失败。
 
 已经排除的点：
 
@@ -315,6 +323,39 @@ t.capturedTimeline.pause is not a function
 - Docker daemon 可用
 - bundle lint 为 0 error / 0 warning
 - base video 已重新编码为 30fps / keyframe interval 30
+
+修复方式：
+
+```txt
+ai-service/app/services/hyperframes_service.py
+```
+
+新增 `_build_empty_timeline_script()`，在没有 GSAP 动效的 composition 中注册一个最小 paused timeline contract，而不是注册空对象。
+
+修复后验证：
+
+```txt
+lint: 0 errors, 0 warnings
+snapshot: 5 frames captured
+render: completed
+```
+
+HyperFrames 成功输出：
+
+```txt
+ai-service/output/renders/agent-sample-1080-hyperframes-fixed.final.mp4
+ai-service/output/renders/agent-sample-1080-hyperframes-fixed.render-result.json
+```
+
+输出信息：
+
+```txt
+duration: 32.354362s
+video: H.264 1920x1080 30fps
+audio: AAC 48000Hz stereo
+size: 25,635,024 bytes
+render time: 4m 4.7s
+```
 
 Docker render 尝试没有进入实际渲染阶段，失败在镜像构建时无法连接 Debian apt 源：
 
@@ -328,7 +369,8 @@ Docker image build failed
 - agent 到 package 的剪辑决策链路可走通
 - ffmpeg native 1080p MP4 导出可走通
 - HyperFrames bundle 生成和 lint 可走通
-- 带真实 source video 的 HyperFrames 本机 render 仍需后续单独排查 runtime / Docker 镜像环境
+- 带真实 source video 的 HyperFrames 本机 render 已可走通，但 1080p 全量主轨逐帧渲染耗时明显高于 ffmpeg native render
+- HyperFrames 不适合作为第一阶段主视频轨的默认导出器，更适合作为包装层、复杂视觉层或短时 overlay renderer
 
 ### 下一步建议
 
@@ -348,3 +390,16 @@ HyperFrames 继续用于：
 - HyperFrames 固定版本
 - 可访问 Debian apt 源的 Docker build 环境
 - 或预构建好的 HyperFrames renderer image
+
+本机环境推荐：
+
+```txt
+macOS Apple Silicon
+Node.js 22+
+HyperFrames 0.6.76
+Google Chrome 148+
+ffmpeg / ffprobe 8.1
+16GB+ memory
+```
+
+如果追求更稳定的 HyperFrames render 环境，建议使用预构建 Docker renderer image 或 CI runner，避免每次临时构建镜像时受 Debian apt 源网络影响。

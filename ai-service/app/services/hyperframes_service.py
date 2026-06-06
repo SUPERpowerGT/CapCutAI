@@ -712,13 +712,32 @@ def _build_render_composition_html(
     >
       {' '.join(scene_elements)}
     </div>
-    <script>
-      window.__timelines = window.__timelines || {{}};
-      window.__timelines["main"] = window.__timelines["main"] || {{}};
-    </script>
+    {_build_empty_timeline_script("main", duration_seconds)}
   </body>
 </html>
 """
+
+
+def _build_empty_timeline_script(composition_id: str, duration_seconds: str) -> str:
+    return f"""<script>
+      window.__timelines = window.__timelines || {{}};
+      const emptyTimeline = {{
+        _time: 0,
+        _duration: {duration_seconds},
+        pause() {{ return this; }},
+        play() {{ return this; }},
+        seek(value) {{ this._time = Number(value) || 0; return this; }},
+        totalTime(value) {{
+          if (typeof value === "number") this._time = value;
+          return this._time;
+        }},
+        time() {{ return this._time; }},
+        duration() {{ return this._duration; }},
+        timeScale() {{ return this; }},
+        kill() {{ return this; }}
+      }};
+      window.__timelines["{_escape_html(composition_id)}"] = emptyTimeline;
+    </script>"""
 
 
 def _build_bundle_readme(export_package: JsonDict, draft: JsonDict, output_dir: Path) -> str:

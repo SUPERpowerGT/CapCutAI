@@ -58,11 +58,16 @@ Desktop Client
 
 - Docker Desktop
 - Docker Compose
-- Node.js 20+
+- Node.js 22+
 - npm 10+
 - Python 3
 - Ollama
 - Rust
+
+如果要跑本地视频剪辑 / 渲染工具链，再准备：
+
+- ffmpeg
+- Google Chrome
 
 说明：
 
@@ -70,6 +75,9 @@ Desktop Client
 - `make smoke` 依赖本机 `python3`
 - `npm run desktop:dev` / `npm run desktop:build` 依赖 Rust
 - 当前默认 LLM provider 是本地 `Ollama`
+- native 主轨渲染依赖本机 `ffmpeg`
+- HyperFrames render 依赖本机 Node.js 22+ 和 Chrome
+- macOS 上推荐安装 `ffmpeg-full`，工具会优先使用 `/opt/homebrew/opt/ffmpeg-full/bin/ffmpeg`
 
 ## 最快启动
 
@@ -88,6 +96,24 @@ npm run desktop:dev
 ```
 
 当前推荐就这样启动。
+
+如果只想验证当前剪辑工具链，不需要先打开桌面端，可以在项目根目录直接跑：
+
+```bash
+scripts/render_editor_sample.sh
+```
+
+默认会使用 `data/test_case` 中的 mock analyzer 数据生成：
+
+- `ai-service/output/plans/editor-sample.editing-package.json`
+- `ai-service/output/renders/editor-sample.native.final.mp4`
+
+说明：
+
+- 这条命令走本机 ffmpeg native render
+- 默认使用 `PROFILE=smoke`
+- 适合最快确认“测试数据 -> 剪辑 package -> MP4”的闭环
+- HyperFrames 仍作为复杂包装层 / overlay 能力保留，不作为默认主轨导出器
 
 ## 日常怎么用
 
@@ -187,6 +213,7 @@ make up
 make smoke
 make ps
 make down
+scripts/render_editor_sample.sh
 ```
 
 `frontend/` 目录：
@@ -203,6 +230,8 @@ npm run dev
 - AI health：`http://127.0.0.1:38000/internal/health`
 - Frontend dev（browser）：`http://127.0.0.1:3000`
 - Frontend dev（desktop）：`http://127.0.0.1:3001`
+- Native render output：`ai-service/output/renders/`
+- Editing package output：`ai-service/output/plans/`
 
 ## 目录入口
 
@@ -248,6 +277,8 @@ npm run dev
 - conversation 目前跟着 `workspace` 走
 - 原始视频、抽帧、中间产物、最终产物优先保存在本地 workspace
 - 模型负责理解、规划、修订；真正的视频分析、渲染、转码由本地工具执行
+- 当前主轨粗剪、字幕烧录、音频保留优先使用 ffmpeg
+- HyperFrames 主要用于复杂字幕动效、标题卡、贴纸、包装层和 agent 生成式视觉层
 
 ## 常见坑
 
