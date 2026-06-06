@@ -1,0 +1,724 @@
+{
+  "style_metadata": {
+    "style_id": "life-vlog-winter-travel",
+    "category": "Life_Record",
+    "driving_mode": "TEXT_LOGIC_DRIVEN",
+    "pacing_style": "STEADY_NARRATIVE",
+    "visual_theme": "Natural_Outdoor",
+    "tags": [
+      "Vlog",
+      "东北",
+      "冬捕",
+      "美食",
+      "记者日常"
+    ],
+    "sample_video_total_duration_ms": 341012
+  },
+  "storyline_structure": [
+    {
+      "phase_id": "PHASE_OPENING",
+      "energy_level": "HIGH",
+      "narrative_goal": "引入人物与场景，建立节日氛围与地域特色",
+      "bgm_alignment_rule": "ALIGN_TO_BGM_START",
+      "absolute_time_range": {
+        "start_ms": 0,
+        "end_ms": 30336,
+        "duration_ms": 30336
+      },
+      "relative_time_range": {
+        "start_ratio": 0.0,
+        "end_ratio": 0.089,
+        "duration_ratio": 0.089
+      }
+    },
+    {
+      "phase_id": "PHASE_STORY",
+      "energy_level": "MEDIUM",
+      "narrative_goal": "讲述冬捕文化与记者工作日常，穿插生活细节",
+      "bgm_alignment_rule": "ALIGN_TO_FIRST_DROP",
+      "absolute_time_range": {
+        "start_ms": 30336,
+        "end_ms": 191936,
+        "duration_ms": 161600
+      },
+      "relative_time_range": {
+        "start_ratio": 0.089,
+        "end_ratio": 0.5628,
+        "duration_ratio": 0.4739
+      }
+    },
+    {
+      "phase_id": "PHASE_HIGHLIGHT",
+      "energy_level": "HIGH",
+      "narrative_goal": "展示美食与人文互动，强化情感共鸣",
+      "bgm_alignment_rule": "ALIGN_TO_SECOND_DROP",
+      "absolute_time_range": {
+        "start_ms": 191936,
+        "end_ms": 303360,
+        "duration_ms": 111424
+      },
+      "relative_time_range": {
+        "start_ratio": 0.5628,
+        "end_ratio": 0.8896,
+        "duration_ratio": 0.3267
+      }
+    },
+    {
+      "phase_id": "PHASE_ENDING",
+      "energy_level": "MEDIUM",
+      "narrative_goal": "收尾互动与新年祝福，完成内容闭环",
+      "bgm_alignment_rule": "ALIGN_TO_THIRD_DROP",
+      "absolute_time_range": {
+        "start_ms": 303360,
+        "end_ms": 341012,
+        "duration_ms": 37652
+      },
+      "relative_time_range": {
+        "start_ratio": 0.8896,
+        "end_ratio": 1.0,
+        "duration_ratio": 0.1104
+      }
+    }
+  ],
+  "visual_assets_rule": {
+    "main_caption": {
+      "font_family_type": "Sans-Serif-Bold",
+      "css_style": "font-size: 36px; color: #FFFFFF; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.7);",
+      "position_y_percentage": 85,
+      "highlight_strategy": "关键词使用黄色#FFD700加粗"
+    },
+    "global_overlays": []
+  },
+  "dynamic_pacing_blueprint": [
+    {
+      "belong_to_phase": "PHASE_OPENING",
+      "absolute_trigger_ms": 0,
+      "relative_beat_offset": 0,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "TEXT_GRAPHIC",
+        "emotional_tone": "NEUTRAL",
+        "b_roll_semantic_prompt": "纯黑背景上显示白色文字和B站标志，无其他视觉元素",
+        "camera_motion_effect": "静态",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "淡入淡出",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_OPENING",
+      "absolute_trigger_ms": 840,
+      "relative_beat_offset": 0,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "男子戴黑帽手套手持糖葫芦，背景雪地蒙古包与彩旗，色调冷淡自然。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "WHOOSH",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_OPENING",
+      "absolute_trigger_ms": 6240,
+      "relative_beat_offset": 6,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "PRODUCT",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "手持两支白色冰棍，背景模糊货架，构图居中，色调偏冷清。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "EMPHASIS_HIGHLIGHT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "WHOOSH",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_OPENING",
+      "absolute_trigger_ms": 10680,
+      "relative_beat_offset": 15,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "红衣女子微笑站在悬挂大鱼旁，雪地蒙古包背景，色彩鲜明构图平衡。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "POP",
+        "bgm_volume_behavior": "DUCKING"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_STORY",
+      "absolute_trigger_ms": 38400,
+      "relative_beat_offset": 18,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "PRODUCT",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "黑色铁锅中炖煮的鱼，汤汁浓郁，热气腾腾，色泽金黄，食材丰富。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "WHOOSH",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_STORY",
+      "absolute_trigger_ms": 40320,
+      "relative_beat_offset": 22,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "雪地里悬挂着系红绸带的鱼，旁有穿红衣女子，构图对称，色彩冷暖对比鲜明。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "WHOOSH",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_STORY",
+      "absolute_trigger_ms": 48720,
+      "relative_beat_offset": 40,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "雪地广角，彩色经幡如伞状展开，中央立柱，远处人群与蒙古包，宁静祥和。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "WHOOSH",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_STORY",
+      "absolute_trigger_ms": 58440,
+      "relative_beat_offset": 59,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "NEUTRAL",
+        "b_roll_semantic_prompt": "雪地冰面上堆满鱼获，人群围观，旗帜飘扬，展现冰雪渔猎文化盛况。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "WHOOSH",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_STORY",
+      "absolute_trigger_ms": 61440,
+      "relative_beat_offset": 66,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "PRODUCT",
+        "emotional_tone": "NEUTRAL",
+        "b_roll_semantic_prompt": "大量冷冻鱼头堆叠，红白相间纹理，表面结霜，密集排列，构图饱满。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "DUCKING"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_STORY",
+      "absolute_trigger_ms": 74040,
+      "relative_beat_offset": 92,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "冬日雪地里，穿红衣戴毛帽女子吃糖葫芦，神情专注，背景虚化。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_STORY",
+      "absolute_trigger_ms": 99240,
+      "relative_beat_offset": 145,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "夜晚户外，女子穿红色羽绒服站在白色车旁，背景是模糊的暖黄色灯光装饰。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_STORY",
+      "absolute_trigger_ms": 124800,
+      "relative_beat_offset": 199,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "黄昏冰面广角，一人立前景，远处风车与人群，蓝紫渐变天空",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_STORY",
+      "absolute_trigger_ms": 138600,
+      "relative_beat_offset": 227,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "content_type": "PRESENTER",
+        "emotional_tone": "NEUTRAL",
+        "b_roll_semantic_prompt": "女记者穿红色羽绒服持话筒，在雪地停车场采访，前景有背影人物，背景车辆模糊",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "DUCKING"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_STORY",
+      "absolute_trigger_ms": 145560,
+      "relative_beat_offset": 241,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "NEUTRAL",
+        "b_roll_semantic_prompt": "车内女性穿红衣白毛领，低头看手机，窗外人群模糊，车窗反射路人",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "DUCKING"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_STORY",
+      "absolute_trigger_ms": 147600,
+      "relative_beat_offset": 245,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "俯拍视角下，穿着黑色雪地靴与红色围巾的人在冰面上行走，冰面纹理清晰，色调冷蓝。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_STORY",
+      "absolute_trigger_ms": 157440,
+      "relative_beat_offset": 264,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "红衣女记者戴白手套微笑举手，旁坐戴毛帽老人，背景为黄色蒙古包内景",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_STORY",
+      "absolute_trigger_ms": 158760,
+      "relative_beat_offset": 267,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "红衣女子背影站在雪地车旁，毛领外套，远处冰雕与红灯笼点缀冬日场景。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_STORY",
+      "absolute_trigger_ms": 168000,
+      "relative_beat_offset": 285,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "PRODUCT",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "特写镜头下烹饪中的鱼肉，表面油亮带酱汁，纹理清晰，暖色调光影突出食物质感。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "EMPHASIS_HIGHLIGHT"
+      },
+      "transition_effect": {
+        "type": "缩放推进",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_STORY",
+      "absolute_trigger_ms": 176640,
+      "relative_beat_offset": 302,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "content_type": "PRESENTER",
+        "emotional_tone": "NEUTRAL",
+        "b_roll_semantic_prompt": "穿黄色毛衣的年轻女性在餐桌前用餐，桌上摆满鱼菜与饮料瓶，背景为浅色柜子。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "DUCKING"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HIGHLIGHT",
+      "absolute_trigger_ms": 218160,
+      "relative_beat_offset": 56,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRODUCT",
+        "emotional_tone": "NEUTRAL",
+        "b_roll_semantic_prompt": "手持手机特写，屏幕显示蓝色答题界面，手指轻触选项，背景虚化。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "EMPHASIS_HIGHLIGHT"
+      },
+      "transition_effect": {
+        "type": "缩放推进",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "DUCKING"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HIGHLIGHT",
+      "absolute_trigger_ms": 221400,
+      "relative_beat_offset": 63,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "穿黄色毛衣的年轻女性专注看手机，桌上摆满鱼菜与饮料，背景是浅色橱柜。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HIGHLIGHT",
+      "absolute_trigger_ms": 225960,
+      "relative_beat_offset": 73,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "content_type": "PRESENTER",
+        "emotional_tone": "NEUTRAL",
+        "b_roll_semantic_prompt": "穿黄色毛衣的年轻女性坐在餐桌前专注看手机，桌上摆满鱼菜与饮料瓶，背景为浅木色柜子。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "DUCKING"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HIGHLIGHT",
+      "absolute_trigger_ms": 243000,
+      "relative_beat_offset": 110,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "content_type": "PRESENTER",
+        "emotional_tone": "NEUTRAL",
+        "b_roll_semantic_prompt": "穿黄色毛衣的年轻女性手持饭碗，背景是浅色柜子与花色桌布，氛围日常自然。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "DUCKING"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HIGHLIGHT",
+      "absolute_trigger_ms": 287400,
+      "relative_beat_offset": 204,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "前景大树枝干横跨，俯瞰绿意盎然山谷与远处海滨城镇，右侧点缀橙红花丛。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HIGHLIGHT",
+      "absolute_trigger_ms": 299400,
+      "relative_beat_offset": 228,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "多人围坐室内，身着民族服饰，前景两位女性比V字手势微笑，背景人群温馨互动，暖色调布景。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_ENDING",
+      "absolute_trigger_ms": 303360,
+      "relative_beat_offset": 0,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "女记者穿红色羽绒服持话筒，背景雪地与模糊车辆，构图居中突出人物",
+        "camera_motion_effect": "轻微放大",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_ENDING",
+      "absolute_trigger_ms": 306600,
+      "relative_beat_offset": 7,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "橘白猫趴木地板上，前爪轻握黑色球状物，眼神专注，暖色调光影柔和。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_ENDING",
+      "absolute_trigger_ms": 325560,
+      "relative_beat_offset": 47,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "年轻女性侧脸特写，黑色长发，身穿米白针织衫，背景为日式店铺海报与禁烟标志，暖色调。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_ENDING",
+      "absolute_trigger_ms": 328440,
+      "relative_beat_offset": 53,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "PRODUCT",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "热气腾腾的火锅特写，肥瘦相间的五花肉片覆盖在蔬菜豆腐上，暖色调诱人。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "EMPHASIS_HIGHLIGHT"
+      },
+      "transition_effect": {
+        "type": "缩放推进",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_ENDING",
+      "absolute_trigger_ms": 331560,
+      "relative_beat_offset": 60,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "女性主讲人穿橙色外套，背景雪地与车辆，自然光柔和，构图居中突出人物",
+        "camera_motion_effect": "静态",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    }
+  ]
+}

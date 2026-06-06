@@ -1,0 +1,943 @@
+{
+  "style_metadata": {
+    "style_id": "urban-journey-2024",
+    "category": "Travel_Vlog",
+    "pacing_style": "STEADY_NARRATIVE",
+    "visual_theme": "Urban_Nature_Blend",
+    "tags": [
+      "Japan",
+      "Train",
+      "Scenery",
+      "Emotional"
+    ],
+    "sample_video_total_duration_ms": 252516
+  },
+  "storyline_structure": [
+    {
+      "phase_id": "PHASE_HOOK",
+      "narrative_goal": "通过快速切换日本不同城市与自然风光的标志性画面，营造一种关于旅行、记忆与情感的诗意氛围，引出核心主题。",
+      "bgm_alignment_rule": "ALIGN_TO_FIRST_DROP",
+      "absolute_time_range": {
+        "start_ms": 0,
+        "end_ms": 251880,
+        "duration_ms": 251880
+      },
+      "relative_time_range": {
+        "start_ratio": 0.0,
+        "end_ratio": 0.9975,
+        "duration_ratio": 0.9975
+      }
+    }
+  ],
+  "visual_assets_rule": {
+    "main_caption": {
+      "font_family_type": "Sans-Serif-Bold",
+      "css_style": "红色和白色大号无衬线字体，带有立体阴影效果",
+      "position_y_percentage": 85.0,
+      "highlight_strategy": "关键词使用高对比度颜色高亮"
+    },
+    "global_overlays": []
+  },
+  "dynamic_pacing_blueprint": [
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 0,
+      "relative_beat_offset": 0,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "城市高架铁路轨道旁，一列红色列车行驶在桥上，背景是密集的现代高层建筑群和一座绿色拱桥，下方是河流与绿化带，整体呈现都市交通与自然环境交织的景象。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 1.0
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 4440,
+      "relative_beat_offset": 11,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "城市街景，蓝天白云下可见高耸的红色铁塔结构，前景有电线杆和交通标志牌，背景是现代建筑群。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 1.0
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 8640,
+      "relative_beat_offset": 21,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "富士山远景，山脚下有湖泊和城镇，湖面平静，远处可见桥梁和车辆。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 1.0
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 12120,
+      "relative_beat_offset": 29,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "深色背景中有一条微弱的蓝色光带横贯画面底部，整体氛围静谧神秘。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 1.0
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 12840,
+      "relative_beat_offset": 31,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "雪覆盖的沿海小镇，房屋和道路被白雪覆盖，远处是连绵的雪山，近处是波涛拍打的海岸线，整体色调冷蓝。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 1.0
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 15120,
+      "relative_beat_offset": 36,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "夕阳下的海滩，海浪轻柔拍打着沙滩，水面反射着金色的阳光，远处可见一艘帆船。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 1.0
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 20400,
+      "relative_beat_offset": 49,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "城市全景俯瞰视角，黄昏时分，天空呈蓝紫色渐变，城市建筑密集，高楼大厦与低层住宅楼交错分布，部分屋顶覆盖积雪，远处地平线可见山峦轮廓。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 1.0
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 23520,
+      "relative_beat_offset": 57,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "便利店内部视角，透过玻璃门可见雪景街道和行人，店内有饮料机、货架和宣传海报。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 1.0
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 24840,
+      "relative_beat_offset": 60,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "b_roll_semantic_prompt": "雪后城市街道，行人走在积雪的人行道上，背景是高楼和树木，阳光明媚。",
+        "camera_motion_effect": "轻微放大"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 1.0
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 28800,
+      "relative_beat_offset": 69,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "b_roll_semantic_prompt": "雪地城市街景，有行人和交通设施，背景是高楼和红色钢结构建筑",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 1.0
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 31320,
+      "relative_beat_offset": 75,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "雪天火车站台，一列被积雪覆盖的列车停靠在站台旁，车头灯亮着，站台上有人影蹲坐，背景是铁轨和站台建筑。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 1.0
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 32280,
+      "relative_beat_offset": 77,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "雪覆盖的城市河岸景观，前景是被雪覆盖的护栏，远处是高楼大厦和桥梁，天空阴沉，整体色调偏冷白。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 1.0
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 34440,
+      "relative_beat_offset": 82,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "夜晚的城市街景，高楼大厦林立，布满霓虹灯广告牌，街道上有车辆行驶，地面有积雪，整体氛围繁华而寒冷。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 38760,
+      "relative_beat_offset": 93,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "b_roll_semantic_prompt": "从交通工具内部视角拍摄，窗外是广阔的水域和远处的地平线，车内有乘客的剪影，前景有扶手栏杆。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 42960,
+      "relative_beat_offset": 103,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "雪夜中的火车站前广场，建筑物屋顶和地面覆盖着积雪，几辆汽车在雪地中行驶或停靠，背景是被雪覆盖的山丘，天空呈现深蓝色调。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 43560,
+      "relative_beat_offset": 105,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "从公交车内部视角拍摄的雪天街景，窗外雪花纷飞，能见度低，前方有其他车辆行驶，车内可见部分仪表盘和扶手结构。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 49440,
+      "relative_beat_offset": 118,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "雪覆盖的城市街道，两侧是积雪的建筑物和路灯，远处有行驶的车辆，天空呈黄昏蓝色调。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 52680,
+      "relative_beat_offset": 126,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "b_roll_semantic_prompt": "夜晚雪地街道，路灯温暖光芒照亮积雪路面，几个人影背对镜头行走，远处可见建筑物和车辆，氛围宁静而略带孤寂。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 53760,
+      "relative_beat_offset": 128,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "室内场景，背景模糊，前景有大型醒目文字覆盖，营造紧张氛围。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 57840,
+      "relative_beat_offset": 138,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "雪天街道上被积雪覆盖的便利店门前，一名行人从左侧走过，店铺招牌清晰可见，雪花飘落，环境宁静。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 65040,
+      "relative_beat_offset": 155,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "b_roll_semantic_prompt": "雪地中，一位穿着白色婚纱的新娘半身露出雪堆，旁边一位穿黑色西装的新郎站在雪坡上低头看向前方，背景是灰蓝色天空和稀疏的枯树枝。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 70320,
+      "relative_beat_offset": 167,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "雪夜街道，路灯照亮积雪覆盖的树木和房屋，两人背影在雪地中行走，远处有蓝色灯光装饰的建筑。",
+        "camera_motion_effect": "轻微放大"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 71520,
+      "relative_beat_offset": 170,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "雪地上的红色栏杆，远处是被雪覆盖的城市和海岸线，天空灰蒙蒙的。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 80520,
+      "relative_beat_offset": 192,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "蓝天背景下一座高耸的现代塔楼，前景有盛开粉色花朵的树木，画面右下角可见电线杆和电线。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 82680,
+      "relative_beat_offset": 197,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "城市街景，天空中有悬浮的橙色立方体广告牌，背景是多层建筑和电线杆，天气晴朗。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 86400,
+      "relative_beat_offset": 206,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "b_roll_semantic_prompt": "繁忙的城市十字路口，行人正在过马路，背景是高楼大厦和密集的霓虹招牌，天空晴朗。",
+        "camera_motion_effect": "轻微震动"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 87720,
+      "relative_beat_offset": 209,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "b_roll_semantic_prompt": "地铁站内自动扶梯上的人群，人们背对镜头向上移动，环境灯光温暖，天花板为木质条板结构，扶梯两侧有安全标识。",
+        "camera_motion_effect": "轻微放大"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 97560,
+      "relative_beat_offset": 232,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "地铁站台，两侧停靠着列车，站台上有人影走动，上方是金属结构顶棚，远处可见城市建筑和电线，整体光线昏暗。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 108360,
+      "relative_beat_offset": 258,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "黄昏时分海边的剪影场景，天空被橙色晚霞染红，远处山脉轮廓清晰，海面波光粼粼，一群人在岸边观景，一只鸟在空中飞翔。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 109440,
+      "relative_beat_offset": 261,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "黄昏时分的城市街景，桥梁上车辆行驶，背景是密集的居民楼和交错的电线杆，天空呈蓝紫色渐变。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 116400,
+      "relative_beat_offset": 277,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "从飞机客舱内部透过窗户拍摄的城市景观，窗外可见高楼大厦和低矮建筑，前景是深色的座椅轮廓，整体光线昏暗，窗外天色阴沉。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 120600,
+      "relative_beat_offset": 287,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "黄昏时分，富士山雪顶在淡蓝色天空下显得宁静壮丽，前景是光秃的树枝和一条沿湖的栏杆小径，湖面平静如镜，远处可见桥梁和村落轮廓。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 129240,
+      "relative_beat_offset": 307,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "富士山雪顶在晴朗蓝天背景下，湖面平静如镜，岸边有车辆和帐篷，枯树枝在前景形成自然框架，两名行人正在湖边小径上行走。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 133080,
+      "relative_beat_offset": 316,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "湖边一人牵着狗站立，远处是覆盖着积雪的富士山，天空晴朗，湖面平静如镜，倒映着山峰和云朵，周围环绕着连绵的山脉。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 138360,
+      "relative_beat_offset": 329,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "一辆白色越野车在道路上行驶，背景是远处覆盖着积雪的富士山和蓝天白云，画面左侧有光秃的树枝。",
+        "camera_motion_effect": "轻微放大"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 141600,
+      "relative_beat_offset": 336,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "夜晚的日本传统街巷，木质建筑错落有致，暖黄色灯光从屋檐和灯笼中透出，营造出宁静温馨的氛围。街道上有行人缓缓走过，右侧悬挂着几把日式纸伞，增添文化韵味。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 161760,
+      "relative_beat_offset": 385,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "一列白色带有蓝色条纹的火车正在通过一个铁路道口，道口栏杆已放下，红灯亮起，周围有树木、电线杆和建筑物，地面是小路和草地。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 168840,
+      "relative_beat_offset": 402,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "一列蓝色火车在绿树成荫的乡村铁轨上行驶，前方有红色信号灯和铁路道岔，轨道旁有电线杆和标识牌。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 170880,
+      "relative_beat_offset": 406,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "从高处俯瞰，一座传统日式寺庙建筑群坐落在绿树环绕的山丘上，背景是连绵的山脉和远处的城市景观，天空晴朗湛蓝。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 177360,
+      "relative_beat_offset": 422,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "b_roll_semantic_prompt": "一名男子背对镜头走在一条被茂密绿树环绕的乡村小路上，路旁有传统日式灯笼和建筑物，环境宁静自然。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 179160,
+      "relative_beat_offset": 426,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "地下自行车停车场内，一名女性正在整理或寻找自行车，周围停放着大量自行车和电动车，环境略显拥挤，背景有支撑柱和照明设施。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 185160,
+      "relative_beat_offset": 440,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "一座传统日式木质建筑坐落在郁郁葱葱的绿色山林之中，建筑位于高处，俯瞰下方的城市景观和远处的山脉，天空晴朗，阳光明媚。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 199440,
+      "relative_beat_offset": 473,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "夜晚城市街道的模糊动态景象，霓虹灯招牌和车灯形成光轨效果，背景建筑轮廓在光影中若隐若现。",
+        "camera_motion_effect": "震动"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 202560,
+      "relative_beat_offset": 481,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "城市街道十字路口，行人正在过马路，背景有建筑物、交通信号灯和电线杆，整体画面呈蓝紫色调，略显模糊。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 205800,
+      "relative_beat_offset": 489,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "透过车窗拍摄的道路旁警示牌和石墙围栏，画面略显模糊，有反光和轻微抖动效果。",
+        "camera_motion_effect": "震动"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 212160,
+      "relative_beat_offset": 505,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "夜晚城市街景，灯光闪烁，一个蓝色雨伞在前景，背景有模糊建筑和黄色路灯，画面有动态模糊效果",
+        "camera_motion_effect": "震动"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 223440,
+      "relative_beat_offset": 532,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "夜空中绽放的大型烟花，呈白色放射状，下方是平静水面反射出的烟花倒影，远处可见城市建筑群的灯光。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 225960,
+      "relative_beat_offset": 538,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "蓝天背景下盛开的樱花树枝，花朵洁白，枝干交错，云朵飘浮在天空中。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 230280,
+      "relative_beat_offset": 549,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "b_roll_semantic_prompt": "一名背着背包的男子站在铁路道口旁，一列火车正快速驶过，道口栏杆已放下，周围有交通标志和电线杆，背景是蓝天白云和绿色植被。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 242520,
+      "relative_beat_offset": 554,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "b_roll_semantic_prompt": "海浪轻柔拍打沙滩，阳光在水面上闪烁，远处可见山峦轮廓，前景沙滩上有脚印和手写的文字。",
+        "camera_motion_effect": "静态"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    }
+  ]
+}

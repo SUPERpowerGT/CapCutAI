@@ -1,0 +1,360 @@
+{
+  "style_metadata": {
+    "style_id": "life-record-day-in-life",
+    "category": "Life_Record",
+    "pacing_style": "STEADY_NARRATIVE",
+    "visual_theme": "Vibrant_Color",
+    "tags": [
+      "生活记录",
+      "日常vlog",
+      "自律"
+    ],
+    "sample_video_total_duration_ms": 65300
+  },
+  "storyline_structure": [
+    {
+      "phase_id": "PHASE_HOOK",
+      "narrative_goal": "以清晨闹钟开场，建立时间轴叙事",
+      "bgm_alignment_rule": "ALIGN_TO_BGM_START",
+      "absolute_time_range": {
+        "start_ms": 0,
+        "end_ms": 10443,
+        "duration_ms": 10443
+      },
+      "relative_time_range": {
+        "start_ratio": 0.0,
+        "end_ratio": 0.1599,
+        "duration_ratio": 0.1599
+      }
+    },
+    {
+      "phase_id": "PHASE_PROBLEM",
+      "narrative_goal": "展示通勤与午休，呈现日常节奏",
+      "bgm_alignment_rule": "ALIGN_TO_FIRST_DROP",
+      "absolute_time_range": {
+        "start_ms": 10443,
+        "end_ms": 27643,
+        "duration_ms": 17200
+      },
+      "relative_time_range": {
+        "start_ratio": 0.1599,
+        "end_ratio": 0.4233,
+        "duration_ratio": 0.2634
+      }
+    },
+    {
+      "phase_id": "PHASE_SOLUTION",
+      "narrative_goal": "通过工作与休闲，展现高效自律生活",
+      "bgm_alignment_rule": "ALIGN_TO_SECOND_DROP",
+      "absolute_time_range": {
+        "start_ms": 27643,
+        "end_ms": 52240,
+        "duration_ms": 24597
+      },
+      "relative_time_range": {
+        "start_ratio": 0.4233,
+        "end_ratio": 0.8,
+        "duration_ratio": 0.3767
+      }
+    },
+    {
+      "phase_id": "PHASE_CTA",
+      "narrative_goal": "以睡眠数据与励志文字收尾，升华主题",
+      "bgm_alignment_rule": "ALIGN_TO_THIRD_DROP",
+      "absolute_time_range": {
+        "start_ms": 52240,
+        "end_ms": 65300,
+        "duration_ms": 13060
+      },
+      "relative_time_range": {
+        "start_ratio": 0.8,
+        "end_ratio": 1.0,
+        "duration_ratio": 0.2
+      }
+    }
+  ],
+  "visual_assets_rule": {
+    "main_caption": {
+      "font_family_type": "Sans-Serif-Bold",
+      "css_style": "font-size: 48px; color: #ffffff; font-weight: bold;",
+      "position_y_percentage": 85,
+      "highlight_strategy": "时间戳与关键词高亮"
+    },
+    "global_overlays": []
+  },
+  "dynamic_pacing_blueprint": [
+    {
+      "belong_to_phase": "PHASE_HOOK",
+      "absolute_trigger_ms": 0,
+      "relative_beat_offset": 0,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "NEUTRAL",
+        "b_roll_semantic_prompt": "晴朗蓝天下的城市街道，两旁是欧式别墅与行道树，路面空旷，远处有行人和建筑。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_PROBLEM",
+      "absolute_trigger_ms": 10443,
+      "relative_beat_offset": 0,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "NEUTRAL",
+        "b_roll_semantic_prompt": "现代办公大厅内景，多人走动，地面光洁反光，左侧大理石墙，右侧玻璃门透自然光。",
+        "camera_motion_effect": "轻微震动",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_PROBLEM",
+      "absolute_trigger_ms": 14143,
+      "relative_beat_offset": 8,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "PRODUCT",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "白色餐盘盛放虾仁、蔬菜与米饭，配筷子和酸奶，木质桌面，暖色调静物美食特写。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_PROBLEM",
+      "absolute_trigger_ms": 16843,
+      "relative_beat_offset": 14,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "NEUTRAL",
+        "b_roll_semantic_prompt": "城市街道远景，两侧是住宅楼与行道树，天空晴朗，道路空旷，车辆稀少。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_PROBLEM",
+      "absolute_trigger_ms": 24443,
+      "relative_beat_offset": 31,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "PRODUCT",
+        "emotional_tone": "NEUTRAL",
+        "b_roll_semantic_prompt": "白色空调挂机安装于深蓝色墙面，上方有雕花装饰线条，显示温度29度。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_SOLUTION",
+      "absolute_trigger_ms": 27643,
+      "relative_beat_offset": 0,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "HIGH_ENERGY",
+        "b_roll_semantic_prompt": "彩色卡通图案布料在深色背景上快速晃动，画面模糊动态感强",
+        "camera_motion_effect": "震动",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_SOLUTION",
+      "absolute_trigger_ms": 30443,
+      "relative_beat_offset": 6,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "PRODUCT",
+        "emotional_tone": "NEUTRAL",
+        "b_roll_semantic_prompt": "奶茶杯特写，杯身绘山水图案，背景为办公桌及手办摆件，构图居中，色调自然。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_SOLUTION",
+      "absolute_trigger_ms": 39143,
+      "relative_beat_offset": 25,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "现代室内休息区，彩色圆形坐垫与绿植，背景有伞架和电梯，地面铺大理石纹瓷砖。",
+        "camera_motion_effect": "轻微震动",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_SOLUTION",
+      "absolute_trigger_ms": 43043,
+      "relative_beat_offset": 33,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "白色餐桌摆设，玻璃花瓶插玫瑰，餐具折叠装饰，金属杯，构图精致，暖光氛围",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_SOLUTION",
+      "absolute_trigger_ms": 44243,
+      "relative_beat_offset": 36,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "PRODUCT",
+        "emotional_tone": "NEUTRAL",
+        "b_roll_semantic_prompt": "金色碗盛装多彩沙拉，手用夹子翻拌，白色桌面配餐具，构图居中，色彩鲜亮。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_SOLUTION",
+      "absolute_trigger_ms": 46143,
+      "relative_beat_offset": 40,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "笔记本屏幕显示动漫角色分屏画面，紫色背景，双人对视，构图居中。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CTA",
+      "absolute_trigger_ms": 55943,
+      "relative_beat_offset": 8,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "浅色被子覆盖的卡通玩偶，背景灰暗布帘，构图低角度，氛围静谧温馨。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CTA",
+      "absolute_trigger_ms": 56943,
+      "relative_beat_offset": 10,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "PRODUCT",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "手机屏幕显示睡眠监测界面，绿色背景卡通青蛙，数据图表清晰，整体色调柔和清新。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "EMPHASIS_HIGHLIGHT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "task_name": "auto_detect",
+    "prompt": "auto",
+    "answer": "He's the new you. No one's the new me, pal. You, you, you! You, you,",
+    "latency_sec": 60.34518790245056,
+    "extra": {
+      "language": "English",
+      "return_time_stamps": false
+    }
+  },
+  {
+    "task_name": "force_chinese",
+    "prompt": "Chinese",
+    "answer": "He's the new you. No one's the new me, pal.你完蛋了，操你！说，说的天花乱坠，有个屁用！抖音。",
+    "latency_sec": 0.8233993053436279,
+    "extra": {
+      "language": "Chinese",
+      "return_time_stamps": false
+    }
+  },
+  {
+    "task_name": "force_english",
+    "prompt": "English",
+    "answer": "He's the new you. No one's the new me, pal. You, you, you! You",
+    "latency_sec": 18.340571880340576,
+    "extra": {
+      "language": "English",
+      "return_time_stamps": false
+    }
+  }
+]

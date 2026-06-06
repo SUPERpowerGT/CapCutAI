@@ -1,0 +1,1774 @@
+{
+  "style_metadata": {
+    "style_id": "mythical-epic-montage",
+    "category": "Movie_Montage",
+    "driving_mode": "AUDIO_VISUAL_EMOTION",
+    "pacing_style": "HIGH_CONTRAST_FAST",
+    "visual_theme": "Natural_Outdoor",
+    "tags": [
+      "古风",
+      "武侠",
+      "神话",
+      "唯美",
+      "情感"
+    ],
+    "sample_video_total_duration_ms": 146217
+  },
+  "storyline_structure": [
+    {
+      "phase_id": "PHASE_INTRO",
+      "energy_level": "HIGH",
+      "narrative_goal": "以唯美画面和音乐开场，奠定全片诗意基调",
+      "bgm_alignment_rule": "ALIGN_TO_BGM_START",
+      "absolute_time_range": {
+        "start_ms": 0,
+        "end_ms": 2048,
+        "duration_ms": 2048
+      },
+      "relative_time_range": {
+        "start_ratio": 0.0,
+        "end_ratio": 0.014,
+        "duration_ratio": 0.014
+      }
+    },
+    {
+      "phase_id": "PHASE_BUILDUP",
+      "energy_level": "MEDIUM",
+      "narrative_goal": "通过角色特写和场景切换，铺陈故事背景与人物关系",
+      "bgm_alignment_rule": "ALIGN_TO_FIRST_DROP",
+      "absolute_time_range": {
+        "start_ms": 2048,
+        "end_ms": 15872,
+        "duration_ms": 13824
+      },
+      "relative_time_range": {
+        "start_ratio": 0.014,
+        "end_ratio": 0.1086,
+        "duration_ratio": 0.0945
+      }
+    },
+    {
+      "phase_id": "PHASE_CLIMAX",
+      "energy_level": "PEAK",
+      "narrative_goal": "以高能动作和情感爆发，展现故事核心冲突与高潮",
+      "bgm_alignment_rule": "ALIGN_TO_SECOND_DROP",
+      "absolute_time_range": {
+        "start_ms": 15872,
+        "end_ms": 139040,
+        "duration_ms": 123168
+      },
+      "relative_time_range": {
+        "start_ratio": 0.1086,
+        "end_ratio": 0.9509,
+        "duration_ratio": 0.8424
+      }
+    },
+    {
+      "phase_id": "PHASE_OUTRO",
+      "energy_level": "MEDIUM",
+      "narrative_goal": "以空灵画面和书法收尾，余韵悠长，引发观众回味",
+      "bgm_alignment_rule": "ALIGN_TO_THIRD_DROP",
+      "absolute_time_range": {
+        "start_ms": 139040,
+        "end_ms": 146217,
+        "duration_ms": 7177
+      },
+      "relative_time_range": {
+        "start_ratio": 0.9509,
+        "end_ratio": 1.0,
+        "duration_ratio": 0.0491
+      }
+    }
+  ],
+  "visual_assets_rule": {
+    "main_caption": {
+      "font_family_type": "Serif-Elegant",
+      "css_style": "font-size: 48px; color: #FFFFFF; font-weight: bold;",
+      "position_y_percentage": 85,
+      "highlight_strategy": "核心词使用红色#FF0000加粗"
+    },
+    "global_overlays": []
+  },
+  "dynamic_pacing_blueprint": [
+    {
+      "belong_to_phase": "PHASE_INTRO",
+      "absolute_trigger_ms": 0,
+      "relative_beat_offset": 0,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "俯视视角下石板路上散落着红白伞，色调柔和静谧，构图对称均衡。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "叠化",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "WHOOSH",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_BUILDUP",
+      "absolute_trigger_ms": 4750,
+      "relative_beat_offset": 5,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "动漫女性角色特写，黑发，闭眼微笑，背景光晕柔和，色调温暖宁静。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "POP",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_BUILDUP",
+      "absolute_trigger_ms": 5625,
+      "relative_beat_offset": 7,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "古风男子侧脸特写，发髻飘逸，衣袂轻扬，背景树影朦胧，色调柔和宁静。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_BUILDUP",
+      "absolute_trigger_ms": 6375,
+      "relative_beat_offset": 8,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "动漫角色面部特写，黑发飘动，红晕眼妆，眼神专注，背景纯白，构图偏右。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_BUILDUP",
+      "absolute_trigger_ms": 7125,
+      "relative_beat_offset": 9,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "古风男性角色面部特写，白发飘逸，背景宫殿虚化，暖色调光影柔和。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_BUILDUP",
+      "absolute_trigger_ms": 8000,
+      "relative_beat_offset": 11,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "黑发紫眸动漫少女侧脸特写，发丝飘动，背景纯白，神情略带惊讶。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_BUILDUP",
+      "absolute_trigger_ms": 8750,
+      "relative_beat_offset": 12,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "黑白水墨风格动漫角色侧脸特写，长发飘逸，神情宁静，背景朦胧",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_BUILDUP",
+      "absolute_trigger_ms": 9625,
+      "relative_beat_offset": 13,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "动漫男性角色面部特写，发丝飘动，光影柔和，背景虚化，氛围宁静",
+        "camera_motion_effect": "静态",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_BUILDUP",
+      "absolute_trigger_ms": 10500,
+      "relative_beat_offset": 15,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "古风男性角色面部特写，发髻飘逸，光影柔和，背景虚化，氛围宁静",
+        "camera_motion_effect": "静态",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_BUILDUP",
+      "absolute_trigger_ms": 11125,
+      "relative_beat_offset": 16,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "俯瞰古街巷，青石板路，灰瓦屋檐，摊位与伞影错落，氛围宁静古朴。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_BUILDUP",
+      "absolute_trigger_ms": 11875,
+      "relative_beat_offset": 17,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "雨中持红伞男子侧影，古街屋檐下行人，水墨色调，宁静怀旧氛围",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_BUILDUP",
+      "absolute_trigger_ms": 15125,
+      "relative_beat_offset": 23,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "暖色调模糊动态场景，似古风街巷或室内，光线柔和流动，构图呈弧形纵深感",
+        "camera_motion_effect": "轻微放大",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 16125,
+      "relative_beat_offset": 1,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "古风竹林背景，人物侧影持剑，氛围静谧朦胧，色调偏冷灰。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 19000,
+      "relative_beat_offset": 5,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "三人户外茶桌旁，绿树青山背景，氛围宁静自然。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 20750,
+      "relative_beat_offset": 8,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "雪中伸出的手腕特写，佩戴木质铃铛，背景雪花纷飞，色调清冷雅致。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 24000,
+      "relative_beat_offset": 14,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "雨中湖面倒映远山与村落，水墨风格朦胧灰调，静谧苍茫。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 26125,
+      "relative_beat_offset": 17,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "水墨风格山水画，薄雾笼罩湖面与远山，岸边有松树岩石，色调清冷宁静。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 27125,
+      "relative_beat_offset": 19,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "月下山林雾气弥漫，白衣武者腾空挥刀，黑衣人凌空翻滚，古松苍劲，氛围静谧而紧张。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 29750,
+      "relative_beat_offset": 23,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "黑发角色手持陶罐，背景朦胧蓝灰，构图突出人物与器物，氛围沉静古雅",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 32375,
+      "relative_beat_offset": 28,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "黑发角色闭眼持物，蓝调光影，侧脸特写，氛围静谧神秘",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 36000,
+      "relative_beat_offset": 34,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "黑发角色持笛侧脸特写，冷色调光影，专注神情，线条感强烈",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 36750,
+      "relative_beat_offset": 35,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "银发女性侧脸特写，柔和光线与飘落花瓣，构图唯美宁静。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 38375,
+      "relative_beat_offset": 38,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "TEXT_GRAPHIC",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "女性角色眼部特写，浅棕发丝垂落，暖色调柔和光影，闭眼宁静表情",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 39125,
+      "relative_beat_offset": 39,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "长发女子侧脸微笑，青衣飘逸，紫粉天空背景下发丝飞扬，画面宁静唯美。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 40000,
+      "relative_beat_offset": 41,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "动漫少女面部特写，绿眸棕发，背景朦胧树林，暖色调光影柔和。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 41125,
+      "relative_beat_offset": 42,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "两位动漫角色背对背站立，黑发黄衣与金发红白衣装对比鲜明，紫色星空背景飘逸梦幻。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 43250,
+      "relative_beat_offset": 46,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "穿红衣女子伸手施法，绿色光效环绕，身旁有小鱼漂浮，暖色调木质背景",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 44750,
+      "relative_beat_offset": 48,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "穿红色中式上衣的短发角色闭眼微笑，双臂展开，暖黄色背景，构图柔和宁静。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 46000,
+      "relative_beat_offset": 50,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "古风街巷中，少年持红伞立于中央，两侧人物撑伞围观，色调灰蓝，氛围静谧怀旧。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 48250,
+      "relative_beat_offset": 54,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "古风街巷中，人物撑伞行走，红伞与灰瓦形成鲜明对比，氛围宁静悠远。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 48875,
+      "relative_beat_offset": 55,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "古风街巷中，人物撑伞行走，红伞与灰瓦形成对比，构图平衡，氛围宁静怀旧。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 49625,
+      "relative_beat_offset": 56,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "水面漂浮粉红花瓣与荷叶，阳光穿透水波，蓝绿色调营造宁静诗意氛围",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 51250,
+      "relative_beat_offset": 59,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "白衣长发男子立于云雾中，身后是古典宫殿建筑，天空晴朗，氛围宁静空灵。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 52750,
+      "relative_beat_offset": 61,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "金发角色侧身背影，红绳束发，粉白服饰，紫色梦幻背景飘落花瓣。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 53500,
+      "relative_beat_offset": 62,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "紫粉色天空下，金发狐耳少女立于树旁，身后众角色围观，草木葱茏，氛围宁静梦幻。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 54375,
+      "relative_beat_offset": 64,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "古风女性侧脸特写，黑发盘髻，青衣配橙领，水墨绿灰背景，神情宁静",
+        "camera_motion_effect": "静态",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 55250,
+      "relative_beat_offset": 65,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "古风男性角色侧脸特写，深棕发髻，暖光背景点缀灯笼，氛围静谧",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 56125,
+      "relative_beat_offset": 67,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "水墨风格烟雾从下向上飘散，背景纯白，点缀粉色微粒，营造空灵意境。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 56875,
+      "relative_beat_offset": 68,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "夕阳下湖畔草地，多匹马群立，一人操作彩色装置，粉红丝带飘入水中，暖色调宁静画面。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 62375,
+      "relative_beat_offset": 77,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "碧绿水面漂浮荷叶与粉色荷花，色调柔和宁静，构图自然疏朗。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 63875,
+      "relative_beat_offset": 79,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "TEXT_GRAPHIC",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "纯黑背景上白色书法字体与红色点缀文字，营造古典诗意氛围",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 68750,
+      "relative_beat_offset": 87,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "古风少女侧脸微笑伸手，绿衣飘逸，背景粉瓣轻舞，柔光朦胧",
+        "camera_motion_effect": "静态",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 69500,
+      "relative_beat_offset": 88,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "棕色长发与飘落粉色花瓣的特写，柔和光影，唯美静谧氛围",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 70250,
+      "relative_beat_offset": 90,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "古风长发男子侧脸特写，黑白服饰，窗外朦胧树影，色调清冷雅致",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 72750,
+      "relative_beat_offset": 94,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "黑发束发角色侧身回望，衣衫破损，背景昏暗，长发飘逸，氛围肃穆",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 74750,
+      "relative_beat_offset": 97,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "阴沉天空下古村落远景，两名长发角色背影立于屋舍间，色调灰暗肃穆。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 76625,
+      "relative_beat_offset": 100,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "雾中人物剪影，朦胧灰白调，构图偏右，氛围静谧空灵",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 78000,
+      "relative_beat_offset": 102,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "黑发角色侧脸特写，绿色背景光晕，氛围幽静神秘",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 80000,
+      "relative_beat_offset": 105,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "黑发女性角色红衣半身特写，颈挂金铃，背景绿树蓝天，神情温柔专注。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 80500,
+      "relative_beat_offset": 106,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "动漫女性角色面部特写，棕瞳，黑发，红衣，表情略带惊讶，构图居中，暖色调",
+        "camera_motion_effect": "静态",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 81500,
+      "relative_beat_offset": 108,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "月下竹枝上人影剪影，群鸟飞舞，水墨风格幽暗神秘氛围",
+        "camera_motion_effect": "静态",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 83000,
+      "relative_beat_offset": 110,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "模糊人影背对镜头，橙红色火焰状背景，氛围神秘梦幻",
+        "camera_motion_effect": "静态",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 83625,
+      "relative_beat_offset": 112,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "模糊红色人形轮廓在暖橙色渐变背景中，营造神秘氛围",
+        "camera_motion_effect": "静态",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 84750,
+      "relative_beat_offset": 113,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "星空背景下红蓝星云交织，一位身着红衣角色侧立凝望，画面静谧宏大。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 87000,
+      "relative_beat_offset": 117,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "红衣少女立于星空下，无数发光鸟群环绕，蓝色调梦幻宁静。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 88125,
+      "relative_beat_offset": 119,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "黑发角色侧脸特写，深绿色朦胧背景，发丝飘动，氛围静谧忧郁。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 96000,
+      "relative_beat_offset": 132,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "月下白衣人背影，长发飘逸，竹林幽深，氛围静谧诗意。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 100750,
+      "relative_beat_offset": 140,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "黑发女性角色躺卧山石间，手指前指，神情专注，蓝白服饰，背景灰岩纹理。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 102375,
+      "relative_beat_offset": 142,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "动漫少女面部特写，深色发丝，浅棕眼眸，背景冷蓝调，构图居中突出人物表情",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 103375,
+      "relative_beat_offset": 144,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "古风人物闭眼微笑，水墨绿意背景，发带点缀，氛围宁静悠远",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 104000,
+      "relative_beat_offset": 145,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "俯拍视角下，两名黑发角色在榻榻米上对峙，纸张飞舞，构图动态，色调偏暖。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 104625,
+      "relative_beat_offset": 146,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "手握古籍书卷，深蓝衣袖配红边，背景模糊书架，色调沉静典雅。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 105375,
+      "relative_beat_offset": 147,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "古风室内场景，两人对坐桌前，纸张飘落，窗外透光，木质地板与窗格构成宁静氛围。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 106000,
+      "relative_beat_offset": 148,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "TEXT_GRAPHIC",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "特写古籍书页与红绳，水墨风格，虚焦处理，营造古典静谧氛围",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 107375,
+      "relative_beat_offset": 150,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "白衣长发角色立于强光背景，衣衫破损，神情凝重，构图居中突出人物",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 107875,
+      "relative_beat_offset": 151,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "白衣长发角色立于强光背景前，衣衫破损，面部带血迹，氛围肃穆。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 108500,
+      "relative_beat_offset": 152,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "动漫男性角色侧脸特写，灰黑发髻，紫瞳凝视，背景石墙模糊，色调冷淡静谧",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 109500,
+      "relative_beat_offset": 154,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "动漫男性角色侧脸特写，灰黑发髻，眼神沉静，背景石墙朦胧。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 110375,
+      "relative_beat_offset": 155,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "雪中古风建筑内，一白衣人立于光束中，前景叠化少女半身像，氛围静谧空灵。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 113500,
+      "relative_beat_offset": 161,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "黑发白衣少女侧身站立，长发飘逸，背景渐变灰黑，氛围静谧空灵。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 114750,
+      "relative_beat_offset": 163,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "TEXT_GRAPHIC",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "深紫红色背景，右下角有紫色光晕，整体氛围静谧神秘。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 118375,
+      "relative_beat_offset": 169,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "闭眼少女立于星空，发辫垂落，光效环绕，蓝紫渐变背景，氛围静谧梦幻。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 118875,
+      "relative_beat_offset": 170,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "黑发少女闭眼，周身环绕发光白蝶，星空背景，柔和光影，静谧梦幻氛围",
+        "camera_motion_effect": "静态",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 119375,
+      "relative_beat_offset": 170,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "幽暗雾气弥漫的古旧废墟，扭曲树影与模糊人影营造神秘诡异氛围",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 126375,
+      "relative_beat_offset": 182,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "夜色田野中，持灯人物背影前行，远处土楼与山峦，星空月牙，氛围宁静悠远。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 131125,
+      "relative_beat_offset": 190,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "银发角色面部特写，蓝绿色眼眸，额头红痣，背景蓝天白云，氛围宁静",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 132875,
+      "relative_beat_offset": 193,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "两人持伞在花海中奔跑，绿意盎然，远景山雾缭绕，色彩柔和梦幻。",
+        "camera_motion_effect": "轻微放大",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 134250,
+      "relative_beat_offset": 195,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "SCENE",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "晨光穿透云雾，红叶山峦与绿野花田构成梦幻仙境，光影柔和，色彩浓郁。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 135125,
+      "relative_beat_offset": 197,
+      "shot_config": {
+        "shot_type": "A_ROLL_CLOSE_UP",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "一男一女动画角色近景，男子持杖，女子白衣，背景红花朦胧，暖色调柔光。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.5
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    },
+    {
+      "belong_to_phase": "PHASE_CLIMAX",
+      "absolute_trigger_ms": 135625,
+      "relative_beat_offset": 197,
+      "shot_config": {
+        "shot_type": "B_ROLL_SEMANTIC",
+        "content_type": "TEXT_GRAPHIC",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "黑色背景中央白色书法字体“分”字，简约极简风格",
+        "camera_motion_effect": "静态",
+        "editing_utility": "HOOK_OPENER"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    }
+  ]
+}

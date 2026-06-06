@@ -1,0 +1,98 @@
+{
+  "style_metadata": {
+    "style_id": "life-record-vlog",
+    "category": "Life_Record",
+    "driving_mode": "TEXT_LOGIC_DRIVEN",
+    "pacing_style": "STEADY_NARRATIVE",
+    "visual_theme": "Natural_Outdoor",
+    "tags": [
+      "旅行",
+      "城市风光",
+      "Vlog",
+      "黄昏"
+    ],
+    "sample_video_total_duration_ms": 17257
+  },
+  "storyline_structure": [
+    {
+      "phase_id": "PHASE_OPENING",
+      "energy_level": "HIGH",
+      "narrative_goal": "展示壮丽城市景观，建立叙事场景",
+      "bgm_alignment_rule": "ALIGN_TO_FIRST_DROP",
+      "absolute_time_range": {
+        "start_ms": 0,
+        "end_ms": 6528,
+        "duration_ms": 6528
+      },
+      "relative_time_range": {
+        "start_ratio": 0.0,
+        "end_ratio": 0.3783,
+        "duration_ratio": 0.3783
+      }
+    },
+    {
+      "phase_id": "PHASE_CORE",
+      "energy_level": "MEDIUM",
+      "narrative_goal": "聚焦人物互动，引导观众注意力",
+      "bgm_alignment_rule": "ALIGN_TO_SECOND_DROP",
+      "absolute_time_range": {
+        "start_ms": 6528,
+        "end_ms": 9184,
+        "duration_ms": 2656
+      },
+      "relative_time_range": {
+        "start_ratio": 0.3783,
+        "end_ratio": 0.5322,
+        "duration_ratio": 0.1539
+      }
+    },
+    {
+      "phase_id": "PHASE_WRAP",
+      "energy_level": "MEDIUM",
+      "narrative_goal": "通过口播收尾，完成叙事闭环",
+      "bgm_alignment_rule": "ALIGN_TO_THIRD_DROP",
+      "absolute_time_range": {
+        "start_ms": 9184,
+        "end_ms": 17257,
+        "duration_ms": 8073
+      },
+      "relative_time_range": {
+        "start_ratio": 0.5322,
+        "end_ratio": 1.0,
+        "duration_ratio": 0.4678
+      }
+    }
+  ],
+  "visual_assets_rule": {
+    "main_caption": {
+      "font_family_type": "Sans-Serif-Bold",
+      "css_style": "font-size: 24px; color: #ffffff; font-weight: bold;",
+      "position_y_percentage": 85,
+      "highlight_strategy": "核心词使用黄色#FFD700加粗"
+    },
+    "global_overlays": []
+  },
+  "dynamic_pacing_blueprint": [
+    {
+      "belong_to_phase": "PHASE_OPENING",
+      "absolute_trigger_ms": 0,
+      "relative_beat_offset": 0,
+      "shot_config": {
+        "shot_type": "A_ROLL_MEDIUM",
+        "content_type": "PRESENTER",
+        "emotional_tone": "CALM",
+        "b_roll_semantic_prompt": "两位游客在观景台眺望城市天际线，女士伸臂指向远方，背景是黄昏时分的江景与高楼群。",
+        "camera_motion_effect": "静态",
+        "editing_utility": "NARRATIVE_SUPPORT"
+      },
+      "transition_effect": {
+        "type": "硬切",
+        "duration_beats": 0.25
+      },
+      "audio_sfx": {
+        "trigger_sfx_type": "NONE",
+        "bgm_volume_behavior": "NORMAL"
+      }
+    }
+  ]
+}

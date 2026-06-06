@@ -1,0 +1,79 @@
+{
+  "model": "Qwen3-Omni-30B-A3B-Instruct",
+  "video": "data/283851334-1-208.mp4",
+  "probe_range_sec": "30.0~90.0",
+  "baseline_ref": "run_omni_asr_test.py T5: 58句，1193字（分块音频ASR）",
+  "tests": {
+    "T1_audio_baseline": {
+      "mode": "audio_60s",
+      "elapsed_sec": 25.36,
+      "sentence_count": 9,
+      "char_count": 217,
+      "sentences": [
+        {
+          "text": "哎呀，这大胖头鱼啊，拿这个铁锅用大酱炖，老好吃了。",
+          "start_sec": 32.5,
+          "end_sec": 38.5
+        },
+        {
+          "text": "其实每年的年底啊，我都会来到查干湖做报道。",
+          "start_sec": 47.8,
+          "end_sec": 52.1
+        },
+        {
+          "text": "因为查干湖每年呢，它是从十二月中旬吧，一直到这个春节前后都是一个冬捕。",
+          "start_sec": 52.1,
+          "end_sec": 59.5
+        },
+        {
+          "text": "然后它又是一个国家级非物质文化遗产，所以说呢，新闻报道是非常重要的。",
+          "start_sec": 59.5,
+          "end_sec": 65.2
+        },
+        {
+          "text": "那我们每年就都得过来，然后每年的圣诞节、元旦、跨年都是在查干湖过的。",
+          "start_sec": 65.2,
+          "end_sec": 73.8
+        },
+        {
+          "text": "一待就是要待上半个月这样子。",
+          "start_sec": 73.8,
+          "end_sec": 77.4
+        },
+        {
+          "text": "哎，这边有卖冰糖葫芦的，买两个尝尝。",
+          "start_sec": 78.4,
+          "end_sec": 82.1
+        },
+        {
+          "text": "东北的冬天，冰糖葫芦建议尽量不要在外面吃，因为咬不动，还冰牙。",
+          "start_sec": 82.1,
+          "end_sec": 88.5
+        },
+        {
+          "text": "没咬下来。",
+          "start_sec": 88.5,
+          "end_sec": 89.5
+        }
+      ],
+      "raw_response": "```json\n{\n  \"sentences\": [\n    {\n      \"text\": \"哎呀，这大胖头鱼啊，拿这个铁锅用大酱炖，老好吃了。\",\n      \"start_sec\": 2.5,\n      \"end_sec\": 8.5\n    },\n    {\n      \"text\": \"其实每年的年底啊，我都会来到查干湖做报道。\",\n      \"start_sec\": 17.8,\n      \"end_sec\": 22.1\n    },\n    {\n      \"text\": \"因为查干湖每年呢，它是从十二月中旬吧，一直到这个春节前后都是一个冬捕。\",\n      \"start_sec\": 22.1,\n      \"end_sec\": 29.5\n    },\n    {\n      \"text\": \"然后它又是一个国家级非物质文化遗产，所以说呢，新闻报道是非常重要的。\",\n      \"start_sec\": 29.5,\n      \"end_sec\": 35.2\n    },\n    {\n      \"text\": \"那我们每年就都得过来，然后每年的圣诞节、元旦、跨年都是在查干湖过的。\",\n      \"start_sec\": 35.2,\n      \"end_sec\": 43.8\n    },\n    {\n      \"text\": \"一待就是要待上半个月这样子。\",\n      \"start_sec\": 43.8,\n      \"end_sec\": 47.4\n    },\n    {\n      \"text\": \"哎，这边有卖冰糖葫芦的，买两个尝尝。\",\n      \"start_sec\": 48.4,\n      \"end_sec\": 52.1\n    },\n    {\n      \"text\": \"东北的冬天，冰糖葫芦建议尽量不要在外面吃，因为咬不动，还冰牙。\",\n      \"start_sec\": 52.1,\n      \"end_sec\": 58.5\n    },\n    {\n      \"text\": \"没咬下来。\",\n      \"start_sec\": 58.5,\n      \"end_sec\": 59.5\n    }\n  ]\n}\n```"
+    },
+    "T2_video_asr": {
+      "mode": "video_60s_scoped",
+      "error": ""
+    },
+    "T3_video_combined": {
+      "mode": "video_full_combined",
+      "error": ""
+    }
+  },
+  "feasibility": {
+    "T1_audio_asr_works": true,
+    "T2_video_asr_works": false,
+    "T3_combined_works": false,
+    "recommendation": "✓ 推荐分块音频 ASR（T1基准方案）+ 时间戳对齐后喂给 orchestrator",
+    "T2_video_vs_T1_audio": "T2(0字) vs T1(217字)",
+    "T3_asr_chars": 0,
+    "T3_phases_count": 0
+  }
+}

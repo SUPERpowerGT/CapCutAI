@@ -1,0 +1,647 @@
+{
+  "model": "models/omni/Qwen3-Omni-30B-A3B-Instruct",
+  "video": "data/283851334-1-208.mp4",
+  "audio_total_sec": 341.0,
+  "probe_range": "30.0~60.0s",
+  "tests": {
+    "T1_plain_transcription": {
+      "prompt": "plain_transcription",
+      "response": "哎呀，这大胖头鱼啊，拿这个铁锅用大酱炖老好吃了。其实每年的年底啊，我都会来到查干湖做报道，因为查干湖每年呢它是从十二月中旬吧，一直到这个春节前后都是一个冬捕。",
+      "char_count": 79,
+      "elapsed_sec": 7.75
+    },
+    "T2_sentence_timestamps": {
+      "prompt": "sentence_level_timestamps",
+      "raw_response": "```json\n{\n  \"sentences\": [\n    {\n      \"text\": \"哎呀，这大胖头鱼啊，拿这个铁锅用大酱炖，老好吃了。\",\n      \"start_sec\": 2.5,\n      \"end_sec\": 8.1\n    },\n    {\n      \"text\": \"其实每年的年底啊，我都会来到查干湖做报道。\",\n      \"start_sec\": 17.7,\n      \"end_sec\": 22.1\n    },\n    {\n      \"text\": \"因为查干湖每年呢，它是从十二月中旬吧，一直到这个春节前后，都是一个冬捕。\",\n      \"start_sec\": 22.1,\n      \"end_sec\": 29.0\n    }\n  ]\n}\n```",
+      "sentences": [
+        {
+          "text": "哎呀，这大胖头鱼啊，拿这个铁锅用大酱炖，老好吃了。",
+          "start_sec": 32.5,
+          "end_sec": 38.1,
+          "start_ms": 32500,
+          "end_ms": 38100
+        },
+        {
+          "text": "其实每年的年底啊，我都会来到查干湖做报道。",
+          "start_sec": 47.7,
+          "end_sec": 52.1,
+          "start_ms": 47700,
+          "end_ms": 52100
+        },
+        {
+          "text": "因为查干湖每年呢，它是从十二月中旬吧，一直到这个春节前后，都是一个冬捕。",
+          "start_sec": 52.1,
+          "end_sec": 59.0,
+          "start_ms": 52100,
+          "end_ms": 59000
+        }
+      ],
+      "parse_success": true,
+      "elapsed_sec": 18.66
+    },
+    "T3_word_timestamps": {
+      "prompt": "word_level_timestamps",
+      "raw_response": "```json\n{\n  \"words\": [\n    {\"word\": \"哎呀\", \"start_sec\": 2.8, \"end_sec\": 3.2},\n    {\"word\": \"这大胖头鱼啊\", \"start_sec\": 3.4, \"end_sec\": 5.0},\n    {\"word\": \"拿这个\", \"start_sec\": 5.3, \"end_sec\": 6.0},\n    {\"word\": \"铁锅\", \"start_sec\": 6.3, \"end_sec\": 6.8},\n    {\"word\": \"用大酱炖\", \"start_sec\": 7.1, \"end_sec\": 8.1},\n    {\"word\": \"老好吃了\", \"start_sec\": 8.3, \"end_sec\": 9.1},\n    {\"word\": \"其实每年的年底啊\", \"start_sec\": 17.9, \"end_sec\": 20.4},\n    {\"word\": \"我都会来到\", \"start_sec\": 20.7, \"end_sec\": 21.5},\n    {\"word\": \"查干湖做报道\", \"start_sec\": 21.7, \"end_sec\": 23.1},\n    {\"word\": \"因为查干湖每年呢\", \"start_sec\": 23.5, \"end_sec\": 25.1},\n    {\"word\": \"它是从\", \"start_sec\": 25.3, \"end_sec\": 26.0},\n    {\"word\": \"十二月中旬吧\", \"start_sec\": 26.3, \"end_sec\": 28.1},\n    {\"word\": \"一直到这个\", \"start_sec\": 28.4, \"end_sec\": 29.4},\n    {\"word\": \"春节前后\", \"start_sec\": 29.7, \"end_sec\": 30.6}\n  ]\n}\n```",
+      "words": [
+        {
+          "word": "哎呀",
+          "start_sec": 2.8,
+          "end_sec": 3.2
+        },
+        {
+          "word": "这大胖头鱼啊",
+          "start_sec": 3.4,
+          "end_sec": 5.0
+        },
+        {
+          "word": "拿这个",
+          "start_sec": 5.3,
+          "end_sec": 6.0
+        },
+        {
+          "word": "铁锅",
+          "start_sec": 6.3,
+          "end_sec": 6.8
+        },
+        {
+          "word": "用大酱炖",
+          "start_sec": 7.1,
+          "end_sec": 8.1
+        },
+        {
+          "word": "老好吃了",
+          "start_sec": 8.3,
+          "end_sec": 9.1
+        },
+        {
+          "word": "其实每年的年底啊",
+          "start_sec": 17.9,
+          "end_sec": 20.4
+        },
+        {
+          "word": "我都会来到",
+          "start_sec": 20.7,
+          "end_sec": 21.5
+        },
+        {
+          "word": "查干湖做报道",
+          "start_sec": 21.7,
+          "end_sec": 23.1
+        },
+        {
+          "word": "因为查干湖每年呢",
+          "start_sec": 23.5,
+          "end_sec": 25.1
+        },
+        {
+          "word": "它是从",
+          "start_sec": 25.3,
+          "end_sec": 26.0
+        },
+        {
+          "word": "十二月中旬吧",
+          "start_sec": 26.3,
+          "end_sec": 28.1
+        },
+        {
+          "word": "一直到这个",
+          "start_sec": 28.4,
+          "end_sec": 29.4
+        },
+        {
+          "word": "春节前后",
+          "start_sec": 29.7,
+          "end_sec": 30.6
+        }
+      ],
+      "parse_success": true,
+      "elapsed_sec": 46.34
+    },
+    "T4_video_mode": {
+      "prompt": "video_mode_sentence_timestamps",
+      "error": ""
+    },
+    "T5_full_chunked": {
+      "method": "chunked_30s_with_sentence_timestamps",
+      "total_elapsed_sec": 150.3,
+      "chunk_count": 12,
+      "chunk_log": [
+        {
+          "chunk_index": 0,
+          "start_sec": 0,
+          "end_sec": 30.0,
+          "sentences_in_chunk": 5,
+          "elapsed_sec": 19.01
+        },
+        {
+          "chunk_index": 1,
+          "start_sec": 30,
+          "end_sec": 60.0,
+          "sentences_in_chunk": 3,
+          "elapsed_sec": 8.82
+        },
+        {
+          "chunk_index": 2,
+          "start_sec": 60,
+          "end_sec": 90.0,
+          "sentences_in_chunk": 8,
+          "elapsed_sec": 18.29
+        },
+        {
+          "chunk_index": 3,
+          "start_sec": 90,
+          "end_sec": 120.0,
+          "sentences_in_chunk": 4,
+          "elapsed_sec": 10.09
+        },
+        {
+          "chunk_index": 4,
+          "start_sec": 120,
+          "end_sec": 150.0,
+          "sentences_in_chunk": 4,
+          "elapsed_sec": 10.62
+        },
+        {
+          "chunk_index": 5,
+          "start_sec": 150,
+          "end_sec": 180.0,
+          "sentences_in_chunk": 3,
+          "elapsed_sec": 7.9
+        },
+        {
+          "chunk_index": 6,
+          "start_sec": 180,
+          "end_sec": 210.0,
+          "sentences_in_chunk": 5,
+          "elapsed_sec": 13.08
+        },
+        {
+          "chunk_index": 7,
+          "start_sec": 210,
+          "end_sec": 240.0,
+          "sentences_in_chunk": 4,
+          "elapsed_sec": 11.31
+        },
+        {
+          "chunk_index": 8,
+          "start_sec": 240,
+          "end_sec": 270.0,
+          "sentences_in_chunk": 5,
+          "elapsed_sec": 11.57
+        },
+        {
+          "chunk_index": 9,
+          "start_sec": 270,
+          "end_sec": 300.0,
+          "sentences_in_chunk": 6,
+          "elapsed_sec": 14.8
+        },
+        {
+          "chunk_index": 10,
+          "start_sec": 300,
+          "end_sec": 330.0,
+          "sentences_in_chunk": 8,
+          "elapsed_sec": 18.33
+        },
+        {
+          "chunk_index": 11,
+          "start_sec": 330,
+          "end_sec": 341.0,
+          "sentences_in_chunk": 3,
+          "elapsed_sec": 6.47
+        }
+      ],
+      "sentence_count": 58,
+      "full_text": "大家好，我是王冰冰。那这里呢就是查干湖最具特色的胖头鱼啦。个头大，分量还足。很多人呢到查干湖都会选购一条回去。好嘞，为什么我这么官方？果然是因为最近太多直播了吗？重来重来。哎呀，这大胖头鱼啊，拿这个铁锅用大酱炖，老好吃了。其实每年的年底啊，我都会来到查干湖做报道。因为查干湖每年呢，它是从十二月中旬吧，一直到这个春节前后，都是一个冬捕。然后它又是一个国家级非物质文化遗产，所以说呢新闻报道是非常重要的。那我们每年就都得过来。然后每年的圣诞节、元旦、跨年都是在查干湖过的。一待就是要待上半个月这样子。哎，这边有卖冰糖葫芦的，买两个尝尝。东北的冬天，冰糖葫芦建议尽量不要在外面吃。因为咬不动，还冰牙。没咬下来。早场直播基本上意味着睡不好觉了，眼睛一闭一睁就起床了。天还没亮呢，我已经要去冰面上做直播了。今天里面穿了四层衣服，特别特别冷。这块儿呢一会儿就是我们要直播的地。点了，然后现在已经是在查干湖的冰面上了，天快亮了，我们现在正在准备直播的内容。电视直播通常连线只有几分钟，但包括记者、导播、摄像等等工作人员需要提前两三个小时就在现场准备。而前期的内容筹备可能多达好几天。现在我要去到下一个场景去做。哎，终于直播完了，现在可以去吃饭了，一天都没吃饭了，我要去吃点饭了。吃啥这会儿，最多的就是吃鱼。酱酱酱酱，这是我刚才直播。的时候啊，就是拿那个大铁锅啊炖的这一条大胖头鱼。这条胖头鱼刚才说好像得有十多斤，长了得有十几年了。特别好吃，用这个东北的大酱啊，然后再加一点辣椒炖出来就特别的好吃。这条鱼一会儿我跟同事会一起把它吃掉。反正趁着他们还没来，我先多吃几口。其实我一直在B站有号，一直我在潜水，但是我不能评论，因为我被一百道题给劝退了。杨幂女儿的小脸。我倒是关注，有的时候会看一些像毕导啊，何同学呀这种比较有意思的up主的视频，我都有关注。然后最近几个月比较苦恼的是，一打开有的时候经常看到自己的鬼畜视频。哎呀，这是一种什么样的感觉呢？嗯，希望大家手下留情吧。然后呢，以后呃我会在这上面就是不定期的更新一些视频。如果说大家有什么想看的呀，可以发送给我们弹幕。当然了，关于我这个个人的呃一些节目的呃拍摄节目的一些日常也会平常更新在视频上。可能会走遍一下祖国的大好河山，这也是我特别愿意干的一件事情。我喜欢看美景，这几年工作走过很多地方，留下了满满回忆。躺在海南沙滩看椰林树影，在新疆大漠听驼铃叮当响。站在大凉山悬崖村对面山顶看云卷云舒。和新村穆恩底社区的老乡们拍一张照。当然还有一次次直播时屏幕对面的大家。这是年初宅家里做的手工，以及陪着我的两只小猫。哦对了，这只就是吃花椒的喵酱本喵。美好的事物不是生活的全部，但一定都值得纪念。二零二一年来临之际，你们有什么心愿吗？我的新年心愿是希望可以突破自己，尝试不同的节目。希望可以多吃几。一顿火锅。第一个愿望是，看完以后给个三连吧。新年快乐，拜拜。",
+      "char_count": 1193,
+      "sentences": [
+        {
+          "text": "大家好，我是王冰冰。",
+          "start_sec": 13.8,
+          "end_sec": 15.8,
+          "start_ms": 13800,
+          "end_ms": 15800
+        },
+        {
+          "text": "那这里呢就是查干湖最具特色的胖头鱼啦。",
+          "start_sec": 16.0,
+          "end_sec": 19.2,
+          "start_ms": 16000,
+          "end_ms": 19200
+        },
+        {
+          "text": "个头大，分量还足。",
+          "start_sec": 19.2,
+          "end_sec": 20.5,
+          "start_ms": 19200,
+          "end_ms": 20500
+        },
+        {
+          "text": "很多人呢到查干湖都会选购一条回去。",
+          "start_sec": 20.7,
+          "end_sec": 23.4,
+          "start_ms": 20700,
+          "end_ms": 23400
+        },
+        {
+          "text": "好嘞，为什么我这么官方？果然是因为最近太多直播了吗？重来重来。",
+          "start_sec": 24.2,
+          "end_sec": 29.0,
+          "start_ms": 24200,
+          "end_ms": 29000
+        },
+        {
+          "text": "哎呀，这大胖头鱼啊，拿这个铁锅用大酱炖，老好吃了。",
+          "start_sec": 32.5,
+          "end_sec": 38.1,
+          "start_ms": 32500,
+          "end_ms": 38100
+        },
+        {
+          "text": "其实每年的年底啊，我都会来到查干湖做报道。",
+          "start_sec": 47.7,
+          "end_sec": 52.1,
+          "start_ms": 47700,
+          "end_ms": 52100
+        },
+        {
+          "text": "因为查干湖每年呢，它是从十二月中旬吧，一直到这个春节前后，都是一个冬捕。",
+          "start_sec": 52.1,
+          "end_sec": 59.0,
+          "start_ms": 52100,
+          "end_ms": 59000
+        },
+        {
+          "text": "然后它又是一个国家级非物质文化遗产，所以说呢新闻报道是非常重要的。",
+          "start_sec": 60.0,
+          "end_sec": 65.5,
+          "start_ms": 60000,
+          "end_ms": 65500
+        },
+        {
+          "text": "那我们每年就都得过来。",
+          "start_sec": 65.8,
+          "end_sec": 67.4,
+          "start_ms": 65800,
+          "end_ms": 67400
+        },
+        {
+          "text": "然后每年的圣诞节、元旦、跨年都是在查干湖过的。",
+          "start_sec": 67.8,
+          "end_sec": 74.0,
+          "start_ms": 67800,
+          "end_ms": 74000
+        },
+        {
+          "text": "一待就是要待上半个月这样子。",
+          "start_sec": 74.4,
+          "end_sec": 77.7,
+          "start_ms": 74400,
+          "end_ms": 77700
+        },
+        {
+          "text": "哎，这边有卖冰糖葫芦的，买两个尝尝。",
+          "start_sec": 79.0,
+          "end_sec": 82.4,
+          "start_ms": 79000,
+          "end_ms": 82400
+        },
+        {
+          "text": "东北的冬天，冰糖葫芦建议尽量不要在外面吃。",
+          "start_sec": 82.8,
+          "end_sec": 86.1,
+          "start_ms": 82800,
+          "end_ms": 86100
+        },
+        {
+          "text": "因为咬不动，还冰牙。",
+          "start_sec": 86.5,
+          "end_sec": 88.2,
+          "start_ms": 86500,
+          "end_ms": 88200
+        },
+        {
+          "text": "没咬下来。",
+          "start_sec": 88.5,
+          "end_sec": 89.1,
+          "start_ms": 88500,
+          "end_ms": 89100
+        },
+        {
+          "text": "早场直播基本上意味着睡不好觉了，眼睛一闭一睁就起床了。",
+          "start_sec": 101.5,
+          "end_sec": 107.2,
+          "start_ms": 101500,
+          "end_ms": 107200
+        },
+        {
+          "text": "天还没亮呢，我已经要去冰面上做直播了。",
+          "start_sec": 107.8,
+          "end_sec": 111.0,
+          "start_ms": 107800,
+          "end_ms": 111000
+        },
+        {
+          "text": "今天里面穿了四层衣服，特别特别冷。",
+          "start_sec": 111.2,
+          "end_sec": 113.5,
+          "start_ms": 111200,
+          "end_ms": 113500
+        },
+        {
+          "text": "这块儿呢一会儿就是我们要直播的地。",
+          "start_sec": 117.4,
+          "end_sec": 120.0,
+          "start_ms": 117400,
+          "end_ms": 120000
+        },
+        {
+          "text": "点了，然后现在已经是在查干湖的冰面上了，天快亮了，我们现在正在准备直播的内容。",
+          "start_sec": 120.0,
+          "end_sec": 127.8,
+          "start_ms": 120000,
+          "end_ms": 127800
+        },
+        {
+          "text": "电视直播通常连线只有几分钟，但包括记者、导播、摄像等等工作人员需要提前两三个小时就在现场准备。",
+          "start_sec": 129.0,
+          "end_sec": 137.8,
+          "start_ms": 129000,
+          "end_ms": 137800
+        },
+        {
+          "text": "而前期的内容筹备可能多达好几天。",
+          "start_sec": 138.2,
+          "end_sec": 141.5,
+          "start_ms": 138200,
+          "end_ms": 141500
+        },
+        {
+          "text": "现在我要去到下一个场景去做。",
+          "start_sec": 146.8,
+          "end_sec": 149.9,
+          "start_ms": 146800,
+          "end_ms": 149900
+        },
+        {
+          "text": "哎，终于直播完了，现在可以去吃饭了，一天都没吃饭了，我要去吃点饭了。",
+          "start_sec": 158.8,
+          "end_sec": 164.7,
+          "start_ms": 158800,
+          "end_ms": 164700
+        },
+        {
+          "text": "吃啥这会儿，最多的就是吃鱼。",
+          "start_sec": 165.0,
+          "end_sec": 167.7,
+          "start_ms": 165000,
+          "end_ms": 167700
+        },
+        {
+          "text": "酱酱酱酱，这是我刚才直播。",
+          "start_sec": 177.1,
+          "end_sec": 179.8,
+          "start_ms": 177100,
+          "end_ms": 179800
+        },
+        {
+          "text": "的时候啊，就是拿那个大铁锅啊炖的这一条大胖头鱼。",
+          "start_sec": 180.0,
+          "end_sec": 184.1,
+          "start_ms": 180000,
+          "end_ms": 184100
+        },
+        {
+          "text": "这条胖头鱼刚才说好像得有十多斤，长了得有十几年了。",
+          "start_sec": 184.1,
+          "end_sec": 188.7,
+          "start_ms": 184100,
+          "end_ms": 188700
+        },
+        {
+          "text": "特别好吃，用这个东北的大酱啊，然后再加一点辣椒炖出来就特别的好吃。",
+          "start_sec": 188.7,
+          "end_sec": 196.5,
+          "start_ms": 188700,
+          "end_ms": 196500
+        },
+        {
+          "text": "这条鱼一会儿我跟同事会一起把它吃掉。",
+          "start_sec": 196.5,
+          "end_sec": 200.2,
+          "start_ms": 196500,
+          "end_ms": 200200
+        },
+        {
+          "text": "反正趁着他们还没来，我先多吃几口。",
+          "start_sec": 200.2,
+          "end_sec": 203.2,
+          "start_ms": 200200,
+          "end_ms": 203200
+        },
+        {
+          "text": "其实我一直在B站有号，一直我在潜水，但是我不能评论，因为我被一百道题给劝退了。",
+          "start_sec": 210.0,
+          "end_sec": 217.5,
+          "start_ms": 210000,
+          "end_ms": 217500
+        },
+        {
+          "text": "杨幂女儿的小脸。",
+          "start_sec": 218.5,
+          "end_sec": 221.0,
+          "start_ms": 218500,
+          "end_ms": 221000
+        },
+        {
+          "text": "我倒是关注，有的时候会看一些像毕导啊，何同学呀这种比较有意思的up主的视频，我都有关注。",
+          "start_sec": 225.1,
+          "end_sec": 233.1,
+          "start_ms": 225100,
+          "end_ms": 233100
+        },
+        {
+          "text": "然后最近几个月比较苦恼的是，一打开有的时候经常看到自己的鬼畜视频。",
+          "start_sec": 233.4,
+          "end_sec": 239.2,
+          "start_ms": 233400,
+          "end_ms": 239200
+        },
+        {
+          "text": "哎呀，这是一种什么样的感觉呢？",
+          "start_sec": 240.0,
+          "end_sec": 242.5,
+          "start_ms": 240000,
+          "end_ms": 242500
+        },
+        {
+          "text": "嗯，希望大家手下留情吧。",
+          "start_sec": 253.0,
+          "end_sec": 257.1,
+          "start_ms": 253000,
+          "end_ms": 257100
+        },
+        {
+          "text": "然后呢，以后呃我会在这上面就是不定期的更新一些视频。",
+          "start_sec": 259.1,
+          "end_sec": 265.3,
+          "start_ms": 259100,
+          "end_ms": 265300
+        },
+        {
+          "text": "如果说大家有什么想看的呀，可以发送给我们弹幕。",
+          "start_sec": 265.6,
+          "end_sec": 268.7,
+          "start_ms": 265600,
+          "end_ms": 268700
+        },
+        {
+          "text": "当然了，关于我",
+          "start_sec": 269.0,
+          "end_sec": 270.0,
+          "start_ms": 269000,
+          "end_ms": 270000
+        },
+        {
+          "text": "这个个人的呃一些节目的呃拍摄节目的一些日常也会平常更新在视频上。",
+          "start_sec": 270.0,
+          "end_sec": 277.5,
+          "start_ms": 270000,
+          "end_ms": 277500
+        },
+        {
+          "text": "可能会走遍一下祖国的大好河山，这也是我特别愿意干的一件事情。",
+          "start_sec": 278.1,
+          "end_sec": 283.8,
+          "start_ms": 278100,
+          "end_ms": 283800
+        },
+        {
+          "text": "我喜欢看美景，这几年工作走过很多地方，留下了满满回忆。",
+          "start_sec": 285.1,
+          "end_sec": 290.4,
+          "start_ms": 285100,
+          "end_ms": 290400
+        },
+        {
+          "text": "躺在海南沙滩看椰林树影，在新疆大漠听驼铃叮当响。",
+          "start_sec": 290.8,
+          "end_sec": 295.5,
+          "start_ms": 290800,
+          "end_ms": 295500
+        },
+        {
+          "text": "站在大凉山悬崖村对面山顶看云卷云舒。",
+          "start_sec": 295.9,
+          "end_sec": 299.7,
+          "start_ms": 295900,
+          "end_ms": 299700
+        },
+        {
+          "text": "和",
+          "start_sec": 299.9,
+          "end_sec": 300.0,
+          "start_ms": 299900,
+          "end_ms": 300000
+        },
+        {
+          "text": "新村穆恩底社区的老乡们拍一张照。",
+          "start_sec": 300.0,
+          "end_sec": 302.5,
+          "start_ms": 300000,
+          "end_ms": 302500
+        },
+        {
+          "text": "当然还有一次次直播时屏幕对面的大家。",
+          "start_sec": 303.0,
+          "end_sec": 305.8,
+          "start_ms": 303000,
+          "end_ms": 305800
+        },
+        {
+          "text": "这是年初宅家里做的手工，以及陪着我的两只小猫。",
+          "start_sec": 306.7,
+          "end_sec": 310.2,
+          "start_ms": 306700,
+          "end_ms": 310200
+        },
+        {
+          "text": "哦对了，这只就是吃花椒的喵酱本喵。",
+          "start_sec": 311.0,
+          "end_sec": 313.8,
+          "start_ms": 311000,
+          "end_ms": 313800
+        },
+        {
+          "text": "美好的事物不是生活的全部，但一定都值得纪念。",
+          "start_sec": 314.6,
+          "end_sec": 318.5,
+          "start_ms": 314600,
+          "end_ms": 318500
+        },
+        {
+          "text": "二零二一年来临之际，你们有什么心愿吗？",
+          "start_sec": 319.1,
+          "end_sec": 321.8,
+          "start_ms": 319100,
+          "end_ms": 321800
+        },
+        {
+          "text": "我的新年心愿是希望可以突破自己，尝试不同的节目。",
+          "start_sec": 322.5,
+          "end_sec": 327.2,
+          "start_ms": 322500,
+          "end_ms": 327200
+        },
+        {
+          "text": "希望可以多吃几。",
+          "start_sec": 327.7,
+          "end_sec": 329.0,
+          "start_ms": 327700,
+          "end_ms": 329000
+        },
+        {
+          "text": "一顿火锅。",
+          "start_sec": 330.0,
+          "end_sec": 330.8,
+          "start_ms": 330000,
+          "end_ms": 330800
+        },
+        {
+          "text": "第一个愿望是，看完以后给个三连吧。",
+          "start_sec": 331.3,
+          "end_sec": 334.4,
+          "start_ms": 331300,
+          "end_ms": 334400
+        },
+        {
+          "text": "新年快乐，拜拜。",
+          "start_sec": 334.7,
+          "end_sec": 336.2,
+          "start_ms": 334700,
+          "end_ms": 336200
+        }
+      ]
+    }
+  },
+  "summary": {
+    "asr_accuracy": {
+      "note": "与 GLM-ASR 分块结果（1185字）对比",
+      "T1_probe_chars": 79,
+      "T5_full_chars": 1193
+    },
+    "timestamp_capability": {
+      "sentence_level": {
+        "supported": true,
+        "sentence_count_probe": 3,
+        "note": "Omni 生成句级时间戳基于语义理解，非 CTC/强制对齐，存在一定误差"
+      },
+      "word_level": {
+        "supported": true,
+        "word_count_probe": 14,
+        "note": "词级时间戳为模型推断，精度低于专用强制对齐工具"
+      }
+    },
+    "recommendation": "Qwen3-Omni 具备语音识别能力，可通过 Prompt 获得句级/词级时间戳；时间戳来自 LLM 语义推断（非 CTC），精度约±1-3s；对于需要精确时间戳的场景建议结合强制对齐工具后处理。"
+  }
+}

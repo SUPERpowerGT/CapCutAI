@@ -1,0 +1,166 @@
+{
+  "shots": [
+    {
+      "index": 0,
+      "start_ms": 0,
+      "end_ms": 10443,
+      "keyframe_path": "outputs/pipeline/1232574950-1-192/keyframes/shot_000_0ms.jpg",
+      "shot_type": "B_ROLL_SEMANTIC",
+      "content_type": "SCENE",
+      "emotional_tone": "NEUTRAL",
+      "b_roll_semantic_prompt": "晴朗蓝天下的城市街道，两旁是欧式别墅与行道树，路面空旷，远处有行人和建筑。",
+      "camera_motion_effect": "静态",
+      "editing_utility": "NARRATIVE_SUPPORT"
+    },
+    {
+      "index": 1,
+      "start_ms": 10443,
+      "end_ms": 14143,
+      "keyframe_path": "outputs/pipeline/1232574950-1-192/keyframes/shot_001_10443ms.jpg",
+      "shot_type": "B_ROLL_SEMANTIC",
+      "content_type": "SCENE",
+      "emotional_tone": "NEUTRAL",
+      "b_roll_semantic_prompt": "现代办公大厅内景，多人走动，地面光洁反光，左侧大理石墙，右侧玻璃门透自然光。",
+      "camera_motion_effect": "轻微震动",
+      "editing_utility": "NARRATIVE_SUPPORT"
+    },
+    {
+      "index": 2,
+      "start_ms": 14143,
+      "end_ms": 16843,
+      "keyframe_path": "outputs/pipeline/1232574950-1-192/keyframes/shot_002_14143ms.jpg",
+      "shot_type": "B_ROLL_SEMANTIC",
+      "content_type": "PRODUCT",
+      "emotional_tone": "CALM",
+      "b_roll_semantic_prompt": "白色餐盘盛放虾仁、蔬菜与米饭，配筷子和酸奶，木质桌面，暖色调静物美食特写。",
+      "camera_motion_effect": "静态",
+      "editing_utility": "NARRATIVE_SUPPORT"
+    },
+    {
+      "index": 3,
+      "start_ms": 16843,
+      "end_ms": 24443,
+      "keyframe_path": "outputs/pipeline/1232574950-1-192/keyframes/shot_003_16843ms.jpg",
+      "shot_type": "B_ROLL_SEMANTIC",
+      "content_type": "SCENE",
+      "emotional_tone": "NEUTRAL",
+      "b_roll_semantic_prompt": "城市街道远景，两侧是住宅楼与行道树，天空晴朗，道路空旷，车辆稀少。",
+      "camera_motion_effect": "静态",
+      "editing_utility": "NARRATIVE_SUPPORT"
+    },
+    {
+      "index": 4,
+      "start_ms": 24443,
+      "end_ms": 27643,
+      "keyframe_path": "outputs/pipeline/1232574950-1-192/keyframes/shot_004_24443ms.jpg",
+      "shot_type": "B_ROLL_SEMANTIC",
+      "content_type": "PRODUCT",
+      "emotional_tone": "NEUTRAL",
+      "b_roll_semantic_prompt": "白色空调挂机安装于深蓝色墙面，上方有雕花装饰线条，显示温度29度。",
+      "camera_motion_effect": "静态",
+      "editing_utility": "NARRATIVE_SUPPORT"
+    },
+    {
+      "index": 5,
+      "start_ms": 27643,
+      "end_ms": 30443,
+      "keyframe_path": "outputs/pipeline/1232574950-1-192/keyframes/shot_005_27643ms.jpg",
+      "shot_type": "B_ROLL_SEMANTIC",
+      "content_type": "SCENE",
+      "emotional_tone": "HIGH_ENERGY",
+      "b_roll_semantic_prompt": "彩色卡通图案布料在深色背景上快速晃动，画面模糊动态感强",
+      "camera_motion_effect": "震动",
+      "editing_utility": "HOOK_OPENER"
+    },
+    {
+      "index": 6,
+      "start_ms": 30443,
+      "end_ms": 39143,
+      "keyframe_path": "outputs/pipeline/1232574950-1-192/keyframes/shot_006_30443ms.jpg",
+      "shot_type": "B_ROLL_SEMANTIC",
+      "content_type": "PRODUCT",
+      "emotional_tone": "NEUTRAL",
+      "b_roll_semantic_prompt": "奶茶杯特写，杯身绘山水图案，背景为办公桌及手办摆件，构图居中，色调自然。",
+      "camera_motion_effect": "静态",
+      "editing_utility": "NARRATIVE_SUPPORT"
+    },
+    {
+      "index": 7,
+      "start_ms": 39143,
+      "end_ms": 43043,
+      "keyframe_path": "outputs/pipeline/1232574950-1-192/keyframes/shot_007_39143ms.jpg",
+      "shot_type": "B_ROLL_SEMANTIC",
+      "content_type": "SCENE",
+      "emotional_tone": "CALM",
+      "b_roll_semantic_prompt": "现代室内休息区，彩色圆形坐垫与绿植，背景有伞架和电梯，地面铺大理石纹瓷砖。",
+      "camera_motion_effect": "轻微震动",
+      "editing_utility": "NARRATIVE_SUPPORT"
+    },
+    {
+      "index": 8,
+      "start_ms": 43043,
+      "end_ms": 44243,
+      "keyframe_path": "outputs/pipeline/1232574950-1-192/keyframes/shot_008_43043ms.jpg",
+      "shot_type": "B_ROLL_SEMANTIC",
+      "content_type": "SCENE",
+      "emotional_tone": "CALM",
+      "b_roll_semantic_prompt": "白色餐桌摆设，玻璃花瓶插玫瑰，餐具折叠装饰，金属杯，构图精致，暖光氛围",
+      "camera_motion_effect": "静态",
+      "editing_utility": "NARRATIVE_SUPPORT"
+    },
+    {
+      "index": 9,
+      "start_ms": 44243,
+      "end_ms": 46143,
+      "keyframe_path": "outputs/pipeline/1232574950-1-192/keyframes/shot_009_44243ms.jpg",
+      "shot_type": "B_ROLL_SEMANTIC",
+      "content_type": "PRODUCT",
+      "emotional_tone": "NEUTRAL",
+      "b_roll_semantic_prompt": "金色碗盛装多彩沙拉，手用夹子翻拌，白色桌面配餐具，构图居中，色彩鲜亮。",
+      "camera_motion_effect": "静态",
+      "editing_utility": "NARRATIVE_SUPPORT"
+    },
+    {
+      "index": 10,
+      "start_ms": 46143,
+      "end_ms": 55943,
+      "keyframe_path": "outputs/pipeline/1232574950-1-192/keyframes/shot_010_46143ms.jpg",
+      "shot_type": "A_ROLL_CLOSE_UP",
+      "content_type": "SCENE",
+      "emotional_tone": "CALM",
+      "b_roll_semantic_prompt": "笔记本屏幕显示动漫角色分屏画面，紫色背景，双人对视，构图居中。",
+      "camera_motion_effect": "静态",
+      "editing_utility": "NARRATIVE_SUPPORT"
+    },
+    {
+      "index": 11,
+      "start_ms": 55943,
+      "end_ms": 56943,
+      "keyframe_path": "outputs/pipeline/1232574950-1-192/keyframes/shot_011_55943ms.jpg",
+      "shot_type": "B_ROLL_SEMANTIC",
+      "content_type": "SCENE",
+      "emotional_tone": "CALM",
+      "b_roll_semantic_prompt": "浅色被子覆盖的卡通玩偶，背景灰暗布帘，构图低角度，氛围静谧温馨。",
+      "camera_motion_effect": "静态",
+      "editing_utility": "NARRATIVE_SUPPORT"
+    },
+    {
+      "index": 12,
+      "start_ms": 56943,
+      "end_ms": 65200,
+      "keyframe_path": "outputs/pipeline/1232574950-1-192/keyframes/shot_012_56943ms.jpg",
+      "shot_type": "B_ROLL_SEMANTIC",
+      "content_type": "PRODUCT",
+      "emotional_tone": "CALM",
+      "b_roll_semantic_prompt": "手机屏幕显示睡眠监测界面，绿色背景卡通青蛙，数据图表清晰，整体色调柔和清新。",
+      "camera_motion_effect": "静态",
+      "editing_utility": "EMPHASIS_HIGHLIGHT"
+    }
+  ],
+  "caption_info": {
+    "font_family_type": "Sans-Serif-Bold",
+    "css_style": "白色粗体字，背景透明，位于画面下方中央",
+    "position_y_percentage": 75.0,
+    "highlight_strategy": "关键词使用高对比度颜色高亮"
+  }
+}
