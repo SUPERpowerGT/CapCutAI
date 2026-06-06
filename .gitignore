@@ -44,8 +44,10 @@ tmp/
 *.wav
 *.jpg
 AI4Video/data/
+AI4Video/outputs/
+AI4Video/outputs/*.zip
+AI4Video/pipeline_api/config.local.py
 AI4Video/CLAUDE.md
 AI4Video/API_DOC.md
 AI4Video/TASK.md
 AI4Video/.claude
-

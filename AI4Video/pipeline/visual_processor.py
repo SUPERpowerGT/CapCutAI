@@ -172,18 +172,62 @@ def _parse_shot_json(text: str) -> dict:
         if m:
             data = json.loads(m.group())
             valid_shot_types = {"A_ROLL_CLOSE_UP", "A_ROLL_MEDIUM", "B_ROLL_SEMANTIC"}
+            valid_content_types = {"PRESENTER", "PRODUCT", "SCENE", "TEXT_GRAPHIC"}
+            valid_tones = {"HIGH_ENERGY", "NEUTRAL", "CALM"}
+            valid_editing_utilities = {
+                "HOOK_OPENER",
+                "NARRATIVE_SUPPORT",
+                "EMPHASIS_HIGHLIGHT",
+                "TRANSITION_BRIDGE",
+            }
+
+            data["shot_type"] = _normalize_enum_value(
+                data.get("shot_type"), valid_shot_types
+            )
+            data["content_type"] = _normalize_enum_value(
+                data.get("content_type"), valid_content_types
+            )
+            data["emotional_tone"] = _normalize_enum_value(
+                data.get("emotional_tone"), valid_tones
+            )
+            data["editing_utility"] = _normalize_enum_value(
+                data.get("editing_utility"), valid_editing_utilities
+            )
+
             if data.get("shot_type") not in valid_shot_types:
                 data["shot_type"] = "B_ROLL_SEMANTIC"
-            valid_content_types = {"PRESENTER", "PRODUCT", "SCENE", "TEXT_GRAPHIC"}
             if data.get("content_type") not in valid_content_types:
                 data["content_type"] = "SCENE"
-            valid_tones = {"HIGH_ENERGY", "NEUTRAL", "CALM"}
             if data.get("emotional_tone") not in valid_tones:
                 data["emotional_tone"] = "NEUTRAL"
+            if data.get("editing_utility") not in valid_editing_utilities:
+                data["editing_utility"] = "NARRATIVE_SUPPORT"
             return {**default, **data}
     except (json.JSONDecodeError, TypeError):
         pass
     return default
+
+
+def _normalize_enum_value(value: Any, valid_values: set[str]) -> Any:
+    """清洗模型输出的枚举值，容忍尾随说明文字或轻微格式噪声。"""
+    if not isinstance(value, str):
+        return value
+
+    trimmed = value.strip()
+    if trimmed in valid_values:
+        return trimmed
+
+    # 常见情况：`HOOK_OPENER（适合开头吸引眼球）`
+    prefix = re.split(r"[（(]", trimmed, maxsplit=1)[0].strip()
+    if prefix in valid_values:
+        return prefix
+
+    # 兜底：从字符串中提取第一个合法枚举 token
+    for candidate in sorted(valid_values, key=len, reverse=True):
+        if candidate in trimmed:
+            return candidate
+
+    return value
 
 
 # ---- 字幕信息聚合 ----
