@@ -33,6 +33,65 @@
 backend -> ai-service -> postgres
 ```
 
+### `render_editor_sample.sh`
+
+文件：
+
+- [`render_editor_sample.sh`](./render_editor_sample.sh)
+
+用途：
+
+- 从 `data/test_case` 读取 mock analyzer 数据
+- 生成 `editing-package.json`
+- 调用本机 ffmpeg native render
+- 输出一版可直接检查的 MP4
+
+也就是说，它验证的是当前剪辑工具链的最小闭环：
+
+```txt
+data/test_case -> editing-package -> native render -> mp4
+```
+
+默认输出：
+
+```txt
+ai-service/output/plans/editor-sample.editing-package.json
+ai-service/output/renders/editor-sample.native.final.mp4
+```
+
+默认 profile 是：
+
+```txt
+smoke
+```
+
+常用方式：
+
+```bash
+scripts/render_editor_sample.sh
+PROFILE=smoke scripts/render_editor_sample.sh
+PROFILE=1080p scripts/render_editor_sample.sh
+```
+
+如果要额外生成 HyperFrames bundle：
+
+```bash
+BUILD_HYPERFRAMES=1 scripts/render_editor_sample.sh
+```
+
+如果要继续尝试 HyperFrames render：
+
+```bash
+RENDER_HYPERFRAMES=1 PROFILE=1080p scripts/render_editor_sample.sh
+```
+
+说明：
+
+- 默认不依赖 Docker
+- 默认走本机 ffmpeg
+- HyperFrames render 需要 Node.js 22+ 和 Google Chrome
+- Docker 仍用于 `make up` 的本地服务链
+
 ## 如何使用
 
 推荐在项目根目录执行：
@@ -45,6 +104,12 @@ make smoke
 
 ```bash
 python3 scripts/smoke_test_im_agent.py
+```
+
+剪辑工具链 smoke：
+
+```bash
+scripts/render_editor_sample.sh
 ```
 
 ## 规则

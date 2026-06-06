@@ -22,10 +22,18 @@ Desktop Client Dev
 - Ollama
 - Rust
 
+视频剪辑 / 渲染工具链额外需要：
+
+- ffmpeg
+- Google Chrome
+- Node.js 22+（仅 HyperFrames render 需要）
+
 说明：
 
 - 只跑服务链和浏览器调试时，Rust 不是必须
 - 跑 `desktop:dev` / `desktop:build` 时，需要 Rust
+- `scripts/render_editor_sample.sh` 依赖本机 ffmpeg
+- HyperFrames render 依赖本机 Node.js 22+ 和 Chrome
 
 ## 3 分钟启动卡
 
@@ -50,6 +58,19 @@ npm run desktop:dev
 
 这就是当前推荐启动方式。
 
+如果只想验证剪辑工具链：
+
+```bash
+scripts/render_editor_sample.sh
+```
+
+默认使用 `PROFILE=smoke`，会输出：
+
+```txt
+ai-service/output/plans/editor-sample.editing-package.json
+ai-service/output/renders/editor-sample.native.final.mp4
+```
+
 ## 你实际会启动什么
 
 本地服务链：
@@ -72,6 +93,7 @@ make up
 make smoke
 make ps
 make down
+scripts/render_editor_sample.sh
 ```
 
 `frontend/` 目录：

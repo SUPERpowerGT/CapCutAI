@@ -236,3 +236,35 @@ mock analyzer data
 2. 用 ffmpeg 补齐 BGM、ducking、基础转场
 3. 让 HyperFrames 专注包装层和复杂视觉层
 4. 后续单独处理 HyperFrames Docker renderer image 或云端 render 环境
+
+2026-06-06 23:22 CST 继续补充：
+
+- 已定位 HyperFrames 失败根因
+- 问题不是本机 Mac、Chrome、ffmpeg 或视频素材不可用
+- 根因是 composition 注册了 `window.__timelines["main"] = {}`，空对象没有 `pause()` 等 HyperFrames runtime 需要的方法
+- `ai-service/app/services/hyperframes_service.py` 已改为生成最小 paused timeline contract
+- 修复后重新生成的 bundle lint 结果为 `0 errors, 0 warnings`
+- 修复后的 HyperFrames 真实视频 1080p render 已完成
+
+验证输出：
+
+```txt
+ai-service/output/renders/agent-sample-1080-hyperframes-fixed.final.mp4
+ai-service/output/renders/agent-sample-1080-hyperframes-fixed.render-result.json
+```
+
+输出信息：
+
+```txt
+duration: 32.354362s
+video: H.264 1920x1080 30fps
+audio: AAC 48000Hz stereo
+size: 25,635,024 bytes
+render time: 4m 4.7s
+```
+
+当前判断：
+
+- HyperFrames 真实视频 render 可以走通
+- 但 1080p 全量主轨逐帧 render 明显慢于 ffmpeg native render
+- 后续仍建议 ffmpeg 负责主轨，HyperFrames 负责复杂包装层或短时 overlay

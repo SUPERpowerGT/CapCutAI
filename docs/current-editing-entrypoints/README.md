@@ -250,9 +250,10 @@ python3 -m app.tools.render_hyperframes_bundle \
 
 说明：
 
-- 当前本地模式已经能真正调用 HyperFrames CLI
-- Docker 模式入口也已经写好
-- 但两条路径目前都还有稳定性问题，见本文最后
+- 当前本地模式已经能真正调用 HyperFrames CLI 并输出 MP4
+- HyperFrames composition 必须注册合法 timeline contract，不能用 `{}` 占位
+- Docker 模式入口保留，但不是当前默认推荐路径
+- Docker 更适合作为后续预构建 renderer image / CI runner，而不是每次本地临时 build
 
 ### 入口 6：Native 主轨渲染
 
@@ -347,6 +348,54 @@ data/test_case -> editing-package -> hyperframes bundle -> render
 
 这条路径更适合纯工具链测试。
 
+### D. 一条命令验证剪辑工具链
+
+如果只想验证：
+
+```txt
+data/test_case -> editing-package -> native render -> mp4
+```
+
+在项目根目录：
+
+```bash
+scripts/render_editor_sample.sh
+```
+
+默认输出：
+
+```txt
+ai-service/output/plans/editor-sample.editing-package.json
+ai-service/output/renders/editor-sample.native.final.mp4
+```
+
+常用 profile：
+
+```bash
+PROFILE=smoke scripts/render_editor_sample.sh
+PROFILE=draft scripts/render_editor_sample.sh
+PROFILE=1080p scripts/render_editor_sample.sh
+```
+
+如果要额外生成 HyperFrames bundle：
+
+```bash
+BUILD_HYPERFRAMES=1 scripts/render_editor_sample.sh
+```
+
+如果要继续尝试 HyperFrames render：
+
+```bash
+RENDER_HYPERFRAMES=1 PROFILE=1080p scripts/render_editor_sample.sh
+```
+
+说明：
+
+- 这条脚本默认不依赖 Docker
+- 默认走本机 ffmpeg native render
+- 默认使用 `PROFILE=smoke`
+- HyperFrames render 需要 Node.js 22+ 和 Chrome
+
 ## 当前推荐验证顺序
 
 如果你现在要复现我们这次改动，推荐顺序是：
@@ -378,32 +427,40 @@ data/test_case -> editing-package -> hyperframes bundle -> render
 
 ## 当前还没完全稳定的部分
 
-### 1. HyperFrames 本地 render
+### 1. HyperFrames render 性能
 
-当前已经能跑到 HyperFrames CLI，但本地浏览器渲染链路仍会出现：
+此前遇到的错误：
 
 ```txt
 t.capturedTimeline.pause is not a function
-Cannot access 'pe' before initialization
+Cannot access 'he' before initialization
 ```
 
-这说明：
+已经定位为 composition 注册了非法 timeline：
 
-- 不是数据结构没接上
-- 不是没吃到真实视频
-- 而是 HyperFrames 本地浏览器采集链路本身还不稳定
+```js
+window.__timelines["main"] = {};
+```
+
+修复为最小 paused timeline contract 后，HyperFrames 本地 render 已经可以输出真实视频 MP4。
+
+当前剩余问题不是“跑不通”，而是：
+
+- 1080p 真实视频全量主轨逐帧 render 明显慢于 ffmpeg
+- 32s / 1080p 样片 HyperFrames render 耗时约 4m
+- 因此 HyperFrames 仍建议用于复杂包装层、字幕动效、短时 overlay，而不是默认主轨导出器
 
 ### 2. HyperFrames Docker render
 
 当前 `--docker` 入口已经接好，但它内部仍会触发自己的 `docker build`。
 
-这一步目前仍可能碰到：
+这一步目前可能碰到：
 
 - Docker Hub 元数据鉴权
-- build 阶段超时
-- HyperFrames 自己的容器准备逻辑
+- Debian apt 源连接超时
+- build 阶段下载依赖慢
 
-也就是说，Docker 路径还没有稳定跑出最终 smoke test mp4。
+也就是说，Docker 路径更适合作为后续固定 renderer image，而不是当前默认快速启动路径。
 
 ## 当前 smoke test 入口
 
