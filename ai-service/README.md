@@ -60,6 +60,43 @@ docker compose up --build -d ai-service
 
 - `http://127.0.0.1:38000/internal/health`
 
+## 本地视频工具链环境
+
+如果只跑 agent respond，`make up` 就够了。
+
+如果要跑当前剪辑 / 渲染工具，还需要本机准备：
+
+- `ffmpeg`
+- `ffprobe`
+- Google Chrome
+- Node.js 22+（仅 HyperFrames render 需要）
+
+macOS 推荐：
+
+```bash
+brew install ffmpeg
+```
+
+如果需要 ASS 字幕、更多滤镜或你已经安装 `ffmpeg-full`，工具会自动优先使用：
+
+```txt
+/opt/homebrew/opt/ffmpeg-full/bin/ffmpeg
+```
+
+环境检查：
+
+```bash
+cd ai-service
+python3 -m app.tools.inspect_render_environment
+```
+
+说明：
+
+- native 主轨渲染走本机 ffmpeg
+- HyperFrames render 走本机 Node.js + Chrome
+- Docker 仍推荐用于服务链，不作为当前视频工具链的默认渲染入口
+- HyperFrames Docker render 可以作为后续稳定 renderer image 方向，但临时 build 容易受 apt / 网络影响
+
 ## 当前默认模型入口
 
 当前默认：
@@ -199,7 +236,49 @@ user intent
 
 ## 当前可直接用的本地工具
 
-如果你已经拿到了 Editor 导出的 `*.editing-package.json`，现在可以先在本地生成一版 HyperFrames draft composition：
+如果只想快速验证当前剪辑闭环，推荐在项目根目录跑：
+
+```bash
+scripts/render_editor_sample.sh
+```
+
+默认使用 `PROFILE=smoke`，会完成：
+
+```txt
+data/test_case
+  -> editing-package.json
+  -> ffmpeg native render
+  -> mp4
+```
+
+输出：
+
+```txt
+ai-service/output/plans/editor-sample.editing-package.json
+ai-service/output/renders/editor-sample.native.final.mp4
+```
+
+常用 profile：
+
+```bash
+PROFILE=smoke scripts/render_editor_sample.sh
+PROFILE=draft scripts/render_editor_sample.sh
+PROFILE=1080p scripts/render_editor_sample.sh
+```
+
+如果需要同时生成 HyperFrames bundle：
+
+```bash
+BUILD_HYPERFRAMES=1 scripts/render_editor_sample.sh
+```
+
+如果需要继续尝试 HyperFrames render：
+
+```bash
+RENDER_HYPERFRAMES=1 PROFILE=1080p scripts/render_editor_sample.sh
+```
+
+如果你已经拿到了 Editor 导出的 `*.editing-package.json`，也可以先在本地生成一版 HyperFrames draft composition：
 
 ```bash
 cd ai-service
@@ -208,3 +287,25 @@ python -m app.tools.build_hyperframes_draft \
 ```
 
 默认会把产物写到 package 里的 `editingJob.compositionPath`。
+
+当前更推荐的真实视频闭环出口是 native render：
+
+```bash
+cd ai-service
+python3 -m app.tools.render_native_video \
+  --package ./output/plans/editor-sample.editing-package.json \
+  --output ./output/renders/editor-sample.native.final.mp4 \
+  --max-long-side 1280 \
+  --audio-mode source \
+  --burn-subtitles \
+  --preset veryfast \
+  --crf 26
+```
+
+HyperFrames 主要用于：
+
+- 标题卡
+- 复杂字幕动效
+- 贴纸 / callout
+- 品牌包装层
+- agent 生成式 HTML/CSS 视觉层
