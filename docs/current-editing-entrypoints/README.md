@@ -115,7 +115,7 @@ data/test_case/<case_id>/
 
 ## 当前几个“业务入口”
 
-如果从“业务链路”而不是“技术栈目录”看，当前最重要的入口有 5 个。
+如果从“业务链路”而不是“技术栈目录”看，当前最重要的入口有 6 个。
 
 ### 入口 1：桌面客户端工作台
 
@@ -253,6 +253,36 @@ python3 -m app.tools.render_hyperframes_bundle \
 - 当前本地模式已经能真正调用 HyperFrames CLI
 - Docker 模式入口也已经写好
 - 但两条路径目前都还有稳定性问题，见本文最后
+
+### 入口 6：Native 主轨渲染
+
+作用：
+
+- 直接读取 `editing-package.json`
+- 使用 ffmpeg 渲染 video 主轨、原声和基础字幕
+- 输出用于闭环验证的 draft mp4
+
+命令示例：
+
+```bash
+cd ai-service
+python3 -m app.tools.render_native_video \
+  --package /Users/chengjinshi/CapCutAI/ai-service/output/plans/test-case.editing-package.json \
+  --output /Users/chengjinshi/CapCutAI/ai-service/output/renders/test-case-native.final.mp4 \
+  --max-long-side 640 \
+  --max-duration-ms 12000 \
+  --audio-mode source \
+  --burn-subtitles \
+  --preset veryfast \
+  --crf 28
+```
+
+说明：
+
+- 这是当前更推荐的闭环测试出口
+- 当前支持 video 主轨、源视频原声和 ASS 字幕烧录
+- macOS 上安装 `ffmpeg-full` 后会自动优先使用 `/opt/homebrew/opt/ffmpeg-full/bin/ffmpeg`
+- HyperFrames 仍然保留给后续复杂字幕动效、包装、overlay composition
 
 ## 当前启动 / 部署逻辑
 

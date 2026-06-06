@@ -96,6 +96,44 @@ source_material.json
 
 ## Tool 草案
 
+### `inspect_render_environment`
+
+输入：
+
+```json
+{}
+```
+
+输出：
+
+```json
+{
+  "ffmpeg": {
+    "available": true,
+    "hasSubtitles": true,
+    "hasDrawtext": true,
+    "hasOverlay": true,
+    "hasXfade": true
+  },
+  "hyperframes": {
+    "availableViaNpx": true
+  }
+}
+```
+
+职责：
+
+- 让 agent 在剪辑前确认本机 render 能力
+- 判断是否可以使用 ASS 字幕、overlay、xfade 等 ffmpeg 能力
+- 判断 HyperFrames CLI 是否可作为后续 composition 工具
+
+当前 repo 内入口：
+
+```bash
+cd ai-service
+python3 -m app.tools.inspect_render_environment
+```
+
 ### `load_editing_experience`
 
 输入：
@@ -199,6 +237,65 @@ python -m app.tools.build_hyperframes_draft \
 - 稳定本地视频文件路径
 - 真正的 HyperFrames mp4 render
 
+### `render_with_native_ffmpeg`
+
+输入：
+
+```json
+{
+  "packagePath": "ai-service/output/plans/example.editing-package.json",
+  "outputPath": "ai-service/output/renders/example.native.final.mp4",
+  "maxLongSide": 640,
+  "audioMode": "source",
+  "burnSubtitles": true
+}
+```
+
+输出：
+
+```json
+{
+  "renderResult": {
+    "renderer": "ffmpeg-native",
+    "outputPath": "ai-service/output/renders/example.native.final.mp4"
+  }
+}
+```
+
+职责：
+
+- 读取 editor export package
+- 根据 `timelinePlan.video` 截取并拼接源视频
+- 根据 `timelinePlan.subtitle` 生成 ASS 字幕并烧录
+- 支持源视频原声或静音
+- 输出可直接播放的 MP4
+
+当前 repo 内入口：
+
+```bash
+cd ai-service
+python3 -m app.tools.render_native_video \
+  --package ../path/to/example.editing-package.json \
+  --output ./output/renders/example.native.final.mp4 \
+  --max-long-side 640 \
+  --audio-mode source \
+  --burn-subtitles \
+  --preset veryfast \
+  --crf 28
+```
+
+macOS 上如果安装了 `ffmpeg-full`，工具会自动优先使用：
+
+```txt
+/opt/homebrew/opt/ffmpeg-full/bin/ffmpeg
+```
+
+也可以显式传入：
+
+```bash
+--ffmpeg-bin /opt/homebrew/opt/ffmpeg-full/bin/ffmpeg
+```
+
 ### `render_with_hyperframes`
 
 输入：
@@ -224,6 +321,11 @@ python -m app.tools.build_hyperframes_draft \
 - 输出 `final.mp4`
 - 输出 `render_result.json`
 
+当前建议：
+
+- 主视频轨、基础字幕、原声优先使用 `render_with_native_ffmpeg`
+- 复杂字幕动效、标题、贴纸、包装层再交给 HyperFrames composition
+
 ## 输出目录
 
 输出目录说明见：
@@ -239,6 +341,11 @@ python -m app.tools.build_hyperframes_draft \
 - [`../../shared/schemas/editing-job.schema.json`](../../shared/schemas/editing-job.schema.json)
 - [`../../shared/schemas/render-result.schema.json`](../../shared/schemas/render-result.schema.json)
 - [`../../shared/schemas/hyperframes-composition-draft.schema.json`](../../shared/schemas/hyperframes-composition-draft.schema.json)
+
+## Codex Skill Draft
+
+- [`./codex-video-editing-skill.md`](./codex-video-editing-skill.md)
+- [`./codex-skill-draft.md`](./codex-skill-draft.md)
 
 ## 当前不做
 
