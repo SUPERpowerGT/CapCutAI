@@ -26,6 +26,10 @@ type AssetsSidebarProps = {
   onSelectReferenceAsset: (assetId: string) => void;
   onSelectSourceAsset: (assetId: string) => void;
   onStartSourceTimelineDrag: (asset: AssetItem, event: MouseEvent<HTMLDivElement>) => void;
+  isReferenceLocked?: boolean;
+  referenceLockReason?: string | null;
+  isSourceLocked?: boolean;
+  sourceLockReason?: string | null;
 };
 
 export function AssetsSidebar({
@@ -43,7 +47,11 @@ export function AssetsSidebar({
   onRemoveAsset,
   onSelectReferenceAsset,
   onSelectSourceAsset,
-  onStartSourceTimelineDrag
+  onStartSourceTimelineDrag,
+  isReferenceLocked = false,
+  referenceLockReason = null,
+  isSourceLocked = false,
+  sourceLockReason = null
 }: AssetsSidebarProps) {
   const selectedReferenceAsset =
     referenceAssets.find((item) => item.assetId === selectedReferenceAssetId) ?? null;
@@ -90,15 +98,17 @@ export function AssetsSidebar({
 
         <CompactSection
           label="Reference"
-          actionLabel={isBusy ? "Selecting..." : "Add"}
-          disabled={isBusy}
+          actionLabel={isReferenceLocked ? "Analyzing..." : isBusy ? "Selecting..." : "Add"}
+          disabled={isBusy || isReferenceLocked}
           onAction={onAddReferenceVideo}
+          helper={referenceLockReason ?? undefined}
         >
           {selectedReferenceAsset ? (
             <PrimaryAssetCard
               asset={selectedReferenceAsset}
               badge={selectedPreviewAssetId === selectedReferenceAsset.assetId ? "Previewing" : "Reference"}
               isActive={selectedPreviewAssetId === selectedReferenceAsset.assetId}
+              disabled={isReferenceLocked}
               onSelect={() => onSelectReferenceAsset(selectedReferenceAsset.assetId)}
               onRemove={() => onRemoveAsset(selectedReferenceAsset.assetId)}
             />
@@ -109,10 +119,10 @@ export function AssetsSidebar({
 
         <CompactSection
           label="Source"
-          actionLabel={isBusy ? "Selecting..." : "Add"}
-          disabled={isBusy}
+          actionLabel={isSourceLocked ? "Building..." : isBusy ? "Selecting..." : "Add"}
+          disabled={isBusy || isSourceLocked}
           onAction={onAddSourceVideo}
-          helper="Tap any clip to preview"
+          helper={sourceLockReason ?? "Tap any clip to preview"}
           style={{
             flex: "1 1 0",
             minHeight: 0,
@@ -141,6 +151,7 @@ export function AssetsSidebar({
                     key={asset.assetId}
                     asset={asset}
                     isActive={asset.assetId === selectedSourceAssetId}
+                    disabled={isSourceLocked}
                     onStartTimelineDrag={onStartSourceTimelineDrag}
                     onSelect={() => onSelectSourceAsset(asset.assetId)}
                     onRemove={() => onRemoveAsset(asset.assetId)}
@@ -276,19 +287,25 @@ function PrimaryAssetCard({
   asset,
   badge,
   isActive,
+  disabled,
   onSelect,
   onRemove
 }: {
   asset: AssetItem;
   badge: string;
   isActive: boolean;
+  disabled?: boolean;
   onSelect: () => void;
   onRemove: () => void;
 }) {
   return (
     <div
-      draggable
+      draggable={!disabled}
       onDragStart={(event) => {
+        if (disabled) {
+          event.preventDefault();
+          return;
+        }
         event.dataTransfer.effectAllowed = "copy";
         event.dataTransfer.setData("text/plain", asset.assetId);
         event.dataTransfer.setData("application/x-capcutai-source-asset", asset.assetId);
@@ -301,13 +318,15 @@ function PrimaryAssetCard({
         background: isActive ? "#141b23" : "#0f1317",
         padding: "12px",
         display: "grid",
-        gap: "10px"
+        gap: "10px",
+        opacity: disabled ? 0.68 : 1
       }}
     >
       <button
         type="button"
         onClick={onSelect}
         draggable={false}
+        disabled={disabled}
         style={{
           appearance: "none",
           border: 0,
@@ -315,7 +334,7 @@ function PrimaryAssetCard({
           padding: 0,
           margin: 0,
           textAlign: "left",
-          cursor: "pointer",
+          cursor: disabled ? "not-allowed" : "pointer",
           color: "inherit",
           minWidth: 0,
           display: "grid",
@@ -368,9 +387,9 @@ function PrimaryAssetCard({
             color: isActive ? "rgba(121,192,255,0.88)" : "#8d96a0"
           }}
         >
-          {badge}
+          {disabled ? "Analyzing" : badge}
         </span>
-        <AssetActionsMenu asset={asset} onRemove={onRemove} />
+        <AssetActionsMenu asset={asset} onRemove={onRemove} disabled={disabled} />
       </div>
     </div>
   );
@@ -379,12 +398,14 @@ function PrimaryAssetCard({
 function SourceStripCard({
   asset,
   isActive,
+  disabled,
   onStartTimelineDrag,
   onSelect,
   onRemove
 }: {
   asset: AssetItem;
   isActive: boolean;
+  disabled?: boolean;
   onStartTimelineDrag: (asset: AssetItem, event: MouseEvent<HTMLDivElement>) => void;
   onSelect: () => void;
   onRemove: () => void;
@@ -392,6 +413,9 @@ function SourceStripCard({
   return (
     <div
       onMouseDown={(event) => {
+        if (disabled) {
+          return;
+        }
         if (event.button !== 0) {
           return;
         }
@@ -409,12 +433,14 @@ function SourceStripCard({
         padding: "10px",
         display: "grid",
         gap: "10px",
-        minWidth: 0
+        minWidth: 0,
+        opacity: disabled ? 0.68 : 1
       }}
     >
       <button
         type="button"
         onClick={onSelect}
+        disabled={disabled}
         style={{
           appearance: "none",
           border: 0,
@@ -422,7 +448,7 @@ function SourceStripCard({
           padding: 0,
           margin: 0,
           textAlign: "left",
-          cursor: "pointer",
+          cursor: disabled ? "not-allowed" : "pointer",
           color: "inherit",
           minWidth: 0,
           display: "grid",
@@ -475,15 +501,23 @@ function SourceStripCard({
             color: isActive ? "rgba(121,192,255,0.88)" : "#6f7b86"
           }}
         >
-          {isActive ? "Previewing" : "Clip"}
+          {disabled ? "Building" : isActive ? "Previewing" : "Clip"}
         </span>
-        <AssetActionsMenu asset={asset} onRemove={onRemove} />
+        <AssetActionsMenu asset={asset} onRemove={onRemove} disabled={disabled} />
       </div>
     </div>
   );
 }
 
-function AssetActionsMenu({asset, onRemove}: {asset: AssetItem; onRemove: () => void}) {
+function AssetActionsMenu({
+  asset,
+  onRemove,
+  disabled = false
+}: {
+  asset: AssetItem;
+  onRemove: () => void;
+  disabled?: boolean;
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const canOpenLocation = isDesktopRuntime() && Boolean(asset.workspaceFilePath);
 
@@ -502,6 +536,9 @@ function AssetActionsMenu({asset, onRemove}: {asset: AssetItem; onRemove: () => 
 
   function handleToggle(event: MouseEvent<HTMLButtonElement>) {
     event.stopPropagation();
+    if (disabled) {
+      return;
+    }
     setIsOpen((current) => !current);
   }
 
@@ -513,7 +550,17 @@ function AssetActionsMenu({asset, onRemove}: {asset: AssetItem; onRemove: () => 
 
   return (
     <div style={{position: "relative"}}>
-      <button type="button" onClick={handleToggle} aria-label="Asset actions" style={ghostActionStyle}>
+      <button
+        type="button"
+        onClick={handleToggle}
+        aria-label="Asset actions"
+        disabled={disabled}
+        style={{
+          ...ghostActionStyle,
+          cursor: disabled ? "not-allowed" : ghostActionStyle.cursor,
+          opacity: disabled ? 0.5 : 1
+        }}
+      >
         ...
       </button>
       {isOpen ? (

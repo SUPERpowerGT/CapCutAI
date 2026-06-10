@@ -19,6 +19,11 @@ const statusStyleMap: Record<string, {label: string; color: string; background: 
     color: "#83b0ff",
     background: "rgba(131,176,255,0.14)"
   },
+  WAITING_CONFIRMATION: {
+    label: "Confirm",
+    color: "#ffd27d",
+    background: "rgba(255,210,125,0.12)"
+  },
   COMPLETED: {
     label: "Ready",
     color: "#93d6a3",

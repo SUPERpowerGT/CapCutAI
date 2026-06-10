@@ -41,7 +41,8 @@ backend -> ai-service -> postgres
 
 用途：
 
-- 从 `data/test_case` 读取 mock analyzer 数据
+- 从 `data/test_case` 读取 mock analyzer 数据，或
+- 从 `AI4Video` 输出目录 + 真实素材路径构建 package
 - 生成 `editing-package.json`
 - 调用本机 ffmpeg native render
 - 输出一版可直接检查的 MP4
@@ -50,6 +51,10 @@ backend -> ai-service -> postgres
 
 ```txt
 data/test_case -> editing-package -> native render -> mp4
+
+或：
+
+AI4Video outputs + user videos -> editing-package -> native render -> mp4
 ```
 
 默认输出：
@@ -57,6 +62,12 @@ data/test_case -> editing-package -> native render -> mp4
 ```txt
 ai-service/output/plans/editor-sample.editing-package.json
 ai-service/output/renders/editor-sample.native.final.mp4
+```
+
+说明：这是脚本 smoke 的输出目录。IM 产品链路的最终成片现在输出到：
+
+```txt
+~/Documents/CapCutAI/Workspaces/<workspaceId>/artifacts/renders/
 ```
 
 默认 profile 是：
@@ -73,13 +84,41 @@ PROFILE=smoke scripts/render_editor_sample.sh
 PROFILE=1080p scripts/render_editor_sample.sh
 ```
 
-如果要额外生成 HyperFrames bundle：
+真实 `AI4Video + uservideo` 模式：
+
+```bash
+MODE=ai4video \
+EXPERIENCE_PATH=/abs/path/to/elastic_template.json \
+MATERIAL_DIRS="/abs/path/to/uservideo_1 /abs/path/to/uservideo_2" \
+SOURCE_VIDEOS="/abs/path/to/1.mp4 /abs/path/to/2.mp4" \
+WORKSPACE_ID=workspace_ai4video_trial \
+PACKAGE_PATH=ai-service/output/plans/ai4video-sample.editing-package.json \
+NATIVE_OUTPUT_PATH=ai-service/output/renders/ai4video-sample.native.final.mp4 \
+scripts/render_editor_sample.sh
+```
+
+当前 IM 产品链路验证方式：通过桌面端上传 reference/source，并在 IM 中触发：
+
+```txt
+帮我分析这个爆款视频
+帮我剪辑视频吧
+```
+
+固定产物位置：
+
+```txt
+workspace/assets/template/elastic_template.json
+workspace/artifacts/plans/*.editing-package.json
+workspace/artifacts/renders/*.native.final.mp4
+```
+
+生成 HyperFrames bundle：
 
 ```bash
 BUILD_HYPERFRAMES=1 scripts/render_editor_sample.sh
 ```
 
-如果要继续尝试 HyperFrames render：
+执行 HyperFrames render：
 
 ```bash
 RENDER_HYPERFRAMES=1 PROFILE=1080p scripts/render_editor_sample.sh

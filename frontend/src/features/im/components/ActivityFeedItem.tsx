@@ -23,6 +23,7 @@ const stateLabelMap: Record<AgentActivityItem["state"], string> = {
 
 export function ActivityFeedItem({activity}: ActivityFeedItemProps) {
   const showDots = activity.state === "THINKING" || activity.state === "STREAMING";
+  const detailLines = activity.detail.split("\n").filter(Boolean);
 
   return (
     <div
@@ -47,8 +48,15 @@ export function ActivityFeedItem({activity}: ActivityFeedItemProps) {
           color: activity.state === "FAILED" ? "#ffd4d4" : "#8f99a4"
         }}
       >
-        {activity.detail}
-        <span
+        {detailLines.map((line, index) => (
+          <div
+            key={`${activity.id}-detail-${index}`}
+            className={index > 0 ? "agent-activity-progress-line" : undefined}
+          >
+            {line}
+          </div>
+        ))}
+        <div
           className="agent-activity-label"
           style={{
             ...textStyles.button,
@@ -58,7 +66,7 @@ export function ActivityFeedItem({activity}: ActivityFeedItemProps) {
           {activity.kind === "STATUS"
             ? stateLabelMap[activity.state]
             : `${activity.kind}${activity.source ? ` · ${activity.source}` : ""}`}
-        </span>
+        </div>
       </div>
     </div>
   );

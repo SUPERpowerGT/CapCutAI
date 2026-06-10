@@ -33,7 +33,8 @@ final class MessageHttpMapper {
                 result.conversationId(),
                 toHttpResponse(result.userMessage()),
                 toHttpResponse(result.assistantMessage()),
-                result.agentStatus()
+                result.agentStatus(),
+                result.artifacts()
         );
     }
 }

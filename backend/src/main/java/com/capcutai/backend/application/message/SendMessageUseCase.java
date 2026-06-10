@@ -63,7 +63,8 @@ public class SendMessageUseCase {
                 conversationId,
                 userMessage,
                 assistantMessage,
-                agentResponse.status()
+                agentResponse.status(),
+                agentResponse.artifacts()
         );
     }
 

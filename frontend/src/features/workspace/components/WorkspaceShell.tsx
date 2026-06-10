@@ -3,6 +3,7 @@
 import {useEffect, useRef, useState} from "react";
 import type {MouseEvent as ReactMouseEvent, ReactNode} from "react";
 import {AssetsSidebar} from "../../assets/components/AssetsSidebar";
+import {readWorkspaceAssetBytes} from "../../assets/api/desktop-workspace-assets";
 import type {AssetItem} from "../../assets/types/assets";
 import {useAssetsPanel} from "../../assets/hooks/use-assets-panel";
 import {EditorSurface} from "../../editor/components/EditorSurface";
@@ -90,6 +91,16 @@ export function WorkspaceShell() {
     workspace.isReady ? workspace.workspaceContext.workspaceId : null,
     agentWorkspaceContext
   );
+  const isReferenceAnalysisActive =
+    Boolean(assetsPanel.selectedReferenceAsset) &&
+    (imWorkspace.activeWorkflow === "ANALYZE_REFERENCE" ||
+      imWorkspace.activeWorkflow === "ANALYZE_AND_CREATE_STYLED_VIDEO") &&
+    (imWorkspace.isSending || imWorkspace.isStreamingAssistant);
+  const isStyledVideoBuildActive =
+    assetsPanel.sourceAssets.length > 0 &&
+    (imWorkspace.activeWorkflow === "CREATE_STYLED_VIDEO" ||
+      imWorkspace.activeWorkflow === "ANALYZE_AND_CREATE_STYLED_VIDEO") &&
+    (imWorkspace.isSending || imWorkspace.isStreamingAssistant);
   const timelineDropZoneRef = useRef<HTMLDivElement | null>(null);
   const [dragCandidate, setDragCandidate] = useState<{
     asset: AssetItem;
@@ -109,6 +120,61 @@ export function WorkspaceShell() {
     clientY: number;
     nonce: number;
   } | null>(null);
+  const [renderPreviewSource, setRenderPreviewSource] = useState<{
+    objectUrl: string;
+    path: string;
+    name: string;
+  } | null>(null);
+  const renderPreviewObjectUrlRef = useRef<string | null>(null);
+
+  const latestRenderOutputPath = Object.values(imWorkspace.messageArtifacts)
+    .reverse()
+    .map((artifact) => artifact.renderOutputPath)
+    .find((value): value is string => typeof value === "string" && value.length > 0);
+
+  useEffect(() => {
+    if (!latestRenderOutputPath) {
+      return;
+    }
+
+    const renderOutputPath = latestRenderOutputPath;
+    let disposed = false;
+    async function loadRenderPreview() {
+      try {
+        const bytes = await readWorkspaceAssetBytes(renderOutputPath);
+        if (disposed) {
+          return;
+        }
+
+        const blob = new Blob([bytes], {type: "video/mp4"});
+        const objectUrl = URL.createObjectURL(blob);
+        if (renderPreviewObjectUrlRef.current) {
+          URL.revokeObjectURL(renderPreviewObjectUrlRef.current);
+        }
+        renderPreviewObjectUrlRef.current = objectUrl;
+        setRenderPreviewSource({
+          objectUrl,
+          path: renderOutputPath,
+          name: renderOutputPath.split("/").pop() ?? "styled-demo.mp4"
+        });
+      } catch {
+        // The render artifact still appears in the IM result card; preview simply stays on the selected asset.
+      }
+    }
+
+    void loadRenderPreview();
+    return () => {
+      disposed = true;
+    };
+  }, [latestRenderOutputPath]);
+
+  useEffect(() => {
+    return () => {
+      if (renderPreviewObjectUrlRef.current) {
+        URL.revokeObjectURL(renderPreviewObjectUrlRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (!dragCandidate) {
@@ -248,6 +314,18 @@ export function WorkspaceShell() {
               onSelectReferenceAsset={assetsPanel.selectReferenceAsset}
               onSelectSourceAsset={assetsPanel.selectSourceAsset}
               onStartSourceTimelineDrag={handleStartSourceTimelineDrag}
+              isReferenceLocked={isReferenceAnalysisActive}
+              referenceLockReason={
+                isReferenceAnalysisActive
+                  ? "Reference video is being analyzed. Upload, remove, and reselection are temporarily locked until parsing finishes."
+                  : null
+              }
+              isSourceLocked={isStyledVideoBuildActive}
+              sourceLockReason={
+                isStyledVideoBuildActive
+                  ? "Source videos are being used to build a styled demo. Upload, remove, and reselection are temporarily locked until the draft finishes."
+                  : null
+              }
             />
           ) : (
             <div />
@@ -262,7 +340,9 @@ export function WorkspaceShell() {
           <EditorSurface
             title={workspace.workspaceContext.title}
             subtitle={
-              assetsPanel.selectedPreviewAsset
+              renderPreviewSource
+                ? "已生成 demo 成片，预览区正在显示最新输出。"
+                : assetsPanel.selectedPreviewAsset
                 ? "当前已加载本地视频，可以继续分析、生成或修订。"
                 : "先在左侧上传一个视频，预览区会立即显示本地画面。"
             }
@@ -271,7 +351,13 @@ export function WorkspaceShell() {
             selectedSourceAsset={assetsPanel.selectedSourceAsset}
             selectedPreviewAsset={assetsPanel.selectedPreviewAsset}
             previewSource={
-              assetsPanel.selectedPreviewAsset
+              renderPreviewSource
+                ? {
+                    objectUrl: renderPreviewSource.objectUrl,
+                    name: renderPreviewSource.name,
+                    mimeType: "video/mp4"
+                  }
+                : assetsPanel.selectedPreviewAsset
                 ? {
                     objectUrl: assetsPanel.selectedPreviewAsset.objectUrl,
                     name: assetsPanel.selectedPreviewAsset.name,
@@ -307,6 +393,7 @@ export function WorkspaceShell() {
           {!layout.isRightPaneCollapsed ? (
             <ChatPanel
               messages={imWorkspace.messages}
+              messageArtifacts={imWorkspace.messageArtifacts}
               agentStatus={imWorkspace.agentStatus}
               taskSummary={imWorkspace.taskSummary}
               currentActivity={imWorkspace.currentActivity}

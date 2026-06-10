@@ -58,6 +58,46 @@ def list_source_videos(assets: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def describe_workflow_tools(
+    intent_name: str, assets: dict[str, Any]
+) -> dict[str, Any]:
+    tools: list[dict[str, Any]] = []
+
+    if assets.get("has_reference_video"):
+        tools.append(
+            {
+                "name": "analyze_reference_video",
+                "intent": "ANALYZE_REFERENCE",
+                "ready": True,
+                "description": "Run AI4Video on the uploaded reference video and produce elastic_template.json plus intermediate analysis JSON files.",
+            }
+        )
+
+    if assets.get("has_reference_video") and assets.get("has_source_video"):
+        tools.append(
+            {
+                "name": "analyze_then_create_styled_video",
+                "intent": "ANALYZE_AND_CREATE_STYLED_VIDEO",
+                "ready": True,
+                "description": "Analyze the uploaded reference video first, then use that fresh editing experience to plan and render a styled draft from up to 10 source videos.",
+            }
+        )
+        tools.append(
+            {
+                "name": "create_styled_video",
+                "intent": "CREATE_STYLED_VIDEO",
+                "ready": True,
+                "description": "Analyze up to 10 source videos, use the configured LLM to plan an edit from the reference style experience, build an editing package, and render a draft MP4.",
+            }
+        )
+
+    return {
+        "tool": "describe_workflow_tools",
+        "intent": intent_name,
+        "items": tools,
+    }
+
+
 def validate_workspace_inputs(
     intent_name: str, assets: dict[str, Any]
 ) -> dict[str, Any]:
@@ -65,6 +105,12 @@ def validate_workspace_inputs(
 
     if intent_name == "ANALYZE_REFERENCE" and not assets.get("has_reference_video"):
         missing_inputs.append("reference_video")
+
+    if intent_name == "ANALYZE_AND_CREATE_STYLED_VIDEO":
+        if not assets.get("has_reference_video"):
+            missing_inputs.append("reference_video")
+        if not assets.get("has_source_video"):
+            missing_inputs.append("source_video")
 
     if intent_name in {"CREATE_STYLED_VIDEO", "REVISE_VIDEO"} and not assets.get(
         "has_source_video"

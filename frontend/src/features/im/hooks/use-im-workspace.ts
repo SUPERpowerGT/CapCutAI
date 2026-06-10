@@ -6,21 +6,33 @@ import {
   listMessages,
   sendMessage
 } from "../api/im-client";
+import {
+  inspectWorkspaceAnalysisProgress,
+  type WorkspaceAnalysisProgress
+} from "../api/workflow-progress";
 import {buildPendingUserMessage, extractPreviewHeadline} from "../lib/formatters";
 import type {
   AgentActivityItem,
+  AgentArtifacts,
   AgentWorkspaceContext,
   Conversation,
   Message
 } from "../types/contracts";
 
+type ActiveWorkflow =
+  | "ANALYZE_REFERENCE"
+  | "CREATE_STYLED_VIDEO"
+  | "ANALYZE_AND_CREATE_STYLED_VIDEO";
+
 export function useImWorkspace(
   workspaceId: string | null,
   workspaceContext?: AgentWorkspaceContext | null
 ) {
+  const [activeWorkflow, setActiveWorkflow] = useState<ActiveWorkflow | null>(null);
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [activeConversationId, setActiveConversationId] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
+  const [messageArtifacts, setMessageArtifacts] = useState<Record<string, AgentArtifacts>>({});
   const [prompt, setPrompt] = useState("");
   const [isBooting, setIsBooting] = useState(true);
   const [isLoadingMessages, setIsLoadingMessages] = useState(false);
@@ -29,6 +41,9 @@ export function useImWorkspace(
   const [agentStatus, setAgentStatus] = useState("IDLE");
   const [error, setError] = useState<string | null>(null);
   const [streamingAssistantMessage, setStreamingAssistantMessage] = useState<Message | null>(null);
+  const [workflowRunStartedAt, setWorkflowRunStartedAt] = useState<number | null>(null);
+  const [workflowProgressTick, setWorkflowProgressTick] = useState(0);
+  const [analysisProgress, setAnalysisProgress] = useState<WorkspaceAnalysisProgress | null>(null);
   const messageEndRef = useRef<HTMLDivElement>(null);
   const streamTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -73,6 +88,43 @@ export function useImWorkspace(
       };
     }
 
+    if (isSending && activeWorkflow) {
+      const elapsedSeconds = workflowRunStartedAt
+        ? Math.max(0, Math.floor((Date.now() - workflowRunStartedAt) / 1000))
+        : 0;
+      if (
+        (activeWorkflow === "ANALYZE_REFERENCE" ||
+          activeWorkflow === "ANALYZE_AND_CREATE_STYLED_VIDEO") &&
+        analysisProgress
+      ) {
+        const progress = describeWorkflowProgress(
+          activeWorkflow,
+          elapsedSeconds,
+          workspaceContext,
+          analysisProgress
+        );
+        return {
+          id: `activity-${activeWorkflow.toLowerCase()}-${analysisProgress.stage}`,
+          kind: "TOOL",
+          state: analysisProgress.completed ? "COMPLETED" : "THINKING",
+          title: progress.title,
+          detail: `${progress.detail}\n${formatAnalysisProgressChecklist(analysisProgress)}`,
+          source: progress.source
+        };
+      }
+
+      const progress = describeWorkflowProgress(activeWorkflow, elapsedSeconds, workspaceContext);
+
+      return {
+        id: `activity-${activeWorkflow.toLowerCase()}`,
+        kind: "TOOL",
+        state: "THINKING",
+        title: progress.title,
+        detail: progress.detail,
+        source: progress.source
+      };
+    }
+
     if (isStreamingAssistant) {
       return {
         id: "activity-streaming",
@@ -94,13 +146,23 @@ export function useImWorkspace(
     }
 
     return null;
-  }, [error, isSending, isStreamingAssistant, taskSummary]);
+  }, [
+    activeWorkflow,
+    analysisProgress,
+    error,
+    isSending,
+    isStreamingAssistant,
+    taskSummary,
+    workflowProgressTick,
+    workflowRunStartedAt
+  ]);
 
   const loadMessages = async (conversationId: string) => {
     setIsLoadingMessages(true);
     try {
       const data = await listMessages(conversationId);
       setMessages(data);
+      setMessageArtifacts({});
       setAgentStatus(data.length === 0 ? "IDLE" : "COMPLETED");
     } finally {
       setIsLoadingMessages(false);
@@ -113,6 +175,7 @@ export function useImWorkspace(
       setConversations([]);
       setActiveConversationId(null);
       setMessages([]);
+      setMessageArtifacts({});
       setAgentStatus("IDLE");
       return;
     }
@@ -160,6 +223,54 @@ export function useImWorkspace(
     };
   }, []);
 
+  useEffect(() => {
+    if (!isSending || !activeWorkflow) {
+      return;
+    }
+
+    const timer = window.setInterval(() => {
+      setWorkflowProgressTick((tick) => tick + 1);
+    }, 1000);
+
+    return () => window.clearInterval(timer);
+  }, [activeWorkflow, isSending]);
+
+  useEffect(() => {
+    if (
+      !isSending ||
+      (activeWorkflow !== "ANALYZE_REFERENCE" &&
+        activeWorkflow !== "ANALYZE_AND_CREATE_STYLED_VIDEO") ||
+      !workspaceId
+    ) {
+      setAnalysisProgress(null);
+      return;
+    }
+
+    let cancelled = false;
+    const poll = async () => {
+      try {
+        const progress = await inspectWorkspaceAnalysisProgress(workspaceId);
+        if (!cancelled && progress) {
+          setAnalysisProgress(progress);
+        }
+      } catch {
+        if (!cancelled) {
+          setAnalysisProgress(null);
+        }
+      }
+    };
+
+    void poll();
+    const timer = window.setInterval(() => {
+      void poll();
+    }, 2000);
+
+    return () => {
+      cancelled = true;
+      window.clearInterval(timer);
+    };
+  }, [activeWorkflow, isSending, workspaceId]);
+
   const stopStreaming = () => {
     if (streamTimerRef.current) {
       clearTimeout(streamTimerRef.current);
@@ -168,7 +279,64 @@ export function useImWorkspace(
     setIsStreamingAssistant(false);
     setStreamingAssistantMessage(null);
     setAgentStatus("IDLE");
+    setActiveWorkflow(null);
+    setWorkflowRunStartedAt(null);
+    setAnalysisProgress(null);
   };
+
+  function classifyWorkflowFromPrompt(content: string, previousMessages: Message[]) {
+    const normalized = content.toLowerCase();
+    if (isLooseConfirmation(normalized)) {
+      const pendingWorkflow = inferPendingWorkflowFromMessages(previousMessages);
+      if (pendingWorkflow) {
+        return pendingWorkflow;
+      }
+    }
+
+    if (
+      [
+        "确认开始分析并剪辑",
+        "开始分析并剪辑",
+        "确认分析并剪辑",
+        "确认开始分析并制作",
+        "开始分析并制作",
+        "确认分析并制作"
+      ].some((keyword) =>
+        normalized.includes(keyword)
+      )
+    ) {
+      return "ANALYZE_AND_CREATE_STYLED_VIDEO" as const;
+    }
+
+    if (
+      ["确认开始分析", "开始分析", "执行分析"].some((keyword) =>
+        normalized.includes(keyword)
+      )
+    ) {
+      return "ANALYZE_REFERENCE" as const;
+    }
+
+    if (
+      [
+        "确认开始剪辑",
+        "开始剪辑",
+        "执行剪辑",
+        "确认开始生成",
+        "确认开始制作",
+        "开始制作",
+        "执行制作",
+        "确认制作",
+        "去吧制作",
+        "制作吧"
+      ].some((keyword) =>
+        normalized.includes(keyword)
+      )
+    ) {
+      return "CREATE_STYLED_VIDEO" as const;
+    }
+
+    return null;
+  }
 
   const streamAssistantReply = async (assistantMessage: Message) => {
     stopStreaming();
@@ -176,8 +344,7 @@ export function useImWorkspace(
     setAgentStatus("STREAMING");
 
     const fullContent = assistantMessage.content;
-    const words = fullContent.split(/(\s+)/).filter(Boolean);
-    const chunks = words.length > 1 ? words : Array.from(fullContent);
+    const chunks = Array.from(fullContent);
 
     return new Promise<void>((resolve) => {
       let cursor = 0;
@@ -202,7 +369,7 @@ export function useImWorkspace(
           content: currentContent
         });
 
-        streamTimerRef.current = setTimeout(tick, words.length > 1 ? 48 : 24);
+        streamTimerRef.current = setTimeout(tick, 58);
       };
 
       tick();
@@ -249,11 +416,15 @@ export function useImWorkspace(
   const sendMessageAction = async () => {
     const normalized = prompt.trim();
     if (!normalized || !activeConversationId || isSending || isStreamingAssistant) return;
+    const nextWorkflow = classifyWorkflowFromPrompt(normalized, messages);
 
     const optimisticMessage = buildPendingUserMessage(activeConversationId, normalized);
 
     setIsSending(true);
     setAgentStatus("THINKING");
+    setActiveWorkflow(nextWorkflow);
+    setWorkflowRunStartedAt(nextWorkflow ? Date.now() : null);
+    setAnalysisProgress(null);
     setError(null);
     setPrompt("");
     setMessages((prev) => [...prev, optimisticMessage]);
@@ -271,6 +442,16 @@ export function useImWorkspace(
       const refreshed = await listConversations(workspaceId ?? undefined);
       setConversations(refreshed);
       setAgentStatus(response.agentStatus || "COMPLETED");
+      setWorkflowRunStartedAt(null);
+      setAnalysisProgress(null);
+      setMessageArtifacts((current) =>
+        response.artifacts
+          ? {
+              ...current,
+              [response.assistantMessage.messageId]: response.artifacts
+            }
+          : current
+      );
       await streamAssistantReply(response.assistantMessage);
     } catch (exception) {
       setMessages((prev) =>
@@ -278,6 +459,9 @@ export function useImWorkspace(
       );
       setPrompt(normalized);
       setAgentStatus("FAILED");
+      setActiveWorkflow(null);
+      setWorkflowRunStartedAt(null);
+      setAnalysisProgress(null);
       setError(exception instanceof Error ? exception.message : "Failed to send message.");
     } finally {
       setIsSending(false);
@@ -322,6 +506,7 @@ export function useImWorkspace(
           await loadMessages(nextConversation.conversationId);
         } else {
           setMessages([]);
+          setMessageArtifacts({});
           setAgentStatus("IDLE");
         }
       }
@@ -339,12 +524,14 @@ export function useImWorkspace(
     activeConversationId,
     activeConversation,
     messages,
+    messageArtifacts,
     prompt,
     setPrompt,
     isBooting,
     isLoadingMessages,
     isSending,
     isStreamingAssistant,
+    activeWorkflow,
     agentStatus,
     error,
     previewHeadline,
@@ -358,4 +545,141 @@ export function useImWorkspace(
     refreshAction,
     deleteConversationAction
   };
+}
+
+function describeWorkflowProgress(
+  workflow: ActiveWorkflow,
+  elapsedSeconds: number,
+  workspaceContext?: AgentWorkspaceContext | null,
+  analysisProgress?: WorkspaceAnalysisProgress | null
+) {
+  const elapsed = formatElapsed(elapsedSeconds);
+  const referenceName = workspaceContext?.referenceVideo?.name ?? "参考视频";
+  const sourceCount = workspaceContext?.sourceVideos?.length ?? (workspaceContext?.hasSourceVideo ? 1 : 0);
+
+  if (workflow === "ANALYZE_AND_CREATE_STYLED_VIDEO") {
+    const analysisStage = analysisProgress?.completed
+      ? "参考分析已完成，正在进入 source 分析、剪辑规划和渲染"
+      : analysisProgress?.detail ?? "准备参考视频、source 素材和输出目录";
+    const phase =
+      elapsedSeconds < 20
+        ? `准备 ${referenceName} 和 ${sourceCount} 个 source 素材`
+        : elapsedSeconds < 120
+          ? `正在分析 ${referenceName}：${analysisStage}`
+          : elapsedSeconds < 240
+            ? `正在分析 ${sourceCount} 个 source 素材，并生成剪辑规划`
+            : "正在生成剪辑包并渲染 demo 成片";
+
+    return {
+      title: "Analyzing and creating draft",
+      source: "AI4Video + Planner",
+      detail: `正在先分析参考视频，再剪辑 source demo。\n当前步骤：${phase}\n已运行 ${elapsed}，完成后会自动出现成片结果卡片。`
+    };
+  }
+
+  if (workflow === "ANALYZE_REFERENCE") {
+    const phase = analysisProgress?.detail ?? (
+      elapsedSeconds < 12
+        ? "准备参考视频和输出目录"
+        : elapsedSeconds < 45
+          ? "提取音频特征与节奏"
+          : elapsedSeconds < 90
+            ? "生成转写与语义结构"
+            : elapsedSeconds < 150
+              ? "分析镜头画面与字幕风格"
+              : "汇总风格模板，等待模型/视频处理完成"
+    );
+
+    return {
+      title: "Analyzing reference video",
+      source: "AI4Video",
+      detail: `正在分析：${referenceName}\n当前步骤：${phase}\n已运行 ${elapsed}，完成后会自动出现分析结果卡片。`
+    };
+  }
+
+  const phase =
+    elapsedSeconds < 10
+      ? "读取参考经验和待剪素材"
+    : elapsedSeconds < 35
+        ? "调用模型规划片段顺序与节奏"
+        : elapsedSeconds < 90
+          ? "生成剪辑包、字幕轨道和参考音频"
+          : "渲染预览成片";
+
+  return {
+    title: "Creating styled draft",
+    source: "Native Render",
+    detail: `正在按参考风格剪辑 ${sourceCount} 个 source 素材。\n当前步骤：${phase}\n已运行 ${elapsed}，完成后中间预览会自动切到成片。`
+  };
+}
+
+function formatElapsed(totalSeconds: number) {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  if (minutes === 0) {
+    return `${seconds}s`;
+  }
+  return `${minutes}m ${seconds.toString().padStart(2, "0")}s`;
+}
+
+function formatAnalysisProgressChecklist(progress: WorkspaceAnalysisProgress) {
+  const done = "已完成";
+  const pending = "等待中";
+  return [
+    `音频 ${progress.step1AudioExists ? done : pending}`,
+    `转写 ${progress.step2TranscriptExists ? done : pending}`,
+    `视觉 ${progress.step3VisualExists ? done : pending}`,
+    `模板 ${progress.elasticTemplateExists ? done : pending}`
+  ].join(" · ");
+}
+
+function isLooseConfirmation(normalizedContent: string) {
+  const confirmationKeywords = [
+    "确认",
+    "可以",
+    "可以的",
+    "对的",
+    "开始",
+    "执行",
+    "制作",
+    "剪辑",
+    "去吧",
+    "ok",
+    "okay",
+    "yes",
+    "go"
+  ];
+  const cancelKeywords = ["取消", "不要", "先别", "等等", "暂停", "stop", "cancel"];
+  return (
+    confirmationKeywords.some((keyword) => normalizedContent.includes(keyword)) &&
+    !cancelKeywords.some((keyword) => normalizedContent.includes(keyword))
+  );
+}
+
+function inferPendingWorkflowFromMessages(messages: Message[]): ActiveWorkflow | null {
+  for (const message of [...messages].reverse()) {
+    if (message.role !== "ASSISTANT") {
+      continue;
+    }
+
+    if (
+      message.content.includes("确认开始分析并剪辑") ||
+      message.content.includes("确认开始分析并制作")
+    ) {
+      return "ANALYZE_AND_CREATE_STYLED_VIDEO";
+    }
+    if (
+      message.content.includes("确认开始剪辑") ||
+      message.content.includes("确认开始制作")
+    ) {
+      return "CREATE_STYLED_VIDEO";
+    }
+    if (message.content.includes("确认开始分析")) {
+      return "ANALYZE_REFERENCE";
+    }
+
+    return null;
+  }
+
+  return null;
 }

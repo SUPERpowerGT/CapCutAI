@@ -1,6 +1,8 @@
 import os
+import sys
 from dataclasses import dataclass
 from functools import lru_cache
+from pathlib import Path
 
 
 @dataclass(frozen=True)
@@ -18,6 +20,8 @@ def _resolve_provider() -> str:
 
 
 def _resolve_model(provider: str) -> str:
+    if provider == "ai4video_vl":
+        return os.getenv("AI4VIDEO_VL_MODEL") or os.getenv("LLM_MODEL") or "Qwen/Qwen3-VL-8B-Instruct"
     if provider == "gemini":
         return (
             os.getenv("GEMINI_MODEL")
@@ -34,6 +38,8 @@ def _resolve_model(provider: str) -> str:
 
 
 def _resolve_api_key(provider: str) -> str:
+    if provider == "ai4video_vl":
+        return os.getenv("AI4VIDEO_VL_API_KEY") or os.getenv("LLM_API_KEY") or _resolve_ai4video_config_key("vl")
     if provider == "gemini":
         return (
             os.getenv("GEMINI_API_KEY")
@@ -50,7 +56,25 @@ def _resolve_api_key(provider: str) -> str:
     return ""
 
 
+def _resolve_ai4video_config_key(key_name: str) -> str:
+    try:
+        repo_root = Path(os.getenv("CAPCUTAI_REPO_ROOT") or Path(__file__).resolve().parents[3])
+        ai4video_root = repo_root / "AI4Video"
+        if str(ai4video_root) not in sys.path:
+            sys.path.insert(0, str(ai4video_root))
+        from pipeline_api.config import API_KEYS
+
+        value = API_KEYS.get(key_name, "")
+        if value and not value.startswith("<"):
+            return value
+    except Exception:
+        return ""
+    return ""
+
+
 def _resolve_base_url(provider: str) -> str:
+    if provider == "ai4video_vl":
+        return os.getenv("AI4VIDEO_API_BASE_URL") or "https://api.302.ai/v1/chat/completions"
     if provider == "openrouter":
         return os.getenv("OPENROUTER_BASE_URL") or "https://openrouter.ai/api/v1"
     if provider == "groq":
@@ -66,7 +90,7 @@ def get_llm_settings() -> LlmSettings:
     api_key = _resolve_api_key(provider)
     configured = (
         bool(api_key)
-        if provider in {"gemini", "openrouter", "groq"}
+        if provider in {"ai4video_vl", "gemini", "openrouter", "groq"}
         else bool(_resolve_model(provider)) and bool(_resolve_base_url(provider))
     )
     mode = "local" if provider == "ollama" and configured else "live" if configured else "error"

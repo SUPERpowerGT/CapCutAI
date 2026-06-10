@@ -100,13 +100,25 @@ pre {
 }
 
 .agent-activity-caption {
+  display: grid;
+  gap: 5px;
   font-size: 12px;
   line-height: 1.5;
   color: #8f99a4;
 }
 
+.agent-activity-progress-line {
+  width: fit-content;
+  max-width: 100%;
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: rgba(121, 192, 255, 0.08);
+  color: #b7c8d8;
+  overflow-wrap: anywhere;
+}
+
 .agent-activity-label {
-  margin-left: 8px;
+  width: fit-content;
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;

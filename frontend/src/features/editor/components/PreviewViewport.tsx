@@ -30,6 +30,8 @@ type PreviewViewportProps = {
 
 const sectionLabelStyle = textStyles.sectionLabel;
 type PreviewScaleMode = "contain" | "cover";
+const previewContentPaddingPx = 20;
+const timelineControlsReservedHeightPx = 56;
 
 export function PreviewViewport({
   title,
@@ -126,13 +128,20 @@ export function PreviewViewport({
   }, []);
 
   const previewBoxStyle = useMemo(() => {
-    const frameWidth = previewFrameSize.width;
-    const frameHeight = previewFrameSize.height;
+    const frameWidth = Math.max(0, previewFrameSize.width - previewContentPaddingPx * 2);
+    const frameHeight = Math.max(
+      0,
+      previewFrameSize.height -
+        previewContentPaddingPx * 2 -
+        (isTimelinePreviewVisible ? timelineControlsReservedHeightPx : 0)
+    );
 
     if (!frameWidth || !frameHeight) {
       return {
         width: "100%",
-        height: "100%"
+        height: "100%",
+        maxWidth: "100%",
+        maxHeight: "100%"
       };
     }
 
@@ -142,28 +151,42 @@ export function PreviewViewport({
       if (frameAspectRatio > mediaAspectRatio) {
         return {
           width: `${frameWidth}px`,
-          height: `${frameWidth / mediaAspectRatio}px`
+          height: `${frameWidth / mediaAspectRatio}px`,
+          maxWidth: "100%",
+          maxHeight: "100%"
         };
       }
 
       return {
         width: `${frameHeight * mediaAspectRatio}px`,
-        height: `${frameHeight}px`
+        height: `${frameHeight}px`,
+        maxWidth: "100%",
+        maxHeight: "100%"
       };
     }
 
     if (frameAspectRatio > mediaAspectRatio) {
       return {
         width: `${frameHeight * mediaAspectRatio}px`,
-        height: `${frameHeight}px`
+        height: `${frameHeight}px`,
+        maxWidth: "100%",
+        maxHeight: "100%"
       };
     }
 
     return {
       width: `${frameWidth}px`,
-      height: `${frameWidth / mediaAspectRatio}px`
+      height: `${frameWidth / mediaAspectRatio}px`,
+      maxWidth: "100%",
+      maxHeight: "100%"
     };
-  }, [mediaAspectRatio, previewFrameSize.height, previewFrameSize.width, previewScaleMode]);
+  }, [
+    isTimelinePreviewVisible,
+    mediaAspectRatio,
+    previewFrameSize.height,
+    previewFrameSize.width,
+    previewScaleMode
+  ]);
 
   useEffect(() => {
     const video = timelineVideoRef.current;
@@ -338,14 +361,25 @@ export function PreviewViewport({
                   height: "100%",
                   display: "grid",
                   gridTemplateRows: "minmax(0, 1fr) auto",
-                  padding: "20px",
+                  padding: `${previewContentPaddingPx}px`,
+                  boxSizing: "border-box",
                   gap: "12px"
                 }}
               >
-                <div style={{display: "grid", placeItems: "center", overflow: "hidden"}}>
+                <div
+                  style={{
+                    minWidth: 0,
+                    minHeight: 0,
+                    display: "grid",
+                    placeItems: "center",
+                    overflow: "hidden"
+                  }}
+                >
                   <div
                     style={{
                       ...previewBoxStyle,
+                      minWidth: 0,
+                      minHeight: 0,
                       overflow: "hidden",
                       borderRadius: "14px",
                       background: "#090b0d",
@@ -363,6 +397,7 @@ export function PreviewViewport({
                         width: "100%",
                         height: "100%",
                         objectFit: previewScaleMode,
+                        objectPosition: "center center",
                         background: "#090b0d",
                         display: "block"
                       }}
@@ -395,13 +430,16 @@ export function PreviewViewport({
                   height: "100%",
                   display: "grid",
                   placeItems: "center",
-                  padding: "20px",
+                  padding: `${previewContentPaddingPx}px`,
+                  boxSizing: "border-box",
                   overflow: "hidden"
                 }}
               >
                 <div
                   style={{
                     ...previewBoxStyle,
+                    minWidth: 0,
+                    minHeight: 0,
                     overflow: "hidden",
                     borderRadius: "14px",
                     background: "#090b0d",
@@ -419,6 +457,7 @@ export function PreviewViewport({
                       width: "100%",
                       height: "100%",
                       objectFit: previewScaleMode,
+                      objectPosition: "center center",
                       background: "#090b0d",
                       display: "block"
                     }}

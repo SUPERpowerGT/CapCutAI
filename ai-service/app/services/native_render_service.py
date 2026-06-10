@@ -9,7 +9,7 @@ from typing import Any, Literal, Optional
 
 
 JsonDict = dict[str, Any]
-AudioMode = Literal["mute", "source"]
+AudioMode = Literal["mute", "source", "external"]
 
 
 def render_native_video(
@@ -22,6 +22,7 @@ def render_native_video(
     crf: int = 28,
     preset: str = "veryfast",
     audio_mode: AudioMode = "mute",
+    external_audio_path: Optional[Path] = None,
     burn_subtitles: bool = False,
     subtitle_font_size: int = 24,
     subtitle_font_name: str = "Heiti SC",
@@ -40,6 +41,7 @@ def render_native_video(
 
     resolved_ffmpeg_bin = _resolve_ffmpeg_bin(ffmpeg_bin)
     resolved_ffprobe_bin = _resolve_ffprobe_bin(resolved_ffmpeg_bin)
+    resolved_external_audio_path = _resolve_external_audio_path(external_audio_path)
     render_fps = fps or int(editing_job.get("renderHints", {}).get("fps", 30))
     clips = _select_video_clips(timeline_plan, max_clips=max_clips, max_duration_ms=max_duration_ms)
     if not clips:
@@ -48,7 +50,15 @@ def render_native_video(
     source_materials = {
         material["sourceMaterialId"]: material for material in export_package.get("sourceMaterials", [])
     }
-    resolved_clips = _resolve_clip_sources(clips, source_materials, ffprobe_bin=resolved_ffprobe_bin)
+    source_assets = {
+        asset["assetId"]: asset for asset in export_package.get("sourceAssets", [])
+    }
+    resolved_clips = _resolve_clip_sources(
+        clips,
+        source_materials,
+        source_assets,
+        ffprobe_bin=resolved_ffprobe_bin,
+    )
     if not resolved_clips:
         raise RuntimeError("No video clips could be resolved to local source files.")
 
@@ -88,6 +98,7 @@ def render_native_video(
             crf=crf,
             preset=preset,
             audio_mode=audio_mode,
+            external_audio_path=resolved_external_audio_path,
             subtitle_path=subtitle_path,
         )
 
@@ -107,6 +118,7 @@ def render_native_video(
         "height": dimensions["height"],
         "fps": render_fps,
         "audioMode": audio_mode,
+        "externalAudioPath": str(resolved_external_audio_path) if resolved_external_audio_path else None,
         "burnSubtitles": burn_subtitles,
         "subtitleCount": len(subtitle_events) if burn_subtitles else 0,
         "subtitleFontName": subtitle_font_name if burn_subtitles else None,
@@ -163,13 +175,15 @@ def _select_video_clips(
 def _resolve_clip_sources(
     clips: list[JsonDict],
     source_materials: dict[str, JsonDict],
+    source_assets: dict[str, JsonDict],
     ffprobe_bin: str,
 ) -> list[JsonDict]:
     resolved = []
     output_start_seconds = 0.0
     for clip in clips:
         source_material = source_materials.get(clip.get("sourceMaterialId", ""))
-        source_path = _find_source_video_path(source_material.get("sourceCaseId") if source_material else None)
+        source_asset = source_assets.get(clip.get("assetId", ""))
+        source_path = _resolve_source_video_path(source_material, source_asset)
         if not source_path:
             continue
 
@@ -201,6 +215,7 @@ def _build_ffmpeg_command(
     crf: int,
     preset: str,
     audio_mode: AudioMode,
+    external_audio_path: Optional[Path],
     subtitle_path: Optional[Path],
 ) -> list[str]:
     command = [ffmpeg_bin, "-y", "-hide_banner"]
@@ -215,6 +230,10 @@ def _build_ffmpeg_command(
                 clip["sourcePath"],
             ]
         )
+    if audio_mode == "external":
+        if external_audio_path is None:
+            raise RuntimeError("audio_mode='external' requires external_audio_path.")
+        command.extend(["-i", str(external_audio_path)])
 
     filters = []
     for index in range(len(resolved_clips)):
@@ -225,6 +244,8 @@ def _build_ffmpeg_command(
             f"pad={width}:{height}:(ow-iw)/2:(oh-ih)/2,"
             f"setsar=1,fps={fps},format=yuv420p[{label}]"
         )
+
+    total_duration_seconds = sum(clip["durationSeconds"] for clip in resolved_clips)
 
     if audio_mode == "source":
         audio_inputs = []
@@ -252,6 +273,20 @@ def _build_ffmpeg_command(
             filters.append(f"[basev]subtitles=filename='{_escape_filter_path(subtitle_path)}'[outv]")
         else:
             filters.append(f"{concat_pairs}concat=n={len(resolved_clips)}:v=1:a=1[outv][outa]")
+    elif audio_mode == "external":
+        video_inputs = "".join(f"[v{index}]" for index in range(len(resolved_clips)))
+        external_audio_index = len(resolved_clips)
+        if subtitle_path:
+            filters.append(f"{video_inputs}concat=n={len(resolved_clips)}:v=1:a=0[basev]")
+            filters.append(f"[basev]subtitles=filename='{_escape_filter_path(subtitle_path)}'[outv]")
+        else:
+            filters.append(f"{video_inputs}concat=n={len(resolved_clips)}:v=1:a=0[outv]")
+        filters.append(
+            f"[{external_audio_index}:a]aresample=48000,"
+            f"aformat=sample_fmts=fltp:channel_layouts=stereo,"
+            f"atrim=duration={total_duration_seconds:.3f},"
+            f"asetpts=PTS-STARTPTS[outa]"
+        )
     else:
         video_inputs = "".join(f"[v{index}]" for index in range(len(resolved_clips)))
         if subtitle_path:
@@ -266,7 +301,7 @@ def _build_ffmpeg_command(
         "-map",
         "[outv]",
     ]
-    if audio_mode == "source":
+    if audio_mode in {"source", "external"}:
         output_args.extend(["-map", "[outa]", "-c:a", "aac", "-b:a", "160k"])
     else:
         output_args.append("-an")
@@ -432,6 +467,21 @@ def _find_source_video_path(source_case_id: Optional[str]) -> Optional[str]:
     return str(candidates[0])
 
 
+def _resolve_source_video_path(
+    source_material: Optional[JsonDict],
+    source_asset: Optional[JsonDict],
+) -> Optional[str]:
+    if source_asset:
+        object_url = source_asset.get("objectUrl")
+        if isinstance(object_url, str) and object_url:
+            asset_path = Path(object_url).expanduser()
+            if asset_path.exists():
+                return str(asset_path.resolve())
+
+    source_case_id = source_material.get("sourceCaseId") if source_material else None
+    return _find_source_video_path(source_case_id)
+
+
 def _probe_video_dimensions(video_path: str, ffprobe_bin: str = "ffprobe") -> Optional[JsonDict]:
     command = [
         ffprobe_bin,
@@ -500,6 +550,15 @@ def _resolve_ffprobe_bin(ffmpeg_bin: str) -> str:
         if ffprobe_path.exists():
             return str(ffprobe_path)
     return "ffprobe"
+
+
+def _resolve_external_audio_path(external_audio_path: Optional[Path]) -> Optional[Path]:
+    if external_audio_path is None:
+        return None
+    resolved = external_audio_path.expanduser().resolve()
+    if not resolved.exists():
+        raise RuntimeError(f"External audio file does not exist: {resolved}")
+    return resolved
 
 
 def _fit_render_dimensions(width: int, height: int, max_long_side: int) -> JsonDict:

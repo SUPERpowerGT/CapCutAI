@@ -64,9 +64,15 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--audio-mode",
         dest="audio_mode",
-        choices=["mute", "source"],
+        choices=["mute", "source", "external"],
         default="mute",
-        help="Audio handling mode. Use source to preserve source clip audio.",
+        help="Audio handling mode. Use source to preserve source clip audio, or external to override with a separate audio file.",
+    )
+    parser.add_argument(
+        "--external-audio-path",
+        dest="external_audio_path",
+        required=False,
+        help="Optional external audio file path used when --audio-mode external is selected.",
     )
     parser.add_argument(
         "--burn-subtitles",
@@ -108,6 +114,7 @@ def main() -> None:
         crf=args.crf,
         preset=args.preset,
         audio_mode=args.audio_mode,
+        external_audio_path=Path(args.external_audio_path).expanduser().resolve() if args.external_audio_path else None,
         burn_subtitles=args.burn_subtitles,
         subtitle_font_size=args.subtitle_font_size,
         subtitle_font_name=args.subtitle_font_name,

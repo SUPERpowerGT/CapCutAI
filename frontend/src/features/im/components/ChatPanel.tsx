@@ -1,11 +1,12 @@
 import type {RefObject} from "react";
-import type {AgentActivityItem, Message} from "../types/contracts";
+import type {AgentActivityItem, AgentArtifacts, Message} from "../types/contracts";
 import {sectionLabelStyle} from "./styles";
 import {MessageFeed} from "./MessageFeed";
 import {ChatComposer} from "./ChatComposer";
 
 type ChatPanelProps = {
   messages: Message[];
+  messageArtifacts: Record<string, AgentArtifacts>;
   agentStatus: string;
   taskSummary: string;
   currentActivity: AgentActivityItem | null;
@@ -23,6 +24,7 @@ type ChatPanelProps = {
 
 export function ChatPanel({
   messages,
+  messageArtifacts,
   agentStatus,
   taskSummary,
   currentActivity,
@@ -41,6 +43,7 @@ export function ChatPanel({
     <section
       style={{
         minHeight: 0,
+        minWidth: 0,
         display: "grid",
         gridTemplateRows: "56px minmax(0, 1fr) auto",
         background: "#15181b",
@@ -71,6 +74,7 @@ export function ChatPanel({
         isStreamingAssistant={isStreamingAssistant}
         error={error}
         messages={messages}
+        messageArtifacts={messageArtifacts}
         currentActivity={currentActivity}
         streamingAssistantMessage={streamingAssistantMessage}
         messageEndRef={messageEndRef}

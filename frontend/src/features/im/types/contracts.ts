@@ -25,6 +25,8 @@ export type Message = {
   createdAt: string;
 };
 
+export type AgentArtifacts = Record<string, unknown>;
+
 export type AgentActivityKind = "STATUS" | "TOOL" | "SUBAGENT" | "SYSTEM";
 
 export type AgentActivityState =
@@ -48,6 +50,7 @@ export type SendMessageResult = {
   userMessage: Message;
   assistantMessage: Message;
   agentStatus: string;
+  artifacts?: AgentArtifacts;
 };
 
 export type AgentVideoAssetContext = {

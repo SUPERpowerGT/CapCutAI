@@ -60,6 +60,38 @@ struct WorkspaceAssetDescriptor {
   workspace_relative_path: String,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct RuntimeCheckItem {
+  name: String,
+  available: bool,
+  detail: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct LocalRuntimeInspection {
+  ready: bool,
+  summary: String,
+  checks: Vec<RuntimeCheckItem>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct WorkspaceAnalysisProgress {
+  workspace_id: String,
+  stage: String,
+  title: String,
+  detail: String,
+  completed: bool,
+  template_path: String,
+  intermediate_dir: String,
+  step1_audio_exists: bool,
+  step2_transcript_exists: bool,
+  step3_visual_exists: bool,
+  elastic_template_exists: bool,
+}
+
 fn now_stamp() -> String {
   let millis = SystemTime::now()
     .duration_since(UNIX_EPOCH)
@@ -253,6 +285,75 @@ fn collect_workspace_assets_from_dir(
 
   assets.sort_by(|left, right| right.name.cmp(&left.name));
   Ok(assets)
+}
+
+fn run_check(command: &str, args: &[&str]) -> RuntimeCheckItem {
+  match Command::new(command).args(args).output() {
+    Ok(output) => {
+      let stdout = String::from_utf8_lossy(&output.stdout).trim().to_string();
+      let stderr = String::from_utf8_lossy(&output.stderr).trim().to_string();
+      let detail = if !stdout.is_empty() {
+        stdout
+      } else if !stderr.is_empty() {
+        stderr
+      } else {
+        format!("{command} exited with {}", output.status)
+      };
+
+      RuntimeCheckItem {
+        name: command.to_string(),
+        available: output.status.success(),
+        detail,
+      }
+    }
+    Err(error) => RuntimeCheckItem {
+      name: command.to_string(),
+      available: false,
+      detail: error.to_string(),
+    },
+  }
+}
+
+#[tauri::command]
+fn inspect_local_runtime() -> Result<LocalRuntimeInspection, String> {
+  let checks = vec![
+    run_check("python", &["-c", "import fastapi, pydantic, librosa; print('python runtime ok')"]),
+    run_check("python", &["-c", "import langgraph; print('langgraph ok')"]),
+    run_check("ffmpeg", &["-version"]),
+    run_check("ffprobe", &["-version"]),
+    run_check("java", &["-version"]),
+    run_check("docker", &["--version"]),
+    run_check("ollama", &["--version"]),
+  ];
+
+  let required = ["python", "ffmpeg", "ffprobe"];
+  let ready = required.iter().all(|required_name| {
+    checks
+      .iter()
+      .any(|item| item.name == *required_name && item.available)
+  }) && checks
+    .iter()
+    .any(|item| item.name == "python" && item.available && item.detail.contains("langgraph ok"));
+
+  let missing: Vec<String> = checks
+    .iter()
+    .filter(|item| !item.available)
+    .map(|item| item.name.clone())
+    .collect();
+
+  let summary = if ready {
+    "Local editing runtime is ready.".to_string()
+  } else if missing.is_empty() {
+    "Local editing runtime is partially ready.".to_string()
+  } else {
+    format!("Missing runtime dependencies: {}", missing.join(", "))
+  };
+
+  Ok(LocalRuntimeInspection {
+    ready,
+    summary,
+    checks,
+  })
 }
 
 fn write_json_file<T: Serialize>(path: &Path, value: &T) -> Result<(), String> {
@@ -565,6 +666,72 @@ fn read_workspace_asset_bytes(workspace_file_path: String) -> Result<Vec<u8>, St
 }
 
 #[tauri::command]
+fn inspect_workspace_analysis_progress<R: Runtime>(
+  app: AppHandle<R>,
+  workspace_id: String,
+) -> Result<WorkspaceAnalysisProgress, String> {
+  let base_dir = workspace_root_dir(&app)?;
+  let workspace = workspace_dir(&base_dir, &workspace_id);
+  let assets_dir = workspace.join("assets");
+  let template_path = assets_dir.join("template").join("elastic_template.json");
+  let intermediate_dir = assets_dir.join("intermediate");
+  let step1_audio = intermediate_dir.join("step1_audio.json");
+  let step2_transcript = intermediate_dir.join("step2_transcript.json");
+  let step3_visual = intermediate_dir.join("step3_visual.json");
+
+  let step1_audio_exists = step1_audio.exists();
+  let step2_transcript_exists = step2_transcript.exists();
+  let step3_visual_exists = step3_visual.exists();
+  let elastic_template_exists = template_path.exists();
+
+  let (stage, title, detail) = if elastic_template_exists {
+    (
+      "COMPLETED",
+      "Analysis complete",
+      "风格模板已生成，IM 会返回结果卡片。",
+    )
+  } else if step3_visual_exists {
+    (
+      "BUILDING_TEMPLATE",
+      "Building style template",
+      "视觉分析已完成，正在汇总 elastic_template.json。",
+    )
+  } else if step2_transcript_exists {
+    (
+      "ANALYZING_VISUALS",
+      "Analyzing visuals",
+      "音频和转写已完成，正在逐镜头分析画面与字幕风格。",
+    )
+  } else if step1_audio_exists {
+    (
+      "TRANSCRIBING",
+      "Transcribing",
+      "音频节奏已完成，正在生成转写和语义结构。",
+    )
+  } else {
+    (
+      "STARTING",
+      "Starting analysis",
+      "正在准备参考视频、提取音频并创建分析目录。",
+    )
+  };
+
+  Ok(WorkspaceAnalysisProgress {
+    workspace_id,
+    stage: stage.to_string(),
+    title: title.to_string(),
+    detail: detail.to_string(),
+    completed: elastic_template_exists,
+    template_path: template_path.display().to_string(),
+    intermediate_dir: intermediate_dir.display().to_string(),
+    step1_audio_exists,
+    step2_transcript_exists,
+    step3_visual_exists,
+    elastic_template_exists,
+  })
+}
+
+#[tauri::command]
 fn open_workspace_asset_location(workspace_file_path: String) -> Result<(), String> {
   let path = PathBuf::from(&workspace_file_path);
   if !path.exists() {
@@ -649,8 +816,10 @@ pub fn run() {
       persist_workspace_asset,
       delete_workspace_asset,
       read_workspace_asset_bytes,
+      inspect_workspace_analysis_progress,
       open_workspace_asset_location,
-      list_workspace_assets
+      list_workspace_assets,
+      inspect_local_runtime
     ])
     .on_menu_event(|app, event| {
       if event.id().as_ref() == "new_window" {

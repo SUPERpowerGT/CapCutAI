@@ -18,6 +18,8 @@
 
 1. [`05-style-analysis-design/README.md`](./05-style-analysis-design/README.md)
 2. [`06-style-editing-design/README.md`](./06-style-editing-design/README.md)
+3. [`06-style-editing-design/CURRENT_CHAIN_STATUS.md`](./06-style-editing-design/CURRENT_CHAIN_STATUS.md)
+4. [`06-style-editing-design/AI4VIDEO_CLOSURE_CHECKLIST.md`](./06-style-editing-design/AI4VIDEO_CLOSURE_CHECKLIST.md)
 
 ## 客户端专项设计
 
@@ -34,4 +36,3 @@
 
 1. [`10-agent-runtime-invocation-and-interfaces/README.md`](./10-agent-runtime-invocation-and-interfaces/README.md)
 2. [`11-agent-runtime-resilience-and-retrieval-policy/README.md`](./11-agent-runtime-resilience-and-retrieval-policy/README.md)
-3. [`13-request-context-and-boundary-contracts/README.md`](./13-request-context-and-boundary-contracts/README.md)
